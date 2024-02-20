@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <NeedDef>
+    <defName>Lovin</defName>
+    <needClass>Personality.Lovin.LovinNeed</needClass>
+    <label>lovin'</label>
+    <description>The need for physical love. A pawn can satisfy this need by themselves, if a better option isn't available.</description>
+    <minIntelligence>Humanlike</minIntelligence>
+    <listPriority>0</listPriority>
+    <major>false</major>
+    <showForCaravanMembers>false</showForCaravanMembers>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+  </NeedDef>
+</Defs>
