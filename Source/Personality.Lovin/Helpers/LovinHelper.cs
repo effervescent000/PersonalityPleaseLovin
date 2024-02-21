@@ -1,17 +1,28 @@
 ﻿using RimWorld;
+using Personality.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Personality.Core;
 using Verse;
 using Personality.Lovin;
+using Verse.AI;
 
 namespace Personality.Lovin;
 
 public static class LovinHelper
 {
+    public static Job TryDoSelfLovin(Pawn pawn)
+    {
+        Building_Bed bed = CoreLovinHelper.FindBed(pawn);
+        if (bed == null)
+        {
+            return null;
+        }
+        return JobMaker.MakeJob(LovinDefOf.DoSelfLovin, bed, bed.GetSleepingSlotPos(0));
+    }
+
     public static void IncreaseLovinNeed(this Pawn pawn, float amount)
     {
         Need_Lovin need = pawn?.needs?.TryGetNeed<Need_Lovin>();

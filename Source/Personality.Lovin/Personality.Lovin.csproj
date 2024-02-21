@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Personality Please Romance">
+      <HintPath>..\..\..\Personality-Romance\Assemblies\Personality Please Romance.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Personality-Core">
       <HintPath>..\..\..\Personality-Core\1.4\Assemblies\Personality-Core.dll</HintPath>
       <Private>False</Private>
@@ -50,9 +54,14 @@
   <ItemGroup>
     <Compile Include="Core\Need_Lovin.cs" />
     <Compile Include="DefOfs\LovinDefOf.cs" />
+    <Compile Include="HarmonyPatches\PPR\PatchTryDoSelfLovin.cs" />
+    <Compile Include="HarmonyPatches\PPR\PPR.cs" />
     <Compile Include="Helpers\LovinHelper.cs" />
+    <Compile Include="LovinMod.cs" />
     <Compile Include="Lovin\JobDriver_DoSelfLovin.cs" />
+    <Compile Include="OnStartup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
@@ -63,8 +72,6 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Harmony\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
