@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <!-- self-lovin -->
+  <!-- this probably only needs to be one job, since the pawn
+  doesn't need to seek out a partner and ask them -->
+  <JobDef>
+    <defName>DoSelfLovin</defName>
+    <driverClass>Personality.Lovin.JobDriver_DoSelfLovin</driverClass>
+    <reportString>self-lovin'.</reportString>
+    <joyKind>PP_Lovin</joyKind>
+    <joyXpPerTick>0.004</joyXpPerTick>
+    <joyGainRate>2</joyGainRate>
+  </JobDef>
+</Defs>

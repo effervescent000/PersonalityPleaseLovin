@@ -7,4 +7,10 @@
   <supportedVersions>
     <li>1.4</li>
   </supportedVersions>
+  <modDependencies>
+    <li>
+      <packageId>effervescent.personalityplease.core</packageId>
+      <displayName>Personality, Please: Core</displayName>
+    </li>
+  </modDependencies>
 </ModMetaData>

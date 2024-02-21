@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
   <SkillDef>
-    <defName>Lovin</defName>
+    <defName>LovinSkill</defName>
     <skillLabel>Lovin'</skillLabel>
     <description>Skill between the sheets.</description>
     <listOrder>0</listOrder>
