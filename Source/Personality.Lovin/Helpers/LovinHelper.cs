@@ -1,12 +1,7 @@
-﻿using RimWorld;
-using Personality.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Personality.Core;
+using RimWorld;
+using System.Runtime.CompilerServices;
 using Verse;
-using Personality.Lovin;
 using Verse.AI;
 
 namespace Personality.Lovin;
@@ -31,22 +26,45 @@ public static class LovinHelper
         need.CurLevel += amount;
     }
 
-    public static void GetSatisfaction(LovinProps lovin)
+    public static void EvaluateLovin(LovinProps props)
     {
+        if (props.Actor == null) return;
+
+        if (props.Context == LovinContext.SelfLovin)
+        {
+            props.Actor.IncreaseLovinNeed(1f);
+            return;
+        }
+
+        if (props.Partner == null) return;
+
+        // first do actor, then partner
+        MakeSatisfaction(props.Actor, props.Partner, props.Context);
+        MakeSatisfaction(props.Partner, props.Actor, props.Context);
     }
 
-    //public static float GetLovinQuality(Pawn primary, Pawn partner, LovinContext context)
-    //{
-    //    float quality = 0f;
+    private static void MakeSatisfaction(Pawn primary, Pawn partner, LovinContext context)
+    {
+        float quality = GetLovinQuality(primary, partner, context);
+        primary.IncreaseLovinNeed(quality);
+        primary.needs.joy.CurLevel += quality * 0.5f;
 
-    // // get partner's skill--eventually this will be a lovin' quality stat SkillRecord
-    // partnerSkill = partner.skills.GetSkill(LovinDefOf.LovinSkill);
+        // add to lovin' journal
+    }
 
-    // // get own pawn's lovin skill -- same as above, and this is intended to play a lesser role
-    // SkillRecord primarySkill = primary.skills.GetSkill(LovinDefOf.LovinSkill);
+    public static float GetLovinQuality(Pawn primary, Pawn partner, LovinContext context)
+    {
+        float quality = 0f;
 
-    // // TODO -- in an intimate context, look at the pawns' relationship -- higher boosts lovin'
+        float partnerSkill = partner.GetStatValue(LovinDefOf.LovinQuality);
+        float ownSkill = primary.GetStatValue(LovinDefOf.LovinQuality);
 
-    //    // TODO -- in a casual context, look at each pawns' attraction to the other
-    //}
+        // TODO -- in an intimate context, look at the pawns' relationship -- higher boosts lovin'
+
+        // TODO -- in a casual context, look at each pawns' attraction to the other
+
+        quality += partnerSkill + ownSkill * 0.25f;
+
+        return quality;
+    }
 }

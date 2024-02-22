@@ -10,6 +10,8 @@ public static class LovinDefOf
 
     public static SkillDef LovinSkill;
 
+    public static StatDef LovinQuality;
+
     static LovinDefOf()
     {
         DefOfHelper.EnsureInitializedInCtor(typeof(LovinDefOf));

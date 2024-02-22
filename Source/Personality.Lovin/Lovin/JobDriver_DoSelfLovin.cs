@@ -66,7 +66,8 @@ public class JobDriver_DoSelfLovin : JobDriver
         {
             initAction = delegate
             {
-                Actor.IncreaseLovinNeed(1f);
+                //Actor.IncreaseLovinNeed(1f);
+                LovinHelper.EvaluateLovin(new LovinProps(LovinContext.SelfLovin, Actor));
             },
             defaultCompleteMode = ToilCompleteMode.Instant
         };
