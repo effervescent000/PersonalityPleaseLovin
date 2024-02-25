@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <XenotypeDef>
+    <defName>PP_Succubus</defName>
+    <label>Succubus</label>
+    <!-- TODO add an actual icon here -->
+    <iconPath>UI/Icons/Xenotypes/Baseliner</iconPath>
+    <description>NYI but longer</description>
+    <descriptionShort>NYI</descriptionShort>
+    <soundDefOnImplant>PawnBecameSanguophage</soundDefOnImplant>
+    <displayPriority>-1511</displayPriority>
+    <genes>
+      <!-- VITALITY GENES -->
+      <li>PP_VitalityRoot</li>
+      <li>PP_LoveFeeder</li>
+      <li>PP_VitalityDrain</li>
+      <li>PP_SeduceGene</li>
+      <!-- OTHER FUNCTIONAL GENES -->
+      <li>AptitudeStrong_Social</li>
+      <li>AptitudePoor_Shooting</li>
+      <li>AptitudePoor_Melee</li>
+      <li>AptitudeRemarkable_LovinSkill</li>
+      <li>XenogermReimplanter</li>
+      <li>PP_BeautyExquisite</li>
+      <!-- COSMETIC -->
+      <li>Body_Standard</li>
+      <li>Skin_Blue</li>
+      <li>Skin_Purple</li>
+      <li>Skin_PaleRed</li>
+      <li>PP_Skin_Pink</li>
+      <li>Headbone_MiniHorns</li>
+    </genes>
+  </XenotypeDef>
+</Defs>

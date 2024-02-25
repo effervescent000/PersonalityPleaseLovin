@@ -2,7 +2,7 @@
 <Defs>
   <SkillDef>
     <defName>LovinSkill</defName>
-    <skillLabel>Lovin'</skillLabel>
+    <skillLabel>lovin'</skillLabel>
     <description>Skill between the sheets.</description>
     <listOrder>0</listOrder>
   </SkillDef>

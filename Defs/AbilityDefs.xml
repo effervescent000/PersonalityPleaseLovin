@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <AbilityCategoryDef>
+    <defName>PP_Succubus</defName>
+    <displayOrder>1001</displayOrder>
+  </AbilityCategoryDef>
+
+  <AbilityDef ParentName="AbilityTouchBase">
+    <defName>PP_SeduceAbility</defName>
+    <label>seduce</label>
+    <description>Release an aura of pheromones that make the caster almost irresistible to the caster.</description>
+    <category>PP_Succubus</category>
+    <hostile>false</hostile>
+    <verbProperties>
+      <verbClass>Verb_CastAbilityTouch</verbClass>
+      <targetParams>
+        <canTargetSelf>false</canTargetSelf>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetMechs>false</canTargetMechs>
+        <canTargetAnimals>false</canTargetAnimals>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilitySocialInteraction">
+        <interactionDef>PP_SeduceInteraction</interactionDef>
+        <canApplyToMentallyBroken>false</canApplyToMentallyBroken>
+        <canApplyToUnconscious>false</canApplyToUnconscious>
+        <canApplyToAsleep>false</canApplyToAsleep>
+      </li>
+    </comps>
+  </AbilityDef>
+</Defs>

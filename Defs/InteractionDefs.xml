@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <InteractionDef>
+    <defName>PP_SeduceInteraction</defName>
+    <label>seduction</label>
+    <workerClass>Personality.Lovin.InteractionWorker_Seduction</workerClass>
+    <symbol>Things/Mote/SpeechSymbols/Romance</symbol>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] tried to seduce [RECIPIENT_nameDef].</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <RulePackDef>
+    <defName>Sentence_SeductionSucceeded</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>sent-> [RECIPIENT_nameDef] was unable to resist.</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <RulePackDef>
+    <defName>Sentence_SeductionFailed</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>sent->[RECIPIENT_nameDef] resisted.</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+</Defs>
