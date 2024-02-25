@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <!-- lovin' quality thoughts -->
+  <ThoughtDef>
+    <defName>PP_ThoughtSocial_TerribleLovin</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>10</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1.5</stackedEffectMultiplier>
+    <thoughtToMake>PP_ThoughtMood_TerribleLovin</thoughtToMake>
+    <stages>
+      <li>
+        <label>terrible lovin'</label>
+        <baseOpinionOffset>-20</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_ThoughtMood_TerribleLovin</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>terrible lovin'</label>
+        <description>What a waste of time.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_ThoughtSocial_BadLovin</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1.25</stackedEffectMultiplier>
+    <thoughtToMake>PP_ThoughtMood_BadLovin</thoughtToMake>
+    <stages>
+      <li>
+        <label>bad lovin'</label>
+        <baseOpinionOffset>-10</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_ThoughtMood_BadLovin</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>bad lovin'</label>
+        <description>Better than nothing, I guess.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_ThoughtSocial_OkayLovin</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>1</stackedEffectMultiplier>
+    <thoughtToMake>PP_ThoughtMood_OkayLovin</thoughtToMake>
+    <stages>
+      <li>
+        <label>okay lovin'</label>
+        <baseOpinionOffset>1</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_ThoughtMood_OkayLovin</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>okay lovin'</label>
+        <description>Could have been better, could have been worse.</description>
+        <baseMoodEffect>1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_ThoughtSocial_GoodLovin</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <thoughtToMake>PP_ThoughtMood_GoodLovin</thoughtToMake>
+    <stages>
+      <li>
+        <label>good lovin'</label>
+        <baseOpinionOffset>5</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_ThoughtMood_GoodLovin</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>good lovin'</label>
+        <description>That was nice, I feel so relaxed now.</description>
+        <baseMoodEffect>1</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_ThoughtSocial_GreatLovin</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <thoughtToMake>PP_ThoughtMood_GreatLovin</thoughtToMake>
+    <stages>
+      <li>
+        <label>great lovin'</label>
+        <baseOpinionOffset>15</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_ThoughtMood_GreatLovin</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>great lovin'</label>
+        <description>I can barely walk straight.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_ThoughtSocial_ExquisiteLovin</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <thoughtToMake>PP_ThoughtMood_ExquisiteLovin</thoughtToMake>
+    <stages>
+      <li>
+        <label>exquisite lovin'</label>
+        <baseOpinionOffset>30</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_ThoughtMood_ExquisiteLovin</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>exquisite lovin'</label>
+        <description>It's hard to even move, I feel utterly satiated.</description>
+        <baseMoodEffect>20</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_ThoughtSocial_TranscendentLovin</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <thoughtToMake>PP_ThoughtMood_TranscendentLovin</thoughtToMake>
+    <stages>
+      <li>
+        <label>transcendent lovin'</label>
+        <baseOpinionOffset>60</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_ThoughtMood_TranscendentLovin</defName>
+    <durationDays>1</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>transcendent lovin'</label>
+        <description>The best lovin' I've ever had. I want more.</description>
+        <baseMoodEffect>40</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>
