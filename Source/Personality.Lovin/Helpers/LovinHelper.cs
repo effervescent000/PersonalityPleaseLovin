@@ -56,10 +56,10 @@ public static class LovinHelper
         }
         if (props.Partner.IsLoveFeeder())
         {
-            var hasHediff = props.Actor.health.hediffSet.HasHediff(LovinDefOf.PP_VitalityLost);
+            bool hasHediff = props.Actor.health.hediffSet.HasHediff(LovinDefOf.PP_VitalityLost);
             if (hasHediff)
             {
-                var hediff = props.Actor.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_VitalityLost);
+                Hediff hediff = props.Actor.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_VitalityLost);
                 hediff.Severity += 0.25f;
             }
             else
@@ -91,7 +91,7 @@ public static class LovinHelper
 
     public static ThoughtDef GetLovinThought(float quality)
     {
-        foreach (var pair in qualityToThoughtMapping)
+        foreach (Pair<float, ThoughtDef> pair in qualityToThoughtMapping)
         {
             if (quality >= pair.First) return pair.Second;
         }
@@ -109,7 +109,7 @@ public static class LovinHelper
 
         quality += partnerSkill + ownSkill * 0.25f;
 
-        var attraction = GetAttractionFactorFor(primary, partner);
+        Dictionary<string, float> attraction = GetAttractionFactorFor(primary, partner);
 
         switch (context)
         {
