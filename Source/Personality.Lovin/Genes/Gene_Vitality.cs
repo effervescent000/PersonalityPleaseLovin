@@ -1,9 +1,4 @@
 ﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
@@ -25,7 +20,13 @@ public class Gene_Vitality : Gene_Resource, IGeneResourceDrain
 
     public override float MinLevelForAlert => 0.25f;
 
-    protected override Color BarColor { get; }
+    protected override Color BarColor => new(.96f, .62f, .79f);
 
     protected override Color BarHighlightColor { get; }
+
+    public override void Tick()
+    {
+        base.Tick();
+        GeneResourceDrainUtility.TickResourceDrain(this);
+    }
 }

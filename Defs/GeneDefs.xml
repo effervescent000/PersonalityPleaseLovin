@@ -6,7 +6,7 @@
   <!-- parent gene -->
   <GeneDef Name="VitalityBase" Abstract="True">
     <displayCategory>PP_VitalityCategory</displayCategory>
-    <minAgeActive>18</minAgeActive>
+    <!-- <minAgeActive>18</minAgeActive> -->
   </GeneDef>
 
   <!-- actual genes -->
@@ -31,13 +31,17 @@
     <defName>PP_LoveFeeder</defName>
     <label>love feeder</label>
     <description>Carriers of this gene are able to drain ???stable cells??? from others during the act of love.</description>
+    <prerequisite>PP_VitalityRoot</prerequisite>
     <biostatCpx>1</biostatCpx>
     <biostatMet>-1</biostatMet>
   </GeneDef>
   <GeneDef ParentName="VitalityBase">
     <defName>PP_VitalityDrain</defName>
     <label>vitality drain</label>
+    <resourceLabel>vitality</resourceLabel>
+    <geneClass>Personality.Lovin.Gene_VitalityDrain</geneClass>
     <description>Carriers lose an additional 8 vitality per day from biological entropy.</description>
+    <prerequisite>PP_VitalityRoot</prerequisite>
     <resourceLossPerDay>0.08</resourceLossPerDay>
     <biostatCpx>1</biostatCpx>
     <biostatMet>6</biostatMet>
