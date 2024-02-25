@@ -29,6 +29,9 @@ public class Need_Lovin : Need_Seeker
     // this eventually will actually do math to modify the base rate but for now just return it
     private float FallPerDay => baseFallPerDay;
 
+    public float Horny => threshHorny;
+    public float Desperate => threshDesperate;
+
     public override void NeedInterval()
     {
         if (pawn.IsAsexual() || pawn.ageTracker.AgeBiologicalYears < 16)

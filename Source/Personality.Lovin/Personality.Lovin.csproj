@@ -57,6 +57,7 @@
     <Compile Include="Genes\GeneGizmo_ResourceVitality.cs" />
     <Compile Include="Genes\Gene_Vitality.cs" />
     <Compile Include="HarmonyPatches\PPR\PatchEvaluateLovin.cs" />
+    <Compile Include="HarmonyPatches\PPR\PatchGetLovinBaseChance.cs" />
     <Compile Include="HarmonyPatches\PPR\PatchTryDoSelfLovin.cs" />
     <Compile Include="HarmonyPatches\PPR\PPR.cs" />
     <Compile Include="Helpers\LovinHelper.cs" />

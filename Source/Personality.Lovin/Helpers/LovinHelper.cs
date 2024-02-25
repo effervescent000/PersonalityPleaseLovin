@@ -1,6 +1,5 @@
 ﻿using Personality.Core;
 using RimWorld;
-using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
@@ -66,5 +65,20 @@ public static class LovinHelper
         quality += partnerSkill + ownSkill * 0.25f;
 
         return quality;
+    }
+
+    public static float GetChanceToSeekLovin(Pawn pawn)
+    {
+        Need_Lovin need = (Need_Lovin)pawn.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
+
+        //initialize a curve based on the pawn's lovin need thresholds. if a pawn is at 100% lovin' need, they will never seek lovin'.
+
+        SimpleCurve LovinDesireCurve = new()
+        {
+            new CurvePoint(1f, 0f),
+            new CurvePoint(need.Horny, 3f),
+            new CurvePoint(need.Desperate, 10f)
+        };
+        return LovinDesireCurve.Evaluate(need.CurLevel);
     }
 }

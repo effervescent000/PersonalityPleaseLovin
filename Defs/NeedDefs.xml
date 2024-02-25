@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
   <NeedDef>
-    <defName>Lovin</defName>
+    <defName>PP_Need_Lovin</defName>
     <needClass>Personality.Lovin.Need_Lovin</needClass>
     <label>lovin'</label>
     <description>The need for physical love. A pawn can satisfy this need by themselves, if a better option isn't available.</description>
