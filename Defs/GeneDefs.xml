@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <!-- ===================================== -->
+  <!-- VITALITY STUFF -->
+  <!-- ===================================== -->
+  <!-- parent gene -->
+  <GeneDef Name="VitalityBase" Abstract="True">
+    <displayCategory>PP_VitalityCategory</displayCategory>
+    <!-- <minAgeActive>18</minAgeActive> -->
+  </GeneDef>
+
+  <!-- actual genes -->
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_VitalityRoot</defName>
+    <label>vitality</label>
+    <description>Carriers of this gene have naturally unstable cells, and must replenish themselves by draining life from others.</description>
+    <geneClass>Personality.Lovin.Gene_Vitality</geneClass>
+    <resourceGizmoType>Personality.Lovin.GeneGizmo_ResourceVitality</resourceGizmoType>
+    <resourceLabel>vitality</resourceLabel>
+    <resourceGizmoThresholds>
+      <li>0.25</li>
+      <li>0.5</li>
+      <li>0.75</li>
+    </resourceGizmoThresholds>
+    <resourceLossPerDay>0.025</resourceLossPerDay>
+    <!-- <displayPriorityInCategory>-3</displayPriorityInCategory> -->
+    <biostatCpx>2</biostatCpx>
+    <biostatMet>2</biostatMet>
+  </GeneDef>
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_LoveFeeder</defName>
+    <label>love feeder</label>
+    <description>Carriers of this gene are able to drain ???stable cells??? from others during the act of love.</description>
+    <prerequisite>PP_VitalityRoot</prerequisite>
+    <biostatCpx>1</biostatCpx>
+    <biostatMet>-1</biostatMet>
+  </GeneDef>
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_VitalityDrain</defName>
+    <label>vitality drain</label>
+    <resourceLabel>vitality</resourceLabel>
+    <geneClass>Personality.Lovin.Gene_VitalityDrain</geneClass>
+    <description>Carriers lose an additional 8 vitality per day from biological entropy.</description>
+    <prerequisite>PP_VitalityRoot</prerequisite>
+    <resourceLossPerDay>0.08</resourceLossPerDay>
+    <biostatCpx>1</biostatCpx>
+    <biostatMet>6</biostatMet>
+  </GeneDef>
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_SeduceGene</defName>
+    <label>seduction</label>
+    <description>Carriers are able to release localized pheromones that make targets more willing to engage in lovin' with them.</description>
+    <abilities>
+      <li>PP_SeduceAbility</li>
+    </abilities>
+    <!-- <abilityHyperlinks>
+      <AbilityDef>PP_SeduceAbility</AbilityDef>
+    </abilityHyperlinks> -->
+    <biostatMet>-2</biostatMet>
+    <biostatCpx>1</biostatCpx>
+  </GeneDef>
+
+
+  <!-- ===================================== -->
+  <!-- OTHER -->
+  <!-- ===================================== -->
+  <GeneDef ParentName="GeneBeautyBase">
+    <defName>PP_BeautyExquisite</defName>
+    <label>exquisite beauty</label>
+    <description>Carriers of this gene are seen by everyone as impossibly, almost supernaturally beautiful.</description>
+    <iconPath>UI/Icons/Genes/Gene_Beautiful</iconPath>
+    <labelShortAdj>ethereal</labelShortAdj>
+    <statOffsets>
+      <PawnBeauty>3</PawnBeauty>
+    </statOffsets>
+  </GeneDef>
+  <GeneDef ParentName="GeneSkinColorOverride">
+    <defName>PP_Skin_Pink</defName>
+    <label>pink skin</label>
+    <labelShortAdj>pink</labelShortAdj>
+    <description>Carriers of this gene produce a pigment that gives their skin a pink color.</description>
+    <skinColorOverride>(245, 159, 201)</skinColorOverride>
+  </GeneDef>
+
+</Defs>

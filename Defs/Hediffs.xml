@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <HediffDef>
+    <defName>PP_VitalityLost</defName>
+    <label>telomeres scrambled</label>
+    <description>This person has done lovin' with a succubus, and as a result has ???had their healthy cells drained??? to sustain her. Until their body can repair itself, they will age more rapidly.</description>
+    <descriptionShort>This person has been drained by a succubus.</descriptionShort>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <maxSeverity>1</maxSeverity>
+    <minSeverity>0</minSeverity>
+    <initialSeverity>0.25</initialSeverity>
+    <comps>
+      <li Class="Personality.Lovin.HediffCompProperties_RapidAging">
+        <multiplierAtMax>24</multiplierAtMax>
+      </li>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.15</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>recovering</label>
+      </li>
+      <li>
+        <label>fraying</label>
+        <minSeverity>0.20</minSeverity>
+      </li>
+      <li>
+        <label>damaged</label>
+        <minSeverity>0.5</minSeverity>
+      </li>
+      <li>
+        <label>devastated</label>
+        <minSeverity>0.8</minSeverity>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>

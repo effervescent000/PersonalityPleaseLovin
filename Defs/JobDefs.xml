@@ -7,8 +7,22 @@
     <defName>DoSelfLovin</defName>
     <driverClass>Personality.Lovin.JobDriver_DoSelfLovin</driverClass>
     <reportString>self-lovin'.</reportString>
-    <joyKind>PP_Lovin</joyKind>
+    <joyKind>PP_LovinJoy</joyKind>
     <joyXpPerTick>0.004</joyXpPerTick>
     <joyGainRate>2</joyGainRate>
+  </JobDef>
+
+  <!-- seduced lovin' -->
+  <JobDef>
+    <defName>PP_DoSeducedLovin</defName>
+    <driverClass>Personality.Lovin.JobDriver_DoSeducedLovin</driverClass>
+    <reportString>lovin'.</reportString>
+    <joyKind>PP_LovinJoy</joyKind>
+    <!-- i *think* the xp gain rate is the boredom rate, 
+      so I'm setting it to 0 as I don't think seduced lovin' 
+      should be something pawns can get bored of -->
+    <joyXpPerTick>0</joyXpPerTick>
+    <joyGainRate>5</joyGainRate>
+    <casualInterruptible>false</casualInterruptible>
   </JobDef>
 </Defs>

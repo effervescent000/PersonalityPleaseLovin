@@ -15,5 +15,6 @@ public static class PPR
 
         harmony.Patch(AccessTools.Method(lovinHelper, "TryDoSelfLovin"), postfix: new HarmonyMethod(AccessTools.Method(typeof(PatchTryDoSelfLovin), nameof(PatchTryDoSelfLovin.Postfix))));
         harmony.Patch(AccessTools.Method(lovinHelper, "EvaluateLovin"), postfix: new HarmonyMethod(AccessTools.Method(typeof(PatchEvaluateLovin), nameof(PatchEvaluateLovin.Postfix))));
+        harmony.Patch(AccessTools.Method(lovinHelper, "GetLovinBaseChance"), postfix: new HarmonyMethod(AccessTools.Method(typeof(PatchGetLovinBaseChance), nameof(PatchGetLovinBaseChance.Postfix))));
     }
 }

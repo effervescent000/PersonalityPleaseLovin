@@ -1,6 +1,5 @@
 ﻿using Personality.Core;
 using RimWorld;
-using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
@@ -38,9 +37,27 @@ public static class LovinHelper
 
         if (props.Partner == null) return;
 
-        // first do actor, then partner
+        if (props.Actor.IsLoveFeeder())
+        {
+            SuccubiHelper.OffsetVitality(props.Actor, 0.25f);
+        }
+        if (props.Partner.IsLoveFeeder())
+        {
+            var hasHediff = props.Actor.health.hediffSet.HasHediff(LovinDefOf.PP_VitalityLost);
+            if (hasHediff)
+            {
+                var hediff = props.Actor.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_VitalityLost);
+                hediff.Severity += 0.25f;
+            }
+            else
+            {
+                props.Actor.health.AddHediff(HediffMaker.MakeHediff(LovinDefOf.PP_VitalityLost, props.Actor));
+            }
+        }
+
+        // we only want to run this once, as it will (I think) run once for each pawn at the end of
+        // their respective jobs
         MakeSatisfaction(props.Actor, props.Partner, props.Context);
-        MakeSatisfaction(props.Partner, props.Actor, props.Context);
     }
 
     private static void MakeSatisfaction(Pawn primary, Pawn partner, LovinContext context)
@@ -66,5 +83,20 @@ public static class LovinHelper
         quality += partnerSkill + ownSkill * 0.25f;
 
         return quality;
+    }
+
+    public static float GetChanceToSeekLovin(Pawn pawn)
+    {
+        Need_Lovin need = (Need_Lovin)pawn.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
+
+        //initialize a curve based on the pawn's lovin need thresholds. if a pawn is at 100% lovin' need, they will never seek lovin'.
+
+        SimpleCurve LovinDesireCurve = new()
+        {
+            new CurvePoint(1f, 0f),
+            new CurvePoint(need.Horny, 3f),
+            new CurvePoint(need.Desperate, 10f)
+        };
+        return LovinDesireCurve.Evaluate(need.CurLevel);
     }
 }
