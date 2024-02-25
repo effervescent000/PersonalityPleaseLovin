@@ -52,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comps\HediffCompProperties_RapidAging.cs" />
+    <Compile Include="Comps\HediffComp_RapidAging.cs" />
     <Compile Include="Core\Need_Lovin.cs" />
     <Compile Include="DefOfs\LovinDefOf.cs" />
     <Compile Include="Genes\GeneGizmo_ResourceVitality.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="HarmonyPatches\PPR\PatchTryDoSelfLovin.cs" />
     <Compile Include="HarmonyPatches\PPR\PPR.cs" />
     <Compile Include="Helpers\LovinHelper.cs" />
+    <Compile Include="Helpers\SuccubiHelper.cs" />
     <Compile Include="Interactions\InteractionWorker_Seduction.cs" />
     <Compile Include="Jobs\JobDriver_DoSeducedLovin.cs" />
     <Compile Include="LovinMod.cs" />

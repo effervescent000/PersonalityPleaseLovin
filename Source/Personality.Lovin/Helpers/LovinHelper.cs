@@ -37,9 +37,27 @@ public static class LovinHelper
 
         if (props.Partner == null) return;
 
-        // first do actor, then partner
+        if (props.Actor.IsLoveFeeder())
+        {
+            SuccubiHelper.OffsetVitality(props.Actor, 0.25f);
+        }
+        if (props.Partner.IsLoveFeeder())
+        {
+            var hasHediff = props.Actor.health.hediffSet.HasHediff(LovinDefOf.PP_VitalityLost);
+            if (hasHediff)
+            {
+                var hediff = props.Actor.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_VitalityLost);
+                hediff.Severity += 0.25f;
+            }
+            else
+            {
+                props.Actor.health.AddHediff(HediffMaker.MakeHediff(LovinDefOf.PP_VitalityLost, props.Actor));
+            }
+        }
+
+        // we only want to run this once, as it will (I think) run once for each pawn at the end of
+        // their respective jobs
         MakeSatisfaction(props.Actor, props.Partner, props.Context);
-        MakeSatisfaction(props.Partner, props.Actor, props.Context);
     }
 
     private static void MakeSatisfaction(Pawn primary, Pawn partner, LovinContext context)
