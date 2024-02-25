@@ -27,6 +27,9 @@
         <canApplyToUnconscious>false</canApplyToUnconscious>
         <canApplyToAsleep>false</canApplyToAsleep>
       </li>
+      <li Class="Personality.Lovin.CompProperties_AbilityVitalityCost">
+        <vitalityCost>0.5</vitalityCost>
+      </li>
     </comps>
   </AbilityDef>
 </Defs>

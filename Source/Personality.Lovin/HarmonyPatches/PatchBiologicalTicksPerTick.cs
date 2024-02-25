@@ -9,6 +9,11 @@ public static class PatchBiologicalTicksPerTick
 {
     public static void Postfix(ref float __result, Pawn ___pawn)
     {
+        if (___pawn.def.defName != "Human")
+        {
+            return;
+        }
+
         // ignore if pawn is underage
         if (___pawn.ageTracker.AgeBiologicalYears < 18f)
         {
