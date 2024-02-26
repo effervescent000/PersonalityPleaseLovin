@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <Personality.PersonalityNodeDef>
+    <defName>PP_Purity</defName>
+    <label>purity</label>
+    <highLabel>pure</highLabel>
+    <lowLabel>debauched</lowLabel>
+    <highDescription>{PAWN_nameDef} isn't necessarily virginal, but {PAWN_pronoun} tends to be reserved when it comes to lovin'. {PAWN_pronoun} is less likely to do lovin' casually or to stray from {PAWN_possessive} partner.</highDescription>
+    <lowDescription>{PAWN_nameDef} will try anything once. {PAWN_pronoun} has a hard time resisting lovin' opportunities.</lowDescription>
+  </Personality.PersonalityNodeDef>
+</Defs>
