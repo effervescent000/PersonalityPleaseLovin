@@ -20,6 +20,14 @@ public static class LovinDefOf
 
     public static StatDef LovinQuality;
 
+    public static ThoughtDef PP_ThoughtSocial_TerribleLovin;
+    public static ThoughtDef PP_ThoughtSocial_BadLovin;
+    public static ThoughtDef PP_ThoughtSocial_OkayLovin;
+    public static ThoughtDef PP_ThoughtSocial_GoodLovin;
+    public static ThoughtDef PP_ThoughtSocial_GreatLovin;
+    public static ThoughtDef PP_ThoughtSocial_ExquisiteLovin;
+    public static ThoughtDef PP_ThoughtSocial_TranscendentLovin;
+
     public static XenotypeDef PP_Succubus;
 
     static LovinDefOf()
