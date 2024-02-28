@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
+
+  <!-- hookup stuff -->
+  <JobDef>
+    <defName>LeadHookup</defName>
+    <driverClass>Personality.Lovin.JobDriver_InitiateCasualLovin</driverClass>
+    <reportString>attempting hookup.</reportString>
+    <joyMaxParticipants>1</joyMaxParticipants>
+    <joyKind>PP_LovinJoy</joyKind>
+  </JobDef>
+  <JobDef>
+    <defName>DoCasualLovin</defName>
+    <driverClass>Personality.Lovin.JobDriver_DoCasualLovin</driverClass>
+    <reportString>lovin'.</reportString>
+    <joyKind>PP_LovinJoy</joyKind>
+    <joyXpPerTick>0.004</joyXpPerTick>
+    <joyGainRate>3</joyGainRate>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
+
+  <!-- intimate lovin' -->
+  <JobDef>
+    <defName>PP_InitiateIntimateLovin</defName>
+    <driverClass>Personality.Lovin.JobDriver_InitiateIntimateLovin</driverClass>
+    <reportString>trying to go to bed with {0}.</reportString>
+    <joyMaxParticipants>1</joyMaxParticipants>
+    <joyKind>PP_LovinJoy</joyKind>
+  </JobDef>
+  <JobDef>
+    <defName>PP_DoIntimateLovin</defName>
+    <driverClass>Personality.Lovin.JobDriver_DoIntimateLovin</driverClass>
+    <reportString>lovin'.</reportString>
+    <joyKind>PP_LovinJoy</joyKind>
+    <joyXpPerTick>0.004</joyXpPerTick>
+    <joyGainRate>3</joyGainRate>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+
   <!-- self-lovin -->
   <!-- this probably only needs to be one job, since the pawn
   doesn't need to seek out a partner and ask them -->

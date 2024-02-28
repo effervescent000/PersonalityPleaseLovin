@@ -5,18 +5,19 @@ using Verse.AI;
 
 namespace Personality.Lovin;
 
-public class JobDriver_DoSeducedLovin : JobDriver
+public class JobDriver_DoCasualLovin : JobDriver
 {
-    private readonly TargetIndex partnerInd = TargetIndex.A;
-    private readonly TargetIndex bedInd = TargetIndex.B;
-    private readonly TargetIndex slotInd = TargetIndex.C;
+    private readonly TargetIndex PartnerInd = TargetIndex.A;
+    private readonly TargetIndex BedInd = TargetIndex.B;
+    private readonly TargetIndex SlotInd = TargetIndex.C;
+    private const int TicksBetweenHeartMotes = 100;
+    private readonly int ticksBase = GeneralHelper.GetHourBasedDuration(0.5f);
+    private readonly int ticksForEnhancer = GeneralHelper.GetHourBasedDuration(1.5f);
 
-    // modify this number based on succubi's lovin' skill?
-    private readonly int lovinDuration = GeneralHelper.GetHourBasedDuration(2f);
+    private Building_Bed Bed => (Building_Bed)job.GetTarget(BedInd);
 
-    private Building_Bed Bed => (Building_Bed)job.GetTarget(bedInd);
+    private Pawn Partner => (Pawn)(Thing)job.GetTarget(PartnerInd);
     private Pawn Actor => GetActor();
-    private Pawn Partner => (Pawn)job.GetTarget(partnerInd);
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {
@@ -25,11 +26,12 @@ public class JobDriver_DoSeducedLovin : JobDriver
 
     protected override IEnumerable<Toil> MakeNewToils()
     {
-        this.FailOnDespawnedOrNull(bedInd);
-        this.FailOnDespawnedOrNull(partnerInd);
+        this.FailOnDespawnedOrNull(BedInd);
+        this.FailOnDespawnedOrNull(PartnerInd);
 
-        yield return Toils_Reserve.Reserve(slotInd, Bed.SleepingSlotsCount, 0);
-        yield return Toils_Goto.Goto(slotInd, PathEndMode.OnCell);
+        yield return Toils_Reserve.Reserve(BedInd, 2, 0);
+        yield return Toils_Goto.Goto(SlotInd, PathEndMode.OnCell);
+        // wait for both pawns to be near the bed
         yield return new Toil
         {
             initAction = delegate { ticksLeftThisToil = 300; },
@@ -62,11 +64,11 @@ public class JobDriver_DoSeducedLovin : JobDriver
         {
             initAction = delegate
             {
-                ticksLeftThisToil = lovinDuration;
+                ticksLeftThisToil = ticksBase;
             },
             tickAction = delegate
             {
-                if (ticksLeftThisToil % 100 == 0)
+                if (ticksLeftThisToil % TicksBetweenHeartMotes == 0)
                 {
                     Actor.ThrowHeart();
                 }
@@ -74,13 +76,6 @@ public class JobDriver_DoSeducedLovin : JobDriver
             defaultCompleteMode = ToilCompleteMode.Delay
         };
 
-        yield return new Toil
-        {
-            initAction = delegate
-            {
-                LovinHelper.EvaluateLovin(new LovinProps(LovinContext.Seduced, Actor, Partner));
-            },
-            defaultCompleteMode = ToilCompleteMode.Instant
-        };
+        yield return LovinHelper.FinishLovin(new LovinProps(LovinContext.Casual, Actor, Partner));
     }
 }

@@ -9,8 +9,8 @@
   </supportedVersions>
   <modDependencies>
     <li>
-      <packageId>effervescent.personalityplease.core</packageId>
-      <displayName>Personality, Please: Core</displayName>
+      <packageId>effervescent.personalityplease</packageId>
+      <displayName>Personality, Please!</displayName>
     </li>
   </modDependencies>
 </ModMetaData>
