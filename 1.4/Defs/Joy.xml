@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+  <!-- JoyKindDefs -->
+  <JoyKindDef>
+    <defName>PP_LovinJoy</defName>
+    <label>adult fun</label>
+    <needsThing>false</needsThing>
+  </JoyKindDef>
+
+  <!-- JoyGivers -->
+  <JoyGiverDef>
+    <defName>SeekLovin</defName>
+    <giverClass>Personality.Lovin.JoyGiver_SeekLovin</giverClass>
+    <baseChance>1.5</baseChance>
+    <!-- <jobDef>LeadHookup</jobDef> -->
+    <joyKind>PP_LovinJoy</joyKind>
+  </JoyGiverDef>
+</Defs>

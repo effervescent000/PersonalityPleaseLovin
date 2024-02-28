@@ -1,10 +1,5 @@
-﻿using Personality.Core;
-using RimWorld;
-using System;
+﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
 
@@ -29,7 +24,7 @@ public class InteractionWorker_Seduction : InteractionWorker
         // this should be a pretty high chance to succeed
         if (SuccessChance(initiator, recipient) > 0.25f)
         {
-            Building_Bed bed = CoreLovinHelper.FindBed(initiator, recipient);
+            Building_Bed bed = LovinHelper.FindBed(initiator, recipient);
             if (bed == null)
             {
                 Log.Warning("Unable to find a bed for seduction");

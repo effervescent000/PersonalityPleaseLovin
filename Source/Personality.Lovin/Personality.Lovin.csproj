@@ -32,12 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Personality Please Romance">
-      <HintPath>..\..\..\Personality-Romance\Assemblies\Personality Please Romance.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Personality-Core">
-      <HintPath>..\..\..\Personality-Core\1.4\Assemblies\Personality-Core.dll</HintPath>
+    <Reference Include="Personality Please">
+      <HintPath>..\..\..\Psychology Reborn\1.4\Assemblies\Personality Please.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -52,20 +48,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attraction\AttractionEvaluation.cs" />
+    <Compile Include="Attraction\AttractionTracker.cs" />
+    <Compile Include="Attraction\Preferences\PreferenceBodyType.cs" />
+    <Compile Include="Attraction\Preferences\Preference.cs" />
+    <Compile Include="Attraction\Preferences\PreferenceHairColor.cs" />
+    <Compile Include="Attraction\Preferences\PreferenceHairStyle.cs" />
+    <Compile Include="Attraction\Preferences\PreferenceHeadType.cs" />
     <Compile Include="Comps\CompProperties_AbilityVitalityCost.cs" />
     <Compile Include="Comps\CompAbilityEffect_VitalityCost.cs" />
     <Compile Include="Comps\HediffCompProperties_RapidAging.cs" />
     <Compile Include="Comps\HediffComp_RapidAging.cs" />
-    <Compile Include="Core\Need_Lovin.cs" />
+    <Compile Include="Comps\RomanceComp\RejectionItem.cs" />
+    <Compile Include="Comps\RomanceComp\RomanceComp.cs" />
+    <Compile Include="Comps\RomanceComp\RomanceCompProperties.cs" />
+    <Compile Include="Comps\RomanceComp\RomanceTracker.cs" />
+    <Compile Include="HarmonyPatches\PawnGenerator.cs" />
+    <Compile Include="Helpers\AttractionHelper.cs" />
+    <Compile Include="Helpers\LovinProps.cs" />
+    <Compile Include="Helpers\SexualityHelper.cs" />
+    <Compile Include="Helpers\SexualityValues.cs" />
+    <Compile Include="Jobs\JobDriver_DoCasualLovin.cs" />
+    <Compile Include="Jobs\JobDriver_DoIntimateLovin.cs" />
+    <Compile Include="Jobs\JobDriver_InitiateCasualLovin.cs" />
+    <Compile Include="Jobs\JobDriver_InitiateIntimateLovin.cs" />
+    <Compile Include="Joy\JoyGiver_SeekLovin.cs" />
+    <Compile Include="Needs\Need_Lovin.cs" />
     <Compile Include="DefOfs\LovinDefOf.cs" />
     <Compile Include="Genes\GeneGizmo_ResourceVitality.cs" />
     <Compile Include="Genes\Gene_Vitality.cs" />
     <Compile Include="Genes\Gene_VitalityDrain.cs" />
     <Compile Include="HarmonyPatches\PatchBiologicalTicksPerTick.cs" />
-    <Compile Include="HarmonyPatches\PPR\PatchEvaluateLovin.cs" />
-    <Compile Include="HarmonyPatches\PPR\PatchGetLovinBaseChance.cs" />
-    <Compile Include="HarmonyPatches\PPR\PatchTryDoSelfLovin.cs" />
-    <Compile Include="HarmonyPatches\PPR\PPR.cs" />
     <Compile Include="Helpers\LovinHelper.cs" />
     <Compile Include="Helpers\SuccubiHelper.cs" />
     <Compile Include="Interactions\InteractionWorker_Seduction.cs" />

@@ -1,10 +1,5 @@
-﻿using Personality.Core;
-using RimWorld;
-using System;
+﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace Personality.Lovin;
@@ -44,8 +39,13 @@ public class Need_Lovin : Need_Seeker
 
         float fallPerInterval = (FallPerDay * (float)(1f / GenDate.TicksPerDay)) * 150f;
 
-        float purityValue = CorePersonalityHelper.GetPersonalityNodeRating("PP_Purity", pawn);
-        fallPerInterval *= LovinHelper.LovinNeedFallByPurityCurve.Evaluate(purityValue);
+        MindComp comp = pawn.GetComp<MindComp>();
+
+        float? purityValue = comp.Mind.GetNode(PersonalityHelper.PURITY)?.FinalRating.Value;
+        if (purityValue != null)
+        {
+            fallPerInterval *= LovinHelper.LovinNeedFallByPurityCurve.Evaluate((float)purityValue);
+        }
 
         CurLevel -= fallPerInterval;
     }

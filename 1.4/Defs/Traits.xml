@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <TraitDef>
+    <defName>Straight</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>straight</label>
+        <description>{PAWN_nameDef} is attracted to the opposite gender.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+  <TraitDef>
+    <defName>AceHetero</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>asexual (het)</label>
+        <description>{PAWN_nameDef} is asexual, but is romantically attracted to the opposite gender.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+  <TraitDef>
+    <defName>AceBi</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>asexual (bi)</label>
+        <description>{PAWN_nameDef} is asexual, but is romantically attracted to both genders.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+  <TraitDef>
+    <defName>AceHomo</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>asexual (homo)</label>
+        <description>{PAWN_nameDef} is asexual, but is romantically attracted to the same gender.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+  <TraitDef>
+    <defName>AroAce</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>asexual (aro)</label>
+        <description>{PAWN_nameDef} doesn't experience romantic or sexual attraction.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+</Defs>
