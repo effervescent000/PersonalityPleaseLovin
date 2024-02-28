@@ -20,6 +20,13 @@ public static class LovinHelper
         new(0f, LovinDefOf.PP_ThoughtSocial_TerribleLovin),
     };
 
+    public static readonly SimpleCurve LovinNeedFallByPurityCurve = new()
+    {
+        new CurvePoint(-1f, 2f),
+        new CurvePoint(0f, 1f),
+        new CurvePoint(1f, 0.5f),
+    };
+
     public static Job TryDoSelfLovin(Pawn pawn)
     {
         Building_Bed bed = CoreLovinHelper.FindBed(pawn);
@@ -144,8 +151,9 @@ public static class LovinHelper
         SimpleCurve LovinDesireCurve = new()
         {
             new CurvePoint(1f, 0f),
-            new CurvePoint(need.Horny, 3f),
-            new CurvePoint(need.Desperate, 10f)
+            new CurvePoint(need.Horny, 2f),
+            new CurvePoint(need.Desperate, 5f),
+            new CurvePoint(0f, 10f),
         };
         return LovinDesireCurve.Evaluate(need.CurLevel);
     }

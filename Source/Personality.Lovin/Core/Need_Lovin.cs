@@ -11,7 +11,7 @@ namespace Personality.Lovin;
 
 public class Need_Lovin : Need_Seeker
 {
-    private readonly float baseFallPerDay = 0.33f;
+    private readonly float baseFallPerDay = 0.5f;
 
     // eventually allow thresholds to be modified by traits and sex drive
 
@@ -34,6 +34,8 @@ public class Need_Lovin : Need_Seeker
 
     public override void NeedInterval()
     {
+        if (!pawn.Spawned) { return; }
+
         if (pawn.IsAsexual() || pawn.ageTracker.AgeBiologicalYears < 16)
         {
             CurLevel = 0.5f;
@@ -42,7 +44,8 @@ public class Need_Lovin : Need_Seeker
 
         float fallPerInterval = (FallPerDay * (float)(1f / GenDate.TicksPerDay)) * 150f;
 
-        // math goes here
+        float purityValue = CorePersonalityHelper.GetPersonalityNodeRating("PP_Purity", pawn);
+        fallPerInterval *= LovinHelper.LovinNeedFallByPurityCurve.Evaluate(purityValue);
 
         CurLevel -= fallPerInterval;
     }

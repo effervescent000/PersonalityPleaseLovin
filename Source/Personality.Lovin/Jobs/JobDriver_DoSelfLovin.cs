@@ -11,7 +11,7 @@ public class JobDriver_DoSelfLovin : JobDriver
     private readonly TargetIndex bedInd = TargetIndex.A;
     private readonly TargetIndex slotInd = TargetIndex.B;
 
-    private readonly int ticks = 500;
+    private readonly int ticks = CoreGeneralHelper.GetHourBasedDuration(1f / 6f);
     private readonly int ticksBetweenHearts = 100;
 
     private Building_Bed Bed => (Building_Bed)job.GetTarget(bedInd);

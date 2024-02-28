@@ -1,10 +1,6 @@
 ﻿using Personality.Core;
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
 
@@ -16,8 +12,8 @@ public class JobDriver_DoSeducedLovin : JobDriver
     private readonly TargetIndex bedInd = TargetIndex.B;
     private readonly TargetIndex slotInd = TargetIndex.C;
 
-    // TODO eventually would like to make this number a bit more dynamic
-    private readonly int lovinDuration = 2000;
+    // modify this number based on succubi's lovin' skill?
+    private readonly int lovinDuration = CoreGeneralHelper.GetHourBasedDuration(2f);
 
     private Building_Bed Bed => (Building_Bed)job.GetTarget(bedInd);
     private Pawn Actor => GetActor();
