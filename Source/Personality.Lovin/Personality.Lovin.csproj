@@ -63,11 +63,14 @@
     <Compile Include="Comps\RomanceComp\RomanceComp.cs" />
     <Compile Include="Comps\RomanceComp\RomanceCompProperties.cs" />
     <Compile Include="Comps\RomanceComp\RomanceTracker.cs" />
+    <Compile Include="DefOfs\LovinQuirkDefOf.cs" />
+    <Compile Include="DefOfs\LovinThoughtDefOf.cs" />
     <Compile Include="GUI\MindCardUtility.cs" />
     <Compile Include="HarmonyPatches\PawnGenerator.cs" />
     <Compile Include="HarmonyPatches\PPMain\PatchDrawRomance.cs" />
     <Compile Include="Helpers\AttractionHelper.cs" />
     <Compile Include="Helpers\LovinProps.cs" />
+    <Compile Include="Helpers\RelationshipHelper.cs" />
     <Compile Include="Helpers\SexualityHelper.cs" />
     <Compile Include="Helpers\SexualityValues.cs" />
     <Compile Include="Jobs\JobDriver_DoCasualLovin.cs" />

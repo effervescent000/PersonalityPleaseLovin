@@ -67,8 +67,8 @@ public class JobDriver_InitiateIntimateLovin : JobDriver
                     FleckMaker.ThrowMetaIcon(TargetPawn.Position, TargetPawn.Map, FleckDefOf.IncapIcon);
                     RomanceComp comp = pawn.GetComp<RomanceComp>();
                     comp.RomanceTracker.RejectionList.Add(new RejectionItem(TargetPawn));
-                    Actor.needs.mood.thoughts.memories.TryGainMemory(LovinDefOf.PP_TurnedMeDownForIntimacy, TargetPawn);
-                    TargetPawn.needs.mood.thoughts.memories.TryGainMemory(LovinDefOf.PP_HadToRejectSomeoneForIntimacy, Actor);
+                    Actor.needs.mood.thoughts.memories.TryGainMemory(LovinThoughtDefOf.PP_TurnedMeDownForIntimacy, TargetPawn);
+                    TargetPawn.needs.mood.thoughts.memories.TryGainMemory(LovinThoughtDefOf.PP_HadToRejectSomeoneForIntimacy, Actor);
                 }
                 else
                 {

@@ -75,8 +75,8 @@ public class JobDriver_InitiateCasualLovin : JobDriver
                     FleckMaker.ThrowMetaIcon(TargetPawn.Position, TargetPawn.Map, FleckDefOf.IncapIcon);
                     RomanceComp comp = pawn.GetComp<RomanceComp>();
                     comp.RomanceTracker.RejectionList.Add(new RejectionItem(TargetPawn));
-                    Actor.needs.mood.thoughts.memories.TryGainMemory(LovinDefOf.PP_TurnedMeDownForHookup, TargetPawn);
-                    TargetPawn.needs.mood.thoughts.memories.TryGainMemory(LovinDefOf.PP_HadToRejectSomeoneForHookup, Actor);
+                    Actor.needs.mood.thoughts.memories.TryGainMemory(LovinThoughtDefOf.PP_TurnedMeDownForHookup, TargetPawn);
+                    TargetPawn.needs.mood.thoughts.memories.TryGainMemory(LovinThoughtDefOf.PP_HadToRejectSomeoneForHookup, Actor);
                 }
                 else
                 {

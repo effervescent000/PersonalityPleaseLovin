@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Noise;
 
 namespace Personality.Lovin;
 
@@ -16,13 +15,13 @@ public static class LovinHelper
 
     private static readonly List<Pair<float, ThoughtDef>> qualityToThoughtMapping = new()
     {
-        new(5f, LovinDefOf.PP_ThoughtSocial_TranscendentLovin),
-        new(3f, LovinDefOf.PP_ThoughtSocial_ExquisiteLovin),
-        new(1.8f, LovinDefOf.PP_ThoughtSocial_GreatLovin),
-        new(1.3f, LovinDefOf.PP_ThoughtSocial_GoodLovin),
-        new(0.7f, LovinDefOf.PP_ThoughtSocial_OkayLovin),
-        new(0.25f, LovinDefOf.PP_ThoughtSocial_BadLovin),
-        new(0f, LovinDefOf.PP_ThoughtSocial_TerribleLovin),
+        new(5f, LovinThoughtDefOf.PP_ThoughtSocial_TranscendentLovin),
+        new(3f, LovinThoughtDefOf.PP_ThoughtSocial_ExquisiteLovin),
+        new(1.8f, LovinThoughtDefOf.PP_ThoughtSocial_GreatLovin),
+        new(1.3f, LovinThoughtDefOf.PP_ThoughtSocial_GoodLovin),
+        new(0.7f, LovinThoughtDefOf.PP_ThoughtSocial_OkayLovin),
+        new(0.25f, LovinThoughtDefOf.PP_ThoughtSocial_BadLovin),
+        new(0f, LovinThoughtDefOf.PP_ThoughtSocial_TerribleLovin),
     };
 
     public static readonly SimpleCurve LovinNeedFallByPurityCurve = new()
@@ -42,6 +41,18 @@ public static class LovinHelper
     {
         new CurvePoint(-1f, 0.5f),
         new CurvePoint(1f, -1f)
+    };
+
+    private static readonly SimpleCurve chanceToHookupByRomanceDesire = new()
+    {
+        new CurvePoint(-1f, 1.5f),
+        new CurvePoint(1f, 0.5f),
+    };
+
+    private static readonly SimpleCurve chanceToCheatByFidelity = new()
+    {
+        new CurvePoint(-1f, 1.5f),
+        new CurvePoint(1f, 0.01f)
     };
 
     public static Job TryDoSelfLovin(Pawn pawn)
@@ -163,30 +174,52 @@ public static class LovinHelper
     {
         Need_Lovin need = (Need_Lovin)pawn.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
 
-        //initialize a curve based on the pawn's lovin need thresholds. if a pawn is at 100% lovin' need, they will never seek lovin'.
-
-        SimpleCurve LovinDesireCurve = new()
+        SimpleCurve LovinNeedCurve = new()
         {
             new CurvePoint(1f, 0f),
             new CurvePoint(need.Horny, 2f),
             new CurvePoint(need.Desperate, 5f),
             new CurvePoint(0f, 10f),
         };
-        return LovinDesireCurve.Evaluate(need.CurLevel);
+        return LovinNeedCurve.Evaluate(need.CurLevel);
     }
 
     public static Job TrySeekLovin(Pawn pawn)
     {
-        JobDef job = LovinDefOf.PP_InitiateIntimateLovin;
-        Pawn partner = LovinHelper.FindPartnerForIntimacy(pawn);
+        MindComp mind = pawn.GetComp<MindComp>();
 
-        // if partner is null, then obviously we're looking for a hookup. otherwise, we may or may
-        // not look for a hookup. For now it's just a straight roll but would like to make it based
-        // on pawn's personality and quirks
-        if (partner == null || Rand.Value < 0.5f)
+        JobDef job = LovinDefOf.PP_InitiateIntimateLovin;
+        Pawn partner = FindPartnerForIntimacy(pawn);
+
+        // if partner is null, then obviously we're looking for a hookup. otherwise, calculate the
+        // roll for a hookup
+        if (partner == null)
         {
             partner = FindPartnerForHookup(pawn);
             job = LovinDefOf.LeadHookup;
+        }
+        else
+        {
+            float hookupThreshold = 0.5f;
+
+            //if a pawn is monogamous and partnered, calculate effect of fidelity
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out var _) && pawn.IsPartnered())
+            {
+                hookupThreshold -= 0.2f;
+                Quirk fidelity = mind.GetOrGainQuirkSingular(LovinQuirkDefOf.PP_Fidelity);
+                hookupThreshold *= chanceToCheatByFidelity.Evaluate(fidelity.Value);
+            }
+
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out var romanceDesire))
+            {
+                hookupThreshold *= chanceToHookupByRomanceDesire.Evaluate(romanceDesire.Value);
+            }
+
+            if (Rand.Value < hookupThreshold)
+            {
+                partner = FindPartnerForHookup(pawn);
+                job = LovinDefOf.LeadHookup;
+            }
         }
 
         // if we can't actually find a partner, then the pawn either gives up and does something

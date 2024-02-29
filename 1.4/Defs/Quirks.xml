@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <!-- =========================== -->
+  <!-- CATEGORIES -->
+  <!-- =========================== -->
+
+  <Personality.QuirkCategoryDef>
+    <defName>PP_RelationshipTypePreference</defName>
+    <label>relationship type preference</label>
+    <required>True</required>
+    <!-- logic behind minAge being that while a pawn can get into a relationship at 16, 
+      they don't necessarily know what they want at that age -->
+    <minAge>20</minAge>
+  </Personality.QuirkCategoryDef>
+
+
+  <!-- =========================== -->
+  <!-- QUIRKS -->
+  <!-- =========================== -->
+
+  <Personality.QuirkDef>
+    <defName>PP_Fidelity</defName>
+    <label>fidelity</label>
+  </Personality.QuirkDef>
+  <Personality.QuirkDef>
+    <defName>PP_RomanceSeeking</defName>
+    <label>romance desire</label>
+    <description>Someone with high Romance Desire will be less likely to engage in casual hookups. They get into relationships faster and will be happier while they have a partner. Someone with low romance desire can be a bit of a commitmentphobe.</description>
+  </Personality.QuirkDef>
+
+  <Personality.QuirkDef>
+    <defName>PP_Monogamous</defName>
+    <label>monogamous</label>
+    <binary>true</binary>
+    <categories>
+      <li>PP_RelationshipTypePreference</li>
+    </categories>
+  </Personality.QuirkDef>
+  <Personality.QuirkDef>
+    <defName>PP_Polyamorous</defName>
+    <label>polyamorous</label>
+    <binary>true</binary>
+    <categories>
+      <li>PP_RelationshipTypePreference</li>
+    </categories>
+  </Personality.QuirkDef>
+
+</Defs>
