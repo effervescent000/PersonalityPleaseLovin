@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Personality.Lovin.HarmonyPatches;
 using Verse;
 
 namespace Personality.Lovin;

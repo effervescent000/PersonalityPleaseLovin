@@ -221,8 +221,8 @@ public static class LovinHelper
 
         MindComp mind = actor.GetComp<MindComp>();
 
-        float? actorCompassion = mind.Mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
-        float? actorLawfulness = mind.Mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
+        float? actorCompassion = mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
+        float? actorLawfulness = mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
 
         foreach (DirectPawnRelation rel in relations)
         {
@@ -286,8 +286,8 @@ public static class LovinHelper
 
         MindComp mind = actor.GetComp<MindComp>();
 
-        float? actorCompassion = mind.Mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
-        float? actorLawfulness = mind.Mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
+        float? actorCompassion = mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
+        float? actorLawfulness = mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
 
         foreach (Pawn pawn in availablePawns)
         {
