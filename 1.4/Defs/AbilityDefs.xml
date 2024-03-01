@@ -32,4 +32,35 @@
       </li>
     </comps>
   </AbilityDef>
+
+  <AbilityDef>
+    <defName>PP_DisorientAbility</defName>
+    <label>Disorient</label>
+    <description>Release a burst of pheromones in all directions that confuses everyone nearby.</description>
+    <category>PP_Succubus</category>
+    <hostile>false</hostile>
+    <statBases>
+      <Ability_Duration>10</Ability_Duration>
+    </statBases>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupEffecter>Fire_Burst_Warmup</warmupEffecter>
+      <warmupTime>3</warmupTime>
+      <requireLineOfSight>false</requireLineOfSight>
+      <range>4</range>
+      <drawAimPie>false</drawAimPie>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+        <canTargetMechs>False</canTargetMechs>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="Personality.Lovin.CompProperties_AbilityDisorient">
+        <radius>4</radius>
+      </li>
+      <li Class="Personality.Lovin.CompProperties_AbilityVitalityCost">
+        <vitalityCost>0.5</vitalityCost>
+      </li>
+    </comps>
+  </AbilityDef>
 </Defs>

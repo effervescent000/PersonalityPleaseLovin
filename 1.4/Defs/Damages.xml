@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <DamageDef>
+    <defName>PP_DisorientDamage</defName>
+    <label>succubus pheromones</label>
+    <workerClass>Personality.Lovin.DamageWorker_Disorient</workerClass>
+    <harmsHealth>false</harmsHealth>
+    <impactSoundType>MechBandShockwave</impactSoundType>
+    <defaultDamage>50</defaultDamage>
+    <soundExplosion>Explosion_MechBandShockwave</soundExplosion>
+  </DamageDef>
+</Defs>

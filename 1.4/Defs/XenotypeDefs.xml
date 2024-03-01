@@ -15,6 +15,8 @@
       <li>PP_LoveFeeder</li>
       <li>PP_VitalityDrain</li>
       <li>PP_SeduceGene</li>
+      <li>PP_TranscendentLovin</li>
+      <li>PP_Disorient</li>
       <!-- OTHER FUNCTIONAL GENES -->
       <li>AptitudeStrong_Social</li>
       <li>AptitudePoor_Shooting</li>
@@ -22,11 +24,13 @@
       <li>AptitudeRemarkable_LovinSkill</li>
       <li>XenogermReimplanter</li>
       <li>PP_BeautyExquisite</li>
+      <li>PP_Female</li>
       <!-- COSMETIC -->
       <li>Body_Standard</li>
       <li>Skin_Blue</li>
       <li>Skin_Purple</li>
       <li>Skin_PaleRed</li>
+      <li>Skin_DeepRed</li>
       <li>PP_Skin_Pink</li>
       <li>Headbone_MiniHorns</li>
     </genes>
