@@ -41,7 +41,7 @@ public class Need_Lovin : Need_Seeker
 
         MindComp comp = pawn.GetComp<MindComp>();
 
-        float? purityValue = comp.Mind.GetNode(PersonalityHelper.PURITY)?.FinalRating.Value;
+        float? purityValue = comp.GetNode(PersonalityHelper.PURITY)?.FinalRating.Value;
         if (purityValue != null)
         {
             fallPerInterval *= LovinHelper.LovinNeedFallByPurityCurve.Evaluate((float)purityValue);

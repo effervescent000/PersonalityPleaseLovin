@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- =========================== -->
+  <!-- MESSAGES -->
+  <!-- =========================== -->
+
+  <PP.HookupNotification>{PAWN_nameDef} is trying to hook up with {PARTNER_nameDef}.</PP.HookupNotification>
+  <PP.IntimacyNotification>{PAWN_nameDef} is trying to go to bed with {PARTNER_nameDef}.</PP.IntimacyNotification>
+  <PP.CheatingNotification>{PAWN_nameDef} is trying to cheat on {PAWN_possessive} partner {LOVER_nameDef} with {PARTNER_nameDef}.</PP.CheatingNotification>
+</LanguageData>

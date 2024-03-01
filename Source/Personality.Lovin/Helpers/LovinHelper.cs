@@ -4,25 +4,22 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Noise;
 
 namespace Personality.Lovin;
 
 public static class LovinHelper
 {
-    private const float MINIMUM_HOOKUP_ACCEPTANCE_VALUE = 0.5f;
-
     private static readonly List<string> romanticRelationDefs = new() { PawnRelationDefOf.Lover.defName, PawnRelationDefOf.Fiance.defName, PawnRelationDefOf.Spouse.defName };
 
     private static readonly List<Pair<float, ThoughtDef>> qualityToThoughtMapping = new()
     {
-        new(5f, LovinDefOf.PP_ThoughtSocial_TranscendentLovin),
-        new(3f, LovinDefOf.PP_ThoughtSocial_ExquisiteLovin),
-        new(1.8f, LovinDefOf.PP_ThoughtSocial_GreatLovin),
-        new(1.3f, LovinDefOf.PP_ThoughtSocial_GoodLovin),
-        new(0.7f, LovinDefOf.PP_ThoughtSocial_OkayLovin),
-        new(0.25f, LovinDefOf.PP_ThoughtSocial_BadLovin),
-        new(0f, LovinDefOf.PP_ThoughtSocial_TerribleLovin),
+        new(5f, LovinThoughtDefOf.PP_ThoughtSocial_TranscendentLovin),
+        new(3f, LovinThoughtDefOf.PP_ThoughtSocial_ExquisiteLovin),
+        new(1.8f, LovinThoughtDefOf.PP_ThoughtSocial_GreatLovin),
+        new(1.3f, LovinThoughtDefOf.PP_ThoughtSocial_GoodLovin),
+        new(0.7f, LovinThoughtDefOf.PP_ThoughtSocial_OkayLovin),
+        new(0.25f, LovinThoughtDefOf.PP_ThoughtSocial_BadLovin),
+        new(0f, LovinThoughtDefOf.PP_ThoughtSocial_TerribleLovin),
     };
 
     public static readonly SimpleCurve LovinNeedFallByPurityCurve = new()
@@ -42,6 +39,18 @@ public static class LovinHelper
     {
         new CurvePoint(-1f, 0.5f),
         new CurvePoint(1f, -1f)
+    };
+
+    private static readonly SimpleCurve chanceToHookupByRomanceDesire = new()
+    {
+        new CurvePoint(-1f, 1.5f),
+        new CurvePoint(1f, 0.5f),
+    };
+
+    private static readonly SimpleCurve chanceToCheatByFidelity = new()
+    {
+        new CurvePoint(-1f, 1.5f),
+        new CurvePoint(1f, 0.01f)
     };
 
     public static Job TryDoSelfLovin(Pawn pawn)
@@ -163,37 +172,66 @@ public static class LovinHelper
     {
         Need_Lovin need = (Need_Lovin)pawn.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
 
-        //initialize a curve based on the pawn's lovin need thresholds. if a pawn is at 100% lovin' need, they will never seek lovin'.
-
-        SimpleCurve LovinDesireCurve = new()
+        SimpleCurve LovinNeedCurve = new()
         {
             new CurvePoint(1f, 0f),
             new CurvePoint(need.Horny, 2f),
             new CurvePoint(need.Desperate, 5f),
             new CurvePoint(0f, 10f),
         };
-        return LovinDesireCurve.Evaluate(need.CurLevel);
+        return LovinNeedCurve.Evaluate(need.CurLevel);
     }
 
     public static Job TrySeekLovin(Pawn pawn)
     {
-        JobDef job = LovinDefOf.PP_InitiateIntimateLovin;
-        Pawn partner = LovinHelper.FindPartnerForIntimacy(pawn);
+        MindComp mind = pawn.GetComp<MindComp>();
 
-        // if partner is null, then obviously we're looking for a hookup. otherwise, we may or may
-        // not look for a hookup. For now it's just a straight roll but would like to make it based
-        // on pawn's personality and quirks
-        if (partner == null || Rand.Value < 0.5f)
+        JobDef job = LovinDefOf.PP_InitiateIntimateLovin;
+        Pawn partner = FindPartnerForIntimacy(pawn, mind);
+
+        bool isCheating = false;
+        Pawn existingPartner = null;
+
+        // if partner is null, then obviously we're looking for a hookup. otherwise, calculate the
+        // roll for a hookup
+        if (partner == null)
         {
-            partner = FindPartnerForHookup(pawn);
+            partner = FindPartnerForHookup(pawn, mind);
             job = LovinDefOf.LeadHookup;
+        }
+        else
+        {
+            float hookupThreshold = 0.5f;
+
+            //if a pawn is monogamous and partnered, calculate effect of fidelity
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out existingPartner))
+            {
+                hookupThreshold -= 0.2f;
+                Quirk fidelity = mind.GetOrGainQuirkSingular(LovinQuirkDefOf.PP_Fidelity);
+                hookupThreshold *= chanceToCheatByFidelity.Evaluate(fidelity.Value);
+
+                // lastly add cheating multiplier from settings
+                hookupThreshold *= LovinMod.Settings.CheatingModifier.Value / 100f;
+            }
+
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out Quirk romanceDesire))
+            {
+                hookupThreshold *= chanceToHookupByRomanceDesire.Evaluate(romanceDesire.Value);
+            }
+
+            if (Rand.Value < hookupThreshold)
+            {
+                partner = FindPartnerForHookup(pawn, mind);
+                job = LovinDefOf.LeadHookup;
+                if (existingPartner != null && existingPartner.ThingID != partner.ThingID) isCheating = true;
+            }
         }
 
         // if we can't actually find a partner, then the pawn either gives up and does something
         // else or does self lovin'
         if (partner == null)
         {
-            if (Rand.Value <= .75f)
+            if (Rand.Value < .75f)
             {
                 return null;
             }
@@ -209,26 +247,56 @@ public static class LovinHelper
             return null;
         }
 
+        MakeLovinMessage(pawn, partner, existingPartner, isCheating, job);
         return JobMaker.MakeJob(job, partner, bed);
     }
 
-    public static Pawn FindPartnerForIntimacy(Pawn actor)
+    private static void MakeLovinMessage(Pawn actor, Pawn partner, Pawn existingPartner, bool isCheating, JobDef job)
+    {
+        if (isCheating)
+        {
+            Messages.Message(
+                "PP.CheatingNotification".Translate(actor.Named("PAWN"), existingPartner.Named("LOVER"), partner.Named("PARTNER")),
+                new LookTargets(actor),
+                MessageTypeDefOf.NeutralEvent
+                );
+            return;
+        }
+        if (job == LovinDefOf.LeadHookup)
+        {
+            Messages.Message(
+                "PP.HookupNotification".Translate(actor.Named("PAWN"), partner.Named("PARTNER")),
+                new LookTargets(actor),
+                MessageTypeDefOf.NeutralEvent
+                );
+            return;
+        }
+
+        // for now, if we get to this point, it's always intimate lovin, but this will need to be
+        // tweaked in the future
+        Messages.Message(
+                "PP.IntimacyNotification".Translate(actor.Named("PAWN"), partner.Named("PARTNER")),
+                new LookTargets(actor),
+                MessageTypeDefOf.NeutralEvent
+                );
+        return;
+    }
+
+    public static Pawn FindPartnerForIntimacy(Pawn actor, MindComp mind)
     {
         List<DirectPawnRelation> relations = actor.relations.DirectRelations;
         List<Pawn> potentialPartners = new();
 
         if (relations.Count == 0) return null;
 
-        MindComp mind = actor.GetComp<MindComp>();
-
-        float? actorCompassion = mind.Mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
-        float? actorLawfulness = mind.Mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
+        float? actorCompassion = mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
+        float? actorLawfulness = mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
 
         foreach (DirectPawnRelation rel in relations)
         {
             Pawn target = rel.otherPawn;
             if (!target.Spawned || target.Map.uniqueID != actor.Map.uniqueID) continue;
-            if (!romanticRelationDefs.Contains(rel.def.defName)) continue;
+            if (!RelationshipHelper.romanticRelationDefs.Contains(rel.def)) continue;
 
             RomanceComp romanceComp = actor.GetComp<RomanceComp>();
             if (romanceComp.RomanceTracker.IsInRejectionList(target))
@@ -271,7 +339,7 @@ public static class LovinHelper
         return null;
     }
 
-    public static Pawn FindPartnerForHookup(Pawn actor)
+    public static Pawn FindPartnerForHookup(Pawn actor, MindComp mind)
     {
         List<Pawn> availablePawns =
             (
@@ -284,10 +352,8 @@ public static class LovinHelper
 
         if (availablePawns.Count == 0) return null;
 
-        MindComp mind = actor.GetComp<MindComp>();
-
-        float? actorCompassion = mind.Mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
-        float? actorLawfulness = mind.Mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
+        float? actorCompassion = mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
+        float? actorLawfulness = mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
 
         foreach (Pawn pawn in availablePawns)
         {
@@ -336,7 +402,7 @@ public static class LovinHelper
 
     public static bool DoesTargetAcceptHookup(Pawn actor, Pawn target)
     {
-        float rolledValue = Rand.Value;
+        float acceptanceRate = 0.5f;
 
         // TODO add in relationship checks (existing lovers are much more likely to accept, etc)
 
@@ -346,14 +412,31 @@ public static class LovinHelper
         // target is much less likely to accept if they have an orientation mismatch
         if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
         {
-            rolledValue *= .1f;
+            acceptanceRate *= .1f;
         }
 
-        if (rolledValue < MINIMUM_HOOKUP_ACCEPTANCE_VALUE)
+        if (Rand.Value < acceptanceRate)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    public static bool DoesTargetAcceptIntimacy(Pawn actor, Pawn target)
+    {
+        float acceptanceRate = 0.75f;
+
+        // target is much less likely to accept if they have an orientation mismatch
+        if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
+        {
+            acceptanceRate *= .1f;
+        }
+
+        if (Rand.Value < acceptanceRate)
+        {
+            return true;
+        }
+        return false;
     }
 
     public static Toil FinishLovin(LovinProps props)

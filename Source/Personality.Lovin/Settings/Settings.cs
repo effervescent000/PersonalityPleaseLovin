@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verse;
+﻿using Verse;
 
 namespace Personality.Lovin;
 
 public class Settings : ModSettings
 {
-    public static bool RomanceModuleActive = false;
+    public SettingValues<int> CheatingModifier = new(100, "PP.CheatingModifier.Label", "PP.CheatingModifier.Desc", 0, 300);
 
     public override void ExposeData()
     {
