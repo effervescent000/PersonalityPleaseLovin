@@ -21,10 +21,14 @@
   <Personality.QuirkDef>
     <defName>PP_Fidelity</defName>
     <label>fidelity</label>
+    <highLabel>faithful</highLabel>
+    <lowLabel>unfaithful</lowLabel>
   </Personality.QuirkDef>
   <Personality.QuirkDef>
     <defName>PP_RomanceSeeking</defName>
     <label>romance desire</label>
+    <highLabel>romantic</highLabel>
+    <lowLabel>commitment avoidant</lowLabel>
     <description>Someone with high Romance Desire will be less likely to engage in casual hookups. They get into relationships faster and will be happier while they have a partner. Someone with low romance desire can be a bit of a commitmentphobe.</description>
   </Personality.QuirkDef>
 

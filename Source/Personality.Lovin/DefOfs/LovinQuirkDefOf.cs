@@ -2,6 +2,7 @@
 
 namespace Personality.Lovin;
 
+[DefOf]
 public static class LovinQuirkDefOf
 {
     public static QuirkCategoryDef PP_RelationshipTypePreference;

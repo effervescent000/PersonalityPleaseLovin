@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+
+  <!-- SETTINGS STUFF -->
+
+  <PP.CheatingModifier.Label>Cheating Multiplier</PP.CheatingModifier.Label>
+  <PP.CheatingModifier.Desc>Multiplier on the rate of at which pawns cheat on their partners in PP-added interactions. Set to 0 to disable cheating.</PP.CheatingModifier.Desc>
+
+
+</LanguageData>

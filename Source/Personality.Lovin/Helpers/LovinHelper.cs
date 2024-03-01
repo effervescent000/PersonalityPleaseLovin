@@ -9,8 +9,6 @@ namespace Personality.Lovin;
 
 public static class LovinHelper
 {
-    private const float MINIMUM_HOOKUP_ACCEPTANCE_VALUE = 0.5f;
-
     private static readonly List<string> romanticRelationDefs = new() { PawnRelationDefOf.Lover.defName, PawnRelationDefOf.Fiance.defName, PawnRelationDefOf.Spouse.defName };
 
     private static readonly List<Pair<float, ThoughtDef>> qualityToThoughtMapping = new()
@@ -189,13 +187,16 @@ public static class LovinHelper
         MindComp mind = pawn.GetComp<MindComp>();
 
         JobDef job = LovinDefOf.PP_InitiateIntimateLovin;
-        Pawn partner = FindPartnerForIntimacy(pawn);
+        Pawn partner = FindPartnerForIntimacy(pawn, mind);
+
+        bool isCheating = false;
+        Pawn existingPartner = null;
 
         // if partner is null, then obviously we're looking for a hookup. otherwise, calculate the
         // roll for a hookup
         if (partner == null)
         {
-            partner = FindPartnerForHookup(pawn);
+            partner = FindPartnerForHookup(pawn, mind);
             job = LovinDefOf.LeadHookup;
         }
         else
@@ -203,22 +204,26 @@ public static class LovinHelper
             float hookupThreshold = 0.5f;
 
             //if a pawn is monogamous and partnered, calculate effect of fidelity
-            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out var _) && pawn.IsPartnered())
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out existingPartner))
             {
                 hookupThreshold -= 0.2f;
                 Quirk fidelity = mind.GetOrGainQuirkSingular(LovinQuirkDefOf.PP_Fidelity);
                 hookupThreshold *= chanceToCheatByFidelity.Evaluate(fidelity.Value);
+
+                // lastly add cheating multiplier from settings
+                hookupThreshold *= LovinMod.Settings.CheatingModifier.Value / 100f;
             }
 
-            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out var romanceDesire))
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out Quirk romanceDesire))
             {
                 hookupThreshold *= chanceToHookupByRomanceDesire.Evaluate(romanceDesire.Value);
             }
 
             if (Rand.Value < hookupThreshold)
             {
-                partner = FindPartnerForHookup(pawn);
+                partner = FindPartnerForHookup(pawn, mind);
                 job = LovinDefOf.LeadHookup;
+                if (existingPartner != null && existingPartner.ThingID != partner.ThingID) isCheating = true;
             }
         }
 
@@ -226,7 +231,7 @@ public static class LovinHelper
         // else or does self lovin'
         if (partner == null)
         {
-            if (Rand.Value <= .75f)
+            if (Rand.Value < .75f)
             {
                 return null;
             }
@@ -242,17 +247,47 @@ public static class LovinHelper
             return null;
         }
 
+        MakeLovinMessage(pawn, partner, existingPartner, isCheating, job);
         return JobMaker.MakeJob(job, partner, bed);
     }
 
-    public static Pawn FindPartnerForIntimacy(Pawn actor)
+    private static void MakeLovinMessage(Pawn actor, Pawn partner, Pawn existingPartner, bool isCheating, JobDef job)
+    {
+        if (isCheating)
+        {
+            Messages.Message(
+                "PP.CheatingNotification".Translate(actor.Named("PAWN"), existingPartner.Named("LOVER"), partner.Named("PARTNER")),
+                new LookTargets(actor),
+                MessageTypeDefOf.NeutralEvent
+                );
+            return;
+        }
+        if (job == LovinDefOf.LeadHookup)
+        {
+            Messages.Message(
+                "PP.HookupNotification".Translate(actor.Named("PAWN"), partner.Named("PARTNER")),
+                new LookTargets(actor),
+                MessageTypeDefOf.NeutralEvent
+                );
+            return;
+        }
+
+        // for now, if we get to this point, it's always intimate lovin, but this will need to be
+        // tweaked in the future
+        Messages.Message(
+                "PP.IntimacyNotification".Translate(actor.Named("PAWN"), partner.Named("PARTNER")),
+                new LookTargets(actor),
+                MessageTypeDefOf.NeutralEvent
+                );
+        return;
+    }
+
+    public static Pawn FindPartnerForIntimacy(Pawn actor, MindComp mind)
     {
         List<DirectPawnRelation> relations = actor.relations.DirectRelations;
         List<Pawn> potentialPartners = new();
 
         if (relations.Count == 0) return null;
-
-        MindComp mind = actor.GetComp<MindComp>();
 
         float? actorCompassion = mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
         float? actorLawfulness = mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
@@ -261,7 +296,7 @@ public static class LovinHelper
         {
             Pawn target = rel.otherPawn;
             if (!target.Spawned || target.Map.uniqueID != actor.Map.uniqueID) continue;
-            if (!romanticRelationDefs.Contains(rel.def.defName)) continue;
+            if (!RelationshipHelper.romanticRelationDefs.Contains(rel.def)) continue;
 
             RomanceComp romanceComp = actor.GetComp<RomanceComp>();
             if (romanceComp.RomanceTracker.IsInRejectionList(target))
@@ -304,7 +339,7 @@ public static class LovinHelper
         return null;
     }
 
-    public static Pawn FindPartnerForHookup(Pawn actor)
+    public static Pawn FindPartnerForHookup(Pawn actor, MindComp mind)
     {
         List<Pawn> availablePawns =
             (
@@ -316,8 +351,6 @@ public static class LovinHelper
         List<Pawn> potentialPartners = new();
 
         if (availablePawns.Count == 0) return null;
-
-        MindComp mind = actor.GetComp<MindComp>();
 
         float? actorCompassion = mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
         float? actorLawfulness = mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
@@ -369,7 +402,7 @@ public static class LovinHelper
 
     public static bool DoesTargetAcceptHookup(Pawn actor, Pawn target)
     {
-        float rolledValue = Rand.Value;
+        float acceptanceRate = 0.5f;
 
         // TODO add in relationship checks (existing lovers are much more likely to accept, etc)
 
@@ -379,14 +412,31 @@ public static class LovinHelper
         // target is much less likely to accept if they have an orientation mismatch
         if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
         {
-            rolledValue *= .1f;
+            acceptanceRate *= .1f;
         }
 
-        if (rolledValue < MINIMUM_HOOKUP_ACCEPTANCE_VALUE)
+        if (Rand.Value < acceptanceRate)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    public static bool DoesTargetAcceptIntimacy(Pawn actor, Pawn target)
+    {
+        float acceptanceRate = 0.75f;
+
+        // target is much less likely to accept if they have an orientation mismatch
+        if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
+        {
+            acceptanceRate *= .1f;
+        }
+
+        if (Rand.Value < acceptanceRate)
+        {
+            return true;
+        }
+        return false;
     }
 
     public static Toil FinishLovin(LovinProps props)
