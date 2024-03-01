@@ -59,6 +59,23 @@
     <biostatMet>-2</biostatMet>
     <biostatCpx>1</biostatCpx>
   </GeneDef>
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_TranscendentLovin</defName>
+    <label>transcendent lovin'</label>
+    <description>Carriers will leave their lovin' partners especially satisfied.</description>
+    <biostatMet>-1</biostatMet>
+    <biostatCpx>1</biostatCpx>
+  </GeneDef>
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_Disorient</defName>
+    <label>Disorient</label>
+    <description>Carriers can release a burst of pheromones near themselves that briefly confuses anyone in the area of effect.</description>
+    <biostatMet>-3</biostatMet>
+    <biostatCpx>2</biostatCpx>
+    <abilities>
+      <li>PP_DisorientAbility</li>
+    </abilities>
+  </GeneDef>
 
 
   <!-- ===================================== -->
@@ -80,6 +97,17 @@
     <labelShortAdj>pink</labelShortAdj>
     <description>Carriers of this gene produce a pigment that gives their skin a pink color.</description>
     <skinColorOverride>(245, 159, 201)</skinColorOverride>
+    <displayOrderInCategory>102</displayOrderInCategory>
+  </GeneDef>
+  <GeneDef>
+    <defName>PP_Female</defName>
+    <label>Female</label>
+    <description>Carriers of this gene are always female.</description>
+    <modExtensions>
+      <li Class="VanillaGenesExpanded.GeneExtension">
+        <forceFemale>true</forceFemale>
+      </li>
+    </modExtensions>
   </GeneDef>
 
 </Defs>

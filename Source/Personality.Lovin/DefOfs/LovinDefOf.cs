@@ -6,6 +6,8 @@ namespace Personality.Lovin;
 [DefOf]
 public static class LovinDefOf
 {
+    public static DamageDef PP_DisorientDamage;
+
     public static GeneDef PP_LoveFeeder;
     public static GeneDef PP_VitalityRoot;
 

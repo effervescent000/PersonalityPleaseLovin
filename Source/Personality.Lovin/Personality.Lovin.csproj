@@ -55,6 +55,8 @@
     <Compile Include="Attraction\Preferences\PreferenceHairColor.cs" />
     <Compile Include="Attraction\Preferences\PreferenceHairStyle.cs" />
     <Compile Include="Attraction\Preferences\PreferenceHeadType.cs" />
+    <Compile Include="Comps\CompAbilityEffect_Disorient.cs" />
+    <Compile Include="Comps\CompProperties_AbilityDisorient.cs" />
     <Compile Include="Comps\CompProperties_AbilityVitalityCost.cs" />
     <Compile Include="Comps\CompAbilityEffect_VitalityCost.cs" />
     <Compile Include="Comps\HediffCompProperties_RapidAging.cs" />
@@ -63,6 +65,8 @@
     <Compile Include="Comps\RomanceComp\RomanceComp.cs" />
     <Compile Include="Comps\RomanceComp\RomanceCompProperties.cs" />
     <Compile Include="Comps\RomanceComp\RomanceTracker.cs" />
+    <Compile Include="DamageWorkers\DamageWorker_Disorient.cs" />
+    <Compile Include="DefOfs\LovinAbilityDefOf.cs" />
     <Compile Include="DefOfs\LovinQuirkDefOf.cs" />
     <Compile Include="DefOfs\LovinThoughtDefOf.cs" />
     <Compile Include="GUI\MindCardUtility.cs" />
