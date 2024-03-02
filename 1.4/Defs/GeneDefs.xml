@@ -109,5 +109,10 @@
       </li>
     </modExtensions>
   </GeneDef>
+  <GeneDef>
+    <defName>PP_Insatiable</defName>
+    <label>insatiable</label>
+    <description>Carriers of this gene have very high desire for lovin'.</description>
+  </GeneDef>
 
 </Defs>
