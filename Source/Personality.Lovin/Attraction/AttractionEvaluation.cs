@@ -21,7 +21,7 @@ public class AttractionEvaluation
         {
             PhysicalScore += pref.CalcAttractionEffect(Target);
         }
-        PersonalityScore = attraction.pawn.relations.CompatibilityWith(Target);
+        PersonalityScore = attraction.Pawn.relations.CompatibilityWith(Target);
     }
 
     public void Tick()

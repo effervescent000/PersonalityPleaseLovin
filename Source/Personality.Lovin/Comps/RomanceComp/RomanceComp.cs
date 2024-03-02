@@ -14,21 +14,25 @@ public class RomanceComp : ThingComp
     public override void Initialize(CompProperties props)
     {
         base.Initialize(props);
-        RomanceTracker = new RomanceTracker();
-        AttractionTracker = new(parent as Pawn);
+        RomanceTracker ??= new();
+        AttractionTracker ??= new(this);
     }
 
     public override void PostExposeData()
     {
+        base.PostExposeData();
         Scribe_Deep.Look(ref RomanceTracker, "romance");
-        Scribe_Deep.Look(ref AttractionTracker, "attraction", new object[] { parent as Pawn });
+        Scribe_Deep.Look(ref AttractionTracker, "attraction", this);
+
+        RomanceTracker ??= new();
+        AttractionTracker ??= new(this);
     }
 
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
         if (!respawningAfterLoad)
         {
-            AttractionTracker.Initialize();
+            AttractionTracker.MakePreferences();
         }
     }
 

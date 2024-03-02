@@ -18,7 +18,8 @@ public class PreferenceHeadType : Preference, IExposable
 
     public void ExposeData()
     {
-        throw new NotImplementedException();
+        Scribe_Defs.Look(ref Def, "def");
+        Scribe_Values.Look(ref Value, "value");
     }
 
     public override string Label => Def.defName;

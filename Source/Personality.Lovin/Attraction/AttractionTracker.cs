@@ -9,7 +9,9 @@ namespace Personality.Lovin;
 
 public class AttractionTracker : IExposable
 {
-    public Pawn pawn;
+    private readonly RomanceComp comp;
+
+    public Pawn Pawn => (Pawn)comp.parent;
 
     public List<Preference> HairStylePreferences = new();
     public List<Preference> BodyPreferences = new();
@@ -20,14 +22,14 @@ public class AttractionTracker : IExposable
 
     public Dictionary<string, AttractionEvaluation> evals = new();
 
-    public AttractionTracker(Pawn pawn)
+    public AttractionTracker(RomanceComp comp)
     {
-        this.pawn = pawn;
+        this.comp = comp;
     }
 
-    public void Initialize()
+    public void MakePreferences()
     {
-        int seed = pawn.GetSeed();
+        int seed = Pawn.GetSeed();
         System.Random random = new(seed);
 
         while (HairStylePreferences.Count < 2)
@@ -42,7 +44,7 @@ public class AttractionTracker : IExposable
             }
         }
 
-        List<BodyTypeDef> validBodyTypes = MakeBodyTypes(pawn);
+        List<BodyTypeDef> validBodyTypes = MakeBodyTypes(Pawn);
 
         while (BodyPreferences.Count < Math.Floor(validBodyTypes.Count * 0.4f))
         {
@@ -67,12 +69,12 @@ public class AttractionTracker : IExposable
         }
 
         // give pawns one head type attraction for each gender they're attracted to
-        if (pawn.IsAttractedToMen())
+        if (Pawn.IsAttractedToMen())
         {
             HeadTypeDef selection = AttractionHelper.MaleHeads.RandomElement();
             HeadTypePreferences.Add(new PreferenceHeadType { Def = selection, Value = GetUnmoderateValue(random) });
         }
-        if (pawn.IsAttractedToWomen())
+        if (Pawn.IsAttractedToWomen())
         {
             HeadTypeDef selection = AttractionHelper.FemaleHeads.RandomElement();
             HeadTypePreferences.Add(new PreferenceHeadType { Def = selection, Value = GetUnmoderateValue(random) });
@@ -134,5 +136,11 @@ public class AttractionTracker : IExposable
         Scribe_Collections.Look(ref HairStylePreferences, "hairStylePrefs", LookMode.Deep);
         Scribe_Collections.Look(ref BodyPreferences, "bodyPreferences", LookMode.Deep);
         Scribe_Collections.Look(ref HairColorPreferences, "colorPreferences", LookMode.Deep);
+        Scribe_Collections.Look(ref HeadTypePreferences, "headPreferences", LookMode.Deep);
+
+        if (Scribe.mode == LoadSaveMode.LoadingVars)
+        {
+            AllPrefs = AllPrefs.Concat(BodyPreferences).Concat(HairColorPreferences).Concat(HeadTypePreferences).Concat(HairStylePreferences).ToList();
+        }
     }
 }
