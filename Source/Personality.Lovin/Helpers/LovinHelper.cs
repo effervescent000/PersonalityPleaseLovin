@@ -183,9 +183,9 @@ public static class LovinHelper
         SimpleCurve LovinNeedCurve = new()
         {
             new CurvePoint(1f, 0f),
-            new CurvePoint(need.Horny, 2f),
-            new CurvePoint(need.Desperate, 5f),
-            new CurvePoint(0f, 10f),
+            new CurvePoint(need.Horny, 4f),
+            new CurvePoint(need.Desperate, 8f),
+            new CurvePoint(0f, 12f),
         };
         return LovinNeedCurve.Evaluate(need.CurLevel);
     }
