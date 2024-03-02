@@ -1,25 +1,28 @@
 ﻿using RimWorld;
+using System;
 using Verse;
 using Verse.AI;
 
 namespace Personality.Lovin;
 
-public class JoyGiver_SeekLovin : JoyGiver
+public class JobGiver_SeekLovin : ThinkNode_JobGiver
 {
-    public override float GetChance(Pawn pawn)
+    public override float GetPriority(Pawn pawn)
     {
-        if (pawn.IsAsexual())
+        if (pawn.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin) == null)
         {
             return 0f;
         }
-        if (pawn.ageTracker.AgeBiologicalYearsFloat < 16f)
+        float lovinChance = LovinHelper.GetChanceToSeekLovin(pawn);
+        TimeAssignmentDef timeAssignmentDef = pawn.timetable == null ? TimeAssignmentDefOf.Anything : pawn.timetable.CurrentAssignment;
+        if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
         {
-            return 0f;
+            return lovinChance * 0.25f;
         }
-        return def.baseChance;
+        return lovinChance;
     }
 
-    public override Job TryGiveJob(Pawn pawn)
+    protected override Job TryGiveJob(Pawn pawn)
     {
         if (pawn.IsAsexual())
         {

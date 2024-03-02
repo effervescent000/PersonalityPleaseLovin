@@ -78,6 +78,7 @@ public static class LovinHelper
         if (props.Context == LovinContext.SelfLovin)
         {
             props.Actor.IncreaseLovinNeed(0.4f);
+            props.Actor.needs.joy.CurLevel += 0.2f;
             return;
         }
 
@@ -332,7 +333,6 @@ public static class LovinHelper
 
             // TODO instead of just choosing the first one, choose weighted random
 
-            //return sorted[0].First;
             return sorted.RandomElementByWeight(pair => pair.Second).First;
         }
 
@@ -459,8 +459,11 @@ public static class LovinHelper
         Building_Bed actorBed = actor.ownership.OwnedBed;
         if (IsBedValid(actorBed, spotsNeeded)) return actorBed;
 
-        Building_Bed partnerBed = partner.ownership.OwnedBed;
-        if (IsBedValid(partnerBed, spotsNeeded)) return partnerBed;
+        if (partner != null)
+        {
+            Building_Bed partnerBed = partner.ownership.OwnedBed;
+            if (IsBedValid(partnerBed, spotsNeeded)) return partnerBed;
+        }
 
         // if neither bed is valid, just try and find any unoccupied bed
         List<Building_Bed> beds = actor.Map.listerBuildings.AllBuildingsColonistOfClass<Building_Bed>().ToList();
