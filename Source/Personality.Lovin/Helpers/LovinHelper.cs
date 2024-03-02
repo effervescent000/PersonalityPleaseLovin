@@ -453,13 +453,39 @@ public static class LovinHelper
 
     public static Building_Bed FindBed(Pawn actor, Pawn partner = null)
     {
-        // find literally any bed
+        int spotsNeeded = partner != null ? 2 : 1;
+
+        // first try and get the bed of either the actor or partner
+        Building_Bed actorBed = actor.ownership.OwnedBed;
+        if (IsBedValid(actorBed, spotsNeeded)) return actorBed;
+
+        Building_Bed partnerBed = partner.ownership.OwnedBed;
+        if (IsBedValid(partnerBed, spotsNeeded)) return partnerBed;
+
+        // if neither bed is valid, just try and find any unoccupied bed
         List<Building_Bed> beds = actor.Map.listerBuildings.AllBuildingsColonistOfClass<Building_Bed>().ToList();
         if (beds.Count > 0)
         {
-            return beds[0];
+            foreach (var bed in beds)
+            {
+                if (IsBedValid(bed, spotsNeeded) && RestUtility.CanUseBedEver(actor, bed.def) && RestUtility.CanUseBedEver(partner, bed.def)) return bed;
+            }
         }
         return null;
+    }
+
+    private static bool IsBedValid(Building_Bed bed, int neededSpots)
+    {
+        if (bed == null) return false;
+        if (bed.SleepingSlotsCount < neededSpots)
+        {
+            return false;
+        }
+        if (bed.AnyOccupants)
+        {
+            return false;
+        }
+        return true;
     }
 
     public static bool IsInOrByBed(Building_Bed bed, Pawn pawn)

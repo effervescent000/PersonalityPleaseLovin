@@ -12,6 +12,10 @@ public class RejectionItem : IExposable
     public Pawn Pawn;
     public int TicksSinceAsked;
 
+    public RejectionItem()
+    {
+    }
+
     public RejectionItem(Pawn pawn)
     {
         Pawn = pawn;
