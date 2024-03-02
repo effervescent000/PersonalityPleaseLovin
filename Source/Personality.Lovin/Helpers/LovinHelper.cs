@@ -53,6 +53,12 @@ public static class LovinHelper
         new CurvePoint(1f, 0.01f)
     };
 
+    public static void ResetLovinCooldown(Pawn pawn)
+    {
+        RomanceComp comp = pawn.GetComp<RomanceComp>();
+        comp.LovinCooldownTicksRemaining = GenDate.TicksPerHour * 2;
+    }
+
     public static Job TryDoSelfLovin(Pawn pawn)
     {
         Building_Bed bed = FindBed(pawn);
@@ -60,6 +66,7 @@ public static class LovinHelper
         {
             return null;
         }
+        ResetLovinCooldown(pawn);
         return JobMaker.MakeJob(LovinDefOf.DoSelfLovin, bed, bed.GetSleepingSlotPos(0));
     }
 
@@ -78,6 +85,7 @@ public static class LovinHelper
         if (props.Context == LovinContext.SelfLovin)
         {
             props.Actor.IncreaseLovinNeed(0.4f);
+            props.Actor.needs.joy.CurLevel += 0.2f;
             return;
         }
 
@@ -175,9 +183,9 @@ public static class LovinHelper
         SimpleCurve LovinNeedCurve = new()
         {
             new CurvePoint(1f, 0f),
-            new CurvePoint(need.Horny, 2f),
-            new CurvePoint(need.Desperate, 5f),
-            new CurvePoint(0f, 10f),
+            new CurvePoint(need.Horny, 4f),
+            new CurvePoint(need.Desperate, 8f),
+            new CurvePoint(0f, 12f),
         };
         return LovinNeedCurve.Evaluate(need.CurLevel);
     }
@@ -248,6 +256,7 @@ public static class LovinHelper
         }
 
         MakeLovinMessage(pawn, partner, existingPartner, isCheating, job);
+        ResetLovinCooldown(pawn);
         return JobMaker.MakeJob(job, partner, bed);
     }
 
@@ -330,9 +339,6 @@ public static class LovinHelper
             }
             List<Pair<Pawn, int>> sorted = partnersByAttraction.OrderByDescending(pair => pair.Second).ToList();
 
-            // TODO instead of just choosing the first one, choose weighted random
-
-            //return sorted[0].First;
             return sorted.RandomElementByWeight(pair => pair.Second).First;
         }
 
@@ -395,7 +401,8 @@ public static class LovinHelper
             // TODO make personality a non-zero factor in hookups, altho i'm not sure how important
             // to make it
 
-            return sorted.RandomElementByWeight(pair => pair.Second.PhysicalScore).First;
+            // add 100 to all weights to prevent scores from going negative
+            return sorted.RandomElementByWeight(pair => pair.Second.PhysicalScore + 100f).First;
         }
         return null;
     }
@@ -459,16 +466,29 @@ public static class LovinHelper
         Building_Bed actorBed = actor.ownership.OwnedBed;
         if (IsBedValid(actorBed, spotsNeeded)) return actorBed;
 
-        Building_Bed partnerBed = partner.ownership.OwnedBed;
-        if (IsBedValid(partnerBed, spotsNeeded)) return partnerBed;
+        if (partner != null)
+        {
+            Building_Bed partnerBed = partner.ownership.OwnedBed;
+            if (IsBedValid(partnerBed, spotsNeeded)) return partnerBed;
+        }
 
         // if neither bed is valid, just try and find any unoccupied bed
         List<Building_Bed> beds = actor.Map.listerBuildings.AllBuildingsColonistOfClass<Building_Bed>().ToList();
         if (beds.Count > 0)
         {
-            foreach (var bed in beds)
+            foreach (Building_Bed bed in beds)
             {
-                if (IsBedValid(bed, spotsNeeded) && RestUtility.CanUseBedEver(actor, bed.def) && RestUtility.CanUseBedEver(partner, bed.def)) return bed;
+                if (IsBedValid(bed, spotsNeeded) && RestUtility.CanUseBedEver(actor, bed.def))
+                {
+                    if (partner == null)
+                    {
+                        return bed;
+                    }
+                    if (RestUtility.CanUseBedEver(partner, bed.def))
+                    {
+                        return bed;
+                    }
+                }
             }
         }
         return null;

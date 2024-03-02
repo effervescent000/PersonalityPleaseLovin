@@ -15,7 +15,7 @@ public static class PatchBiologicalTicksPerTick
         }
 
         // ignore if pawn is underage
-        if (___pawn.ageTracker.AgeBiologicalYears < 18f)
+        if (___pawn.ageTracker.AgeBiologicalYearsFloat <= 18.0f)
         {
             return;
         }

@@ -16,7 +16,7 @@ public class JoyGiver_SeekLovin : JoyGiver
         {
             return 0f;
         }
-        return LovinHelper.GetChanceToSeekLovin(pawn) * def.baseChance;
+        return def.baseChance;
     }
 
     public override Job TryGiveJob(Pawn pawn)

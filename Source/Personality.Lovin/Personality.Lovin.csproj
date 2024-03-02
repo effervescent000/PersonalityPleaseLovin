@@ -81,6 +81,7 @@
     <Compile Include="Jobs\JobDriver_DoIntimateLovin.cs" />
     <Compile Include="Jobs\JobDriver_InitiateCasualLovin.cs" />
     <Compile Include="Jobs\JobDriver_InitiateIntimateLovin.cs" />
+    <Compile Include="Jobs\JobGiver_SeekLovin.cs" />
     <Compile Include="Joy\JoyGiver_SeekLovin.cs" />
     <Compile Include="Needs\Need_Lovin.cs" />
     <Compile Include="DefOfs\LovinDefOf.cs" />

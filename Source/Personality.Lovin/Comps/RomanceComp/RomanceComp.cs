@@ -6,6 +6,7 @@ public class RomanceComp : ThingComp
 {
     public RomanceTracker RomanceTracker;
     public AttractionTracker AttractionTracker;
+    public int LovinCooldownTicksRemaining;
 
     public RomanceComp()
     {
@@ -23,6 +24,7 @@ public class RomanceComp : ThingComp
         base.PostExposeData();
         Scribe_Deep.Look(ref RomanceTracker, "romance");
         Scribe_Deep.Look(ref AttractionTracker, "attraction", this);
+        Scribe_Values.Look(ref LovinCooldownTicksRemaining, "lovinCD", 0);
 
         RomanceTracker ??= new();
         AttractionTracker ??= new(this);
@@ -40,5 +42,6 @@ public class RomanceComp : ThingComp
     {
         RomanceTracker?.Tick();
         AttractionTracker.Tick();
+        LovinCooldownTicksRemaining--;
     }
 }
