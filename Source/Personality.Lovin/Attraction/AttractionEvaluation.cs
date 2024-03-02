@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using RimWorld;
+using Verse;
 
 namespace Personality.Lovin;
 
@@ -17,6 +18,7 @@ public class AttractionEvaluation
     public void MakeEval(AttractionTracker attraction)
     {
         TicksSinceCache = 0;
+        PhysicalScore += Target.GetStatValue(StatDefOf.Beauty) * .5f;
         foreach (Preference pref in attraction.AllPrefs)
         {
             PhysicalScore += pref.CalcAttractionEffect(Target);
