@@ -9,6 +9,12 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
 {
     public override float GetPriority(Pawn pawn)
     {
+        if (pawn.IsAsexual()) return 0f;
+        if (pawn.ageTracker.AgeBiologicalYears < 16) return 0f;
+
+        RomanceComp comp = pawn.GetComp<RomanceComp>();
+        if (comp?.LovinCooldownTicksRemaining > 0) return 0f;
+
         if (pawn.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin) == null)
         {
             return 0f;

@@ -53,6 +53,12 @@ public static class LovinHelper
         new CurvePoint(1f, 0.01f)
     };
 
+    public static void ResetLovinCooldown(Pawn pawn)
+    {
+        RomanceComp comp = pawn.GetComp<RomanceComp>();
+        comp.LovinCooldownTicksRemaining = GenDate.TicksPerHour * 2;
+    }
+
     public static Job TryDoSelfLovin(Pawn pawn)
     {
         Building_Bed bed = FindBed(pawn);
@@ -60,6 +66,7 @@ public static class LovinHelper
         {
             return null;
         }
+        ResetLovinCooldown(pawn);
         return JobMaker.MakeJob(LovinDefOf.DoSelfLovin, bed, bed.GetSleepingSlotPos(0));
     }
 
@@ -249,6 +256,7 @@ public static class LovinHelper
         }
 
         MakeLovinMessage(pawn, partner, existingPartner, isCheating, job);
+        ResetLovinCooldown(pawn);
         return JobMaker.MakeJob(job, partner, bed);
     }
 
