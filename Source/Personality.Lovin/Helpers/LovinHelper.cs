@@ -331,8 +331,6 @@ public static class LovinHelper
             }
             List<Pair<Pawn, int>> sorted = partnersByAttraction.OrderByDescending(pair => pair.Second).ToList();
 
-            // TODO instead of just choosing the first one, choose weighted random
-
             return sorted.RandomElementByWeight(pair => pair.Second).First;
         }
 
@@ -395,7 +393,8 @@ public static class LovinHelper
             // TODO make personality a non-zero factor in hookups, altho i'm not sure how important
             // to make it
 
-            return sorted.RandomElementByWeight(pair => pair.Second.PhysicalScore).First;
+            // add 100 to all weights to prevent scores from going negative
+            return sorted.RandomElementByWeight(pair => pair.Second.PhysicalScore + 100f).First;
         }
         return null;
     }
@@ -469,9 +468,19 @@ public static class LovinHelper
         List<Building_Bed> beds = actor.Map.listerBuildings.AllBuildingsColonistOfClass<Building_Bed>().ToList();
         if (beds.Count > 0)
         {
-            foreach (var bed in beds)
+            foreach (Building_Bed bed in beds)
             {
-                if (IsBedValid(bed, spotsNeeded) && RestUtility.CanUseBedEver(actor, bed.def) && RestUtility.CanUseBedEver(partner, bed.def)) return bed;
+                if (IsBedValid(bed, spotsNeeded) && RestUtility.CanUseBedEver(actor, bed.def))
+                {
+                    if (partner == null)
+                    {
+                        return bed;
+                    }
+                    if (RestUtility.CanUseBedEver(partner, bed.def))
+                    {
+                        return bed;
+                    }
+                }
             }
         }
         return null;
