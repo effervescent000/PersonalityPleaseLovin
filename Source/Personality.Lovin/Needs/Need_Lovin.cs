@@ -8,7 +8,7 @@ public class Need_Lovin : Need_Seeker
 {
     private readonly float baseFallPerDay = 0.5f;
 
-    // eventually allow thresholds to be modified by traits and sex drive
+    // eventually allow thresholds to be modified by traits and sex drive. maybe? maybe not.
 
     private float threshDesperate = 0.05f;
     private float threshHorny = 0.25f;
@@ -46,6 +46,8 @@ public class Need_Lovin : Need_Seeker
         {
             fallPerInterval *= LovinHelper.LovinNeedFallByPurityCurve.Evaluate((float)purityValue);
         }
+
+        fallPerInterval *= pawn.GetStatValue(LovinDefOf.PP_LovinNeedFallFactor);
 
         CurLevel -= fallPerInterval;
     }

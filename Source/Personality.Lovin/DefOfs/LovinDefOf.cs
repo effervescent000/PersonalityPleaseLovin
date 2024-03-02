@@ -26,6 +26,7 @@ public static class LovinDefOf
     public static SkillDef LovinSkill;
 
     public static StatDef LovinQuality;
+    public static StatDef PP_LovinNeedFallFactor;
 
     public static TraitDef Straight;
     public static TraitDef AroAce;

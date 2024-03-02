@@ -62,4 +62,36 @@
       </li> -->
     </capacityFactors>
   </StatDef>
+
+  <StatDef>
+    <defName>PP_LovinNeedFallFactor</defName>
+    <label>lovin' need fall rate</label>
+    <description>Multiplier on the rate of fall of a character's lovin' need.</description>
+    <category>PawnMisc</category>
+    <defaultBaseValue>1</defaultBaseValue>
+    <minValue>0</minValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <showOnMechanoids>false</showOnMechanoids>
+    <showOnAnimals>false</showOnAnimals>
+    <displayPriorityInCategory>5003</displayPriorityInCategory>
+    <capacityFactors>
+      <li>
+        <capacity>BloodPumping</capacity>
+        <weight>0.5</weight>
+      </li>
+    </capacityFactors>
+    <parts>
+      <li Class="StatPart_Age">
+        <curve>
+          <points>
+            <li>(0, 0)</li>
+            <li>(0.225, 2)</li> <!-- 18 -->
+            <li>(0.375, 1)</li> <!-- 30 -->
+            <li>(0.625, 0.5)</li> <!-- 50 -->
+            <li>(1, 0.25)</li> <!-- 80 -->
+          </points>
+        </curve>
+      </li>
+    </parts>
+  </StatDef>
 </Defs>

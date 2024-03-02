@@ -24,9 +24,9 @@ public static class LovinHelper
 
     public static readonly SimpleCurve LovinNeedFallByPurityCurve = new()
     {
-        new CurvePoint(-1f, 2f),
+        new CurvePoint(-1f, 1.5f),
         new CurvePoint(0f, 1f),
-        new CurvePoint(1f, 0.5f),
+        new CurvePoint(1f, 0.75f),
     };
 
     private static readonly SimpleCurve chanceToIgnoreRejectionByLawfulness = new()
@@ -51,6 +51,12 @@ public static class LovinHelper
     {
         new CurvePoint(-1f, 1.5f),
         new CurvePoint(1f, 0.01f)
+    };
+
+    private static readonly SimpleCurve acceptanceOffsetByLovinNeed = new()
+    {
+        new CurvePoint(0.75f, 0f),
+        new CurvePoint(0f, 0.5f)
     };
 
     public static void ResetLovinCooldown(Pawn pawn)
@@ -416,10 +422,27 @@ public static class LovinHelper
         // TODO add precept checks: unmarried pawns in non-free-lovin ideos are unlikely to accept,
         // depending on strength of precept
 
+        // the lower the target's lovin' need, the more likely they are to accept lovin'
+        Need targetNeed = target.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
+        if (targetNeed != null && targetNeed.CurLevel < 0.75f)
+        {
+            acceptanceRate += acceptanceOffsetByLovinNeed.Evaluate(targetNeed.CurLevel);
+        }
+
         // target is much less likely to accept if they have an orientation mismatch
         if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
         {
             acceptanceRate *= .1f;
+        }
+        else
+        {
+            // use clamped attraction if sexuality matches
+            RomanceComp targetComp = target.GetComp<RomanceComp>();
+            var eval = targetComp?.AttractionTracker?.GetEvalFor(actor);
+            if (eval != null)
+            {
+                acceptanceRate += Mathf.Clamp(eval.PhysicalScore * 0.5f, -0.5f, 0.5f);
+            }
         }
 
         if (Rand.Value < acceptanceRate)
@@ -432,6 +455,13 @@ public static class LovinHelper
     public static bool DoesTargetAcceptIntimacy(Pawn actor, Pawn target)
     {
         float acceptanceRate = 0.75f;
+
+        // the lower the target's lovin' need, the more likely they are to accept lovin'
+        Need targetNeed = target.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
+        if (targetNeed != null && targetNeed.CurLevel < 0.75f)
+        {
+            acceptanceRate += acceptanceOffsetByLovinNeed.Evaluate(targetNeed.CurLevel);
+        }
 
         // target is much less likely to accept if they have an orientation mismatch
         if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
