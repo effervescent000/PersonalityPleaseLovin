@@ -12,5 +12,9 @@
       <packageId>effervescent.personalityplease</packageId>
       <displayName>Personality, Please!</displayName>
     </li>
+    <li>
+      <packageId>oskarpotocki.vanillafactionsexpanded.core</packageId>
+      <displayName>Vanilla Expanded Framework</displayName>
+    </li>
   </modDependencies>
 </ModMetaData>
