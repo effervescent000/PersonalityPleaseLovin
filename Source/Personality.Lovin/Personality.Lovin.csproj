@@ -71,6 +71,8 @@
     <Compile Include="DefOfs\LovinRulePackDefOf.cs" />
     <Compile Include="DefOfs\LovinThoughtDefOf.cs" />
     <Compile Include="GUI\MindCardUtility.cs" />
+    <Compile Include="HarmonyPatches\PatchGetLovinMtbHours.cs" />
+    <Compile Include="HarmonyPatches\PatchTickBiologicalAge.cs" />
     <Compile Include="HarmonyPatches\PawnGenerator.cs" />
     <Compile Include="HarmonyPatches\PPMain\PatchDrawRomance.cs" />
     <Compile Include="Helpers\AttractionHelper.cs" />
