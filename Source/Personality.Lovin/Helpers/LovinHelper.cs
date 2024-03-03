@@ -41,13 +41,13 @@ public static class LovinHelper
         new CurvePoint(1f, -1f)
     };
 
-    private static readonly SimpleCurve chanceToHookupByRomanceDesire = new()
+    public static readonly SimpleCurve chanceToHookupByRomanceDesire = new()
     {
         new CurvePoint(-1f, 1.5f),
         new CurvePoint(1f, 0.5f),
     };
 
-    private static readonly SimpleCurve chanceToCheatByFidelity = new()
+    public static readonly SimpleCurve chanceToCheatByFidelity = new()
     {
         new CurvePoint(-1f, 1.5f),
         new CurvePoint(1f, 0.01f)
@@ -156,117 +156,31 @@ public static class LovinHelper
 
         quality += partnerSkill + ownSkill * 0.25f;
 
-        Dictionary<string, float> attraction = GetAttractionFactorFor(primary, partner);
+        RomanceComp romanceComp = primary.GetComp<RomanceComp>();
+        AttractionEvaluation attraction = romanceComp.AttractionTracker.GetEvalFor(partner);
 
         switch (context)
         {
             case LovinContext.Casual:
-                if (attraction.TryGetValue("physical", out float physical) && attraction.TryGetValue("personality", out float personality))
-                {
-                    quality *= Mathf.Clamp(physical + personality, 0.75f, 1.5f);
-                }
+                quality *= Mathf.Clamp(attraction.PhysicalScore + attraction.PersonalityScore * 0.25f, 0.75f, 1.5f);
+                break;
+
+            case LovinContext.Intimate:
+
                 break;
 
             case LovinContext.Seduced:
                 // TODO seducee gets a decent bump to their lovin' received quality. who is the
                 // seducee will probably be determined by a "seduced" hediff that does not yet exist
-                // (needs to be this since one succubus could potentially seduce another)
+                // (needs to be this since one succubus could potentially seduce another so just
+                // looking at "is one person a succubus?" is not good enough)
                 break;
         }
 
         return quality;
     }
 
-    public static Dictionary<string, float> GetAttractionFactorFor(Pawn pawn, Pawn target)
-    {
-        return new() { { "physical", 1f }, { "personality", 1f } };
-    }
-
-    public static float GetChanceToSeekLovin(Pawn pawn)
-    {
-        Need_Lovin need = (Need_Lovin)pawn.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
-
-        SimpleCurve LovinNeedCurve = new()
-        {
-            new CurvePoint(1f, 0f),
-            new CurvePoint(need.Horny, 4f),
-            new CurvePoint(need.Desperate, 8f),
-            new CurvePoint(0f, 12f),
-        };
-        return LovinNeedCurve.Evaluate(need.CurLevel);
-    }
-
-    public static Job TrySeekLovin(Pawn pawn)
-    {
-        MindComp mind = pawn.GetComp<MindComp>();
-
-        JobDef job = LovinDefOf.PP_InitiateIntimateLovin;
-        Pawn partner = FindPartnerForIntimacy(pawn, mind);
-
-        bool isCheating = false;
-        List<Pawn> existingPartners = new();
-
-        // if partner is null, then obviously we're looking for a hookup. otherwise, calculate the
-        // roll for a hookup
-        if (partner == null)
-        {
-            partner = FindPartnerForHookup(pawn, mind);
-            job = LovinDefOf.LeadHookup;
-        }
-        else
-        {
-            float hookupThreshold = 0.5f;
-
-            //if a pawn is monogamous and partnered, calculate effect of fidelity
-            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out var partners))
-            {
-                hookupThreshold -= 0.2f;
-                Quirk fidelity = mind.GetOrGainQuirkSingular(LovinQuirkDefOf.PP_Fidelity);
-                hookupThreshold *= chanceToCheatByFidelity.Evaluate(fidelity.Value);
-
-                // lastly add cheating multiplier from settings
-                hookupThreshold *= LovinMod.Settings.CheatingModifier.Value / 100f;
-            }
-
-            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out Quirk romanceDesire))
-            {
-                hookupThreshold *= chanceToHookupByRomanceDesire.Evaluate(romanceDesire.Value);
-            }
-
-            if (Rand.Value < hookupThreshold)
-            {
-                partner = FindPartnerForHookup(pawn, mind);
-                job = LovinDefOf.LeadHookup;
-                if (existingPartners.Count > 0 && !existingPartners.Contains(partner)) isCheating = true;
-            }
-        }
-
-        // if we can't actually find a partner, then the pawn either gives up and does something
-        // else or does self lovin'
-        if (partner == null)
-        {
-            if (Rand.Value < .75f)
-            {
-                return null;
-            }
-            else
-            {
-                return TryDoSelfLovin(pawn);
-            }
-        }
-
-        Building_Bed bed = FindBed(pawn, partner);
-        if (bed == null)
-        {
-            return null;
-        }
-
-        MakeLovinMessage(pawn, partner, existingPartners, isCheating, job);
-        ResetLovinCooldown(pawn);
-        return JobMaker.MakeJob(job, partner, bed);
-    }
-
-    private static void MakeLovinMessage(Pawn actor, Pawn partner, List<Pawn> existingPartners, bool isCheating, JobDef job)
+    public static void MakeLovinMessage(Pawn actor, Pawn partner, List<Pawn> existingPartners, bool isCheating, JobDef job)
     {
         if (isCheating)
         {
@@ -446,6 +360,16 @@ public static class LovinHelper
             }
         }
 
+        // a pawn who cares about cheating and is in a relationship is less likely to accept a
+        // hookup from someone they aren't in a relationship with
+
+        if (RelationshipHelper.WouldBeCheating(target, actor))
+        {
+            // this ought to include something using the fidelity quirk but since I'm probably going
+            // to refactor that soon I don't wanna deal with it
+            roll *= 0.5f;
+        }
+
         if (roll >= (1 - acceptanceRate))
         {
             return true;
@@ -469,6 +393,13 @@ public static class LovinHelper
         if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
         {
             roll *= .1f;
+        }
+
+        if (RelationshipHelper.WouldBeCheating(target, actor))
+        {
+            // this ought to include something using the fidelity quirk but since I'm probably going
+            // to refactor that soon I don't wanna deal with it
+            roll *= 0.5f;
         }
 
         if (roll >= acceptanceRate)
