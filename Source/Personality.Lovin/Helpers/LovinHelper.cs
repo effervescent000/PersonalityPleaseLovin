@@ -59,6 +59,14 @@ public static class LovinHelper
         new CurvePoint(0f, 0.5f)
     };
 
+    public static readonly SimpleCurve lovinQualityFactorByOpinion = new()
+    {
+        new CurvePoint(100f, 1.5f),
+        new CurvePoint(20f, 1f),
+        new CurvePoint(-20f, .75f),
+        new CurvePoint(-100f, 1.5f)
+    };
+
     public static void ResetLovinCooldown(Pawn pawn)
     {
         RomanceComp comp = pawn.GetComp<RomanceComp>();
@@ -152,8 +160,6 @@ public static class LovinHelper
         float partnerSkill = partner.GetStatValue(LovinDefOf.LovinQuality);
         float ownSkill = primary.GetStatValue(LovinDefOf.LovinQuality);
 
-        // TODO -- in an intimate context, look at the pawns' relationship -- higher boosts lovin'
-
         quality += partnerSkill + ownSkill * 0.25f;
 
         RomanceComp romanceComp = primary.GetComp<RomanceComp>();
@@ -166,7 +172,7 @@ public static class LovinHelper
                 break;
 
             case LovinContext.Intimate:
-
+                quality *= lovinQualityFactorByOpinion.Evaluate(primary.relations.OpinionOf(partner));
                 break;
 
             case LovinContext.Seduced:
@@ -397,8 +403,6 @@ public static class LovinHelper
 
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
-            // this ought to include something using the fidelity quirk but since I'm probably going
-            // to refactor that soon I don't wanna deal with it
             roll *= 0.5f;
         }
 
