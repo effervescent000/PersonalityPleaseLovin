@@ -85,7 +85,6 @@
     <Compile Include="Jobs\JobDriver_InitiateCasualLovin.cs" />
     <Compile Include="Jobs\JobDriver_InitiateIntimateLovin.cs" />
     <Compile Include="Jobs\JobGiver_SeekLovin.cs" />
-    <Compile Include="Joy\JoyGiver_SeekLovin.cs" />
     <Compile Include="Needs\Need_Lovin.cs" />
     <Compile Include="DefOfs\LovinDefOf.cs" />
     <Compile Include="Genes\GeneGizmo_ResourceVitality.cs" />
@@ -111,6 +110,8 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Joy\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
