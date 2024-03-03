@@ -13,18 +13,18 @@ public static class RelationshipHelper
         PawnRelationDefOf.Lover
     };
 
-    public static bool IsPartnered(this Pawn pawn, out Pawn partner)
+    public static bool IsPartnered(this Pawn pawn, out List<Pawn> partners)
     {
+        partners = new();
         foreach (DirectPawnRelation rel in pawn.relations.DirectRelations)
         {
             if (romanticRelationDefs.Contains(rel.def))
             {
-                partner = rel.otherPawn;
-                return true;
+                partners.Add(rel.otherPawn);
             };
         }
-        partner = null;
-        return false;
+
+        return partners.Count > 0;
     }
 
     public static bool IsLoverOf(this Pawn primary, Pawn maybePartner)

@@ -53,7 +53,7 @@ public static class LovinHelper
         new CurvePoint(1f, 0.01f)
     };
 
-    private static readonly SimpleCurve acceptanceOffsetByLovinNeed = new()
+    private static readonly SimpleCurve acceptanceRollOffsetByLovinNeed = new()
     {
         new CurvePoint(0.75f, 0f),
         new CurvePoint(0f, 0.5f)
@@ -204,7 +204,7 @@ public static class LovinHelper
         Pawn partner = FindPartnerForIntimacy(pawn, mind);
 
         bool isCheating = false;
-        Pawn existingPartner = null;
+        List<Pawn> existingPartners = new();
 
         // if partner is null, then obviously we're looking for a hookup. otherwise, calculate the
         // roll for a hookup
@@ -218,7 +218,7 @@ public static class LovinHelper
             float hookupThreshold = 0.5f;
 
             //if a pawn is monogamous and partnered, calculate effect of fidelity
-            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out existingPartner))
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out var partners))
             {
                 hookupThreshold -= 0.2f;
                 Quirk fidelity = mind.GetOrGainQuirkSingular(LovinQuirkDefOf.PP_Fidelity);
@@ -237,7 +237,7 @@ public static class LovinHelper
             {
                 partner = FindPartnerForHookup(pawn, mind);
                 job = LovinDefOf.LeadHookup;
-                if (existingPartner != null && existingPartner.ThingID != partner.ThingID) isCheating = true;
+                if (existingPartners.Count > 0 && !existingPartners.Contains(partner)) isCheating = true;
             }
         }
 
@@ -261,17 +261,17 @@ public static class LovinHelper
             return null;
         }
 
-        MakeLovinMessage(pawn, partner, existingPartner, isCheating, job);
+        MakeLovinMessage(pawn, partner, existingPartners, isCheating, job);
         ResetLovinCooldown(pawn);
         return JobMaker.MakeJob(job, partner, bed);
     }
 
-    private static void MakeLovinMessage(Pawn actor, Pawn partner, Pawn existingPartner, bool isCheating, JobDef job)
+    private static void MakeLovinMessage(Pawn actor, Pawn partner, List<Pawn> existingPartners, bool isCheating, JobDef job)
     {
         if (isCheating)
         {
             Messages.Message(
-                "PP.CheatingNotification".Translate(actor.Named("PAWN"), existingPartner.Named("LOVER"), partner.Named("PARTNER")),
+                "PP.CheatingNotification".Translate(actor.Named("PAWN"), existingPartners[0].Named("LOVER"), partner.Named("PARTNER")),
                 new LookTargets(actor),
                 MessageTypeDefOf.NeutralEvent
                 );
@@ -416,6 +416,7 @@ public static class LovinHelper
     public static bool DoesTargetAcceptHookup(Pawn actor, Pawn target)
     {
         float acceptanceRate = 0.5f;
+        float roll = Rand.Value;
 
         // TODO add in relationship checks (existing lovers are much more likely to accept, etc)
 
@@ -426,13 +427,13 @@ public static class LovinHelper
         Need targetNeed = target.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
         if (targetNeed != null && targetNeed.CurLevel < 0.75f)
         {
-            acceptanceRate += acceptanceOffsetByLovinNeed.Evaluate(targetNeed.CurLevel);
+            roll += acceptanceRollOffsetByLovinNeed.Evaluate(targetNeed.CurLevel);
         }
 
         // target is much less likely to accept if they have an orientation mismatch
         if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
         {
-            acceptanceRate *= .1f;
+            roll *= .1f;
         }
         else
         {
@@ -441,11 +442,11 @@ public static class LovinHelper
             var eval = targetComp?.AttractionTracker?.GetEvalFor(actor);
             if (eval != null)
             {
-                acceptanceRate += Mathf.Clamp(eval.PhysicalScore * 0.5f, -0.5f, 0.5f);
+                roll += Mathf.Clamp(eval.PhysicalScore * 0.5f, -0.5f, 0.5f);
             }
         }
 
-        if (Rand.Value < acceptanceRate)
+        if (roll >= (1 - acceptanceRate))
         {
             return true;
         }
@@ -455,21 +456,22 @@ public static class LovinHelper
     public static bool DoesTargetAcceptIntimacy(Pawn actor, Pawn target)
     {
         float acceptanceRate = 0.75f;
+        float roll = Rand.Value;
 
         // the lower the target's lovin' need, the more likely they are to accept lovin'
         Need targetNeed = target.needs.TryGetNeed(LovinDefOf.PP_Need_Lovin);
         if (targetNeed != null && targetNeed.CurLevel < 0.75f)
         {
-            acceptanceRate += acceptanceOffsetByLovinNeed.Evaluate(targetNeed.CurLevel);
+            roll += acceptanceRollOffsetByLovinNeed.Evaluate(targetNeed.CurLevel);
         }
 
         // target is much less likely to accept if they have an orientation mismatch
         if (!SexualityHelper.DoesOrientationMatch(actor, target, true))
         {
-            acceptanceRate *= .1f;
+            roll *= .1f;
         }
 
-        if (Rand.Value < acceptanceRate)
+        if (roll >= acceptanceRate)
         {
             return true;
         }
