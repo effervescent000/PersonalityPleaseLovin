@@ -19,7 +19,6 @@ public static class PatchTickBiologicalAge
         if (ticksThisCall > 0f) return true;
 
         int num = Mathf.FloorToInt(ticksThisCall);
-        Log.Message(num.ToString());
 
         ___ageBiologicalTicksInt += num;
 
