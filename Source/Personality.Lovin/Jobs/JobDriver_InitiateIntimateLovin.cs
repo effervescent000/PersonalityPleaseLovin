@@ -50,8 +50,7 @@ public class JobDriver_InitiateIntimateLovin : JobDriver
             defaultCompleteMode = ToilCompleteMode.Instant,
             initAction = delegate
             {
-                // TODO this should use separate logic from the hookup thing
-                targetAccepted = LovinHelper.DoesTargetAcceptHookup(Actor, TargetPawn);
+                targetAccepted = LovinHelper.DoesTargetAcceptIntimacy(Actor, TargetPawn);
             }
         };
         awaitResponse.AddFailCondition(() => !DidTargetAccept);
@@ -62,9 +61,12 @@ public class JobDriver_InitiateIntimateLovin : JobDriver
             defaultCompleteMode = ToilCompleteMode.Instant,
             initAction = delegate
             {
+                List<RulePackDef> resultList = new();
                 if (!DidTargetAccept)
                 {
                     FleckMaker.ThrowMetaIcon(TargetPawn.Position, TargetPawn.Map, FleckDefOf.IncapIcon);
+                    resultList.Add(LovinRulePackDefOf.PP_IntimacyFailed);
+                    Find.PlayLog.Add(new PlayLogEntry_Interaction(LovinRulePackDefOf.PP_TriedIntimacy, pawn, TargetPawn, resultList));
                     RomanceComp comp = pawn.GetComp<RomanceComp>();
                     comp.RomanceTracker.RejectionList.Add(new RejectionItem(TargetPawn));
                     Actor.needs.mood.thoughts.memories.TryGainMemory(LovinThoughtDefOf.PP_TurnedMeDownForIntimacy, TargetPawn);
@@ -73,6 +75,8 @@ public class JobDriver_InitiateIntimateLovin : JobDriver
                 else
                 {
                     TargetPawn.ThrowHeart();
+                    resultList.Add(LovinRulePackDefOf.PP_IntimacySucceeded);
+                    Find.PlayLog.Add(new PlayLogEntry_Interaction(LovinRulePackDefOf.PP_TriedIntimacy, pawn, TargetPawn, resultList));
                     Actor.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.PP_DoIntimateLovin, TargetPawn, Bed, Bed.GetSleepingSlotPos(0)), JobTag.SatisfyingNeeds);
                     TargetPawn.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.PP_DoIntimateLovin, Actor, Bed, Bed.GetSleepingSlotPos(1)), JobTag.SatisfyingNeeds);
                     TargetPawn.jobs.EndCurrentJob(JobCondition.InterruptOptional);

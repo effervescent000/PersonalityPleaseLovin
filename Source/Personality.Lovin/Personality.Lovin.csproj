@@ -68,6 +68,7 @@
     <Compile Include="DamageWorkers\DamageWorker_Disorient.cs" />
     <Compile Include="DefOfs\LovinAbilityDefOf.cs" />
     <Compile Include="DefOfs\LovinQuirkDefOf.cs" />
+    <Compile Include="DefOfs\LovinRulePackDefOf.cs" />
     <Compile Include="DefOfs\LovinThoughtDefOf.cs" />
     <Compile Include="GUI\MindCardUtility.cs" />
     <Compile Include="HarmonyPatches\PawnGenerator.cs" />

@@ -1,5 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
+
+  <!-- HOOKUPS -->
+
+  <InteractionDef>
+    <defName>PP_TriedHookup</defName>
+    <label>hookup attempt</label>
+    <symbol>Things/Mote/SpeechSymbols/Romance</symbol>
+    <initiatorXpGainSkill>Social</initiatorXpGainSkill>
+    <initiatorXpGainAmount>10</initiatorXpGainAmount>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] [wooed] [RECIPIENT_nameDef].</li>
+
+        <li>wooed->tried to hook up with</li>
+        <li>wooed->came on to</li>
+        <li>wooed->made a pass at</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <RulePackDef>
+    <defName>PP_HookupSucceeded</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>sent->[RECIPIENT_nameDef] agreed to the hookup.</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <RulePackDef>
+    <defName>PP_HookupFailed</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>sent->[RECIPIENT_nameDef] rejected [INITIATOR_nameDef].</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+
+  <!-- INTIMACY -->
+
+  <InteractionDef>
+    <defName>PP_TriedIntimacy</defName>
+    <label>intimacy attempt</label>
+    <symbol>Things/Mote/SpeechSymbols/Romance</symbol>
+    <initiatorXpGainSkill>Social</initiatorXpGainSkill>
+    <initiatorXpGainAmount>7</initiatorXpGainAmount>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] [wooed].</li>
+
+        <li>wooed->caressed [RECIPIENT_nameDef]'s cheek</li>
+        <li>wooed->twined [INITIATOR_possessive] fingers with [RECIPIENT_nameDef]'s</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <RulePackDef>
+    <defName>PP_IntimacyFailed</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>sent->[RECIPIENT_nameDef] rebuffed [INITIATOR_nameDef]'s attempt at intimacy.</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <RulePackDef>
+    <defName>PP_IntimacySucceeded</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>sent->[RECIPIENT_nameDef] became aroused and went to bed with [INITIATOR_nameDef].</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+
+  <!-- SEDUCTION -->
+
   <InteractionDef>
     <defName>PP_SeduceInteraction</defName>
     <label>seduction</label>
@@ -13,7 +91,7 @@
   </InteractionDef>
 
   <RulePackDef>
-    <defName>Sentence_SeductionSucceeded</defName>
+    <defName>PP_SeductionSucceeded</defName>
     <rulePack>
       <rulesStrings>
         <li>sent-> [RECIPIENT_nameDef] was unable to resist.</li>
@@ -22,7 +100,7 @@
   </RulePackDef>
 
   <RulePackDef>
-    <defName>Sentence_SeductionFailed</defName>
+    <defName>PP_SeductionFailed</defName>
     <rulePack>
       <rulesStrings>
         <li>sent->[RECIPIENT_nameDef] resisted.</li>

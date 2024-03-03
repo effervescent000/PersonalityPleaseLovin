@@ -33,15 +33,18 @@ public class JobDriver_InitiateCasualLovin : JobDriver
 
         this.FailOnDespawnedNullOrForbidden(TargetPawnIndex);
 
+        // 0
         Toil goToTarget = Toils_Interpersonal.GotoInteractablePosition(TargetPawnIndex);
         goToTarget.socialMode = RandomSocialMode.Off;
         goToTarget.AddFailCondition(() => !GeneralHelper.IsTargetInRange(Actor, TargetPawn));
         yield return goToTarget;
 
+        // 1
         Toil wait = Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
         wait.socialMode = RandomSocialMode.Off;
         yield return wait;
 
+        // 2
         Toil proposeCasualLovin = new()
         {
             defaultCompleteMode = ToilCompleteMode.Delay,
@@ -54,6 +57,7 @@ public class JobDriver_InitiateCasualLovin : JobDriver
         proposeCasualLovin.AddFailCondition(() => !TargetPawn.IsOk());
         yield return proposeCasualLovin;
 
+        // 3
         Toil awaitResponse = new()
         {
             defaultCompleteMode = ToilCompleteMode.Instant,
@@ -65,14 +69,18 @@ public class JobDriver_InitiateCasualLovin : JobDriver
         awaitResponse.AddFailCondition(() => !DidTargetAccept);
         yield return awaitResponse;
 
+        // target responds here
         Toil giveLovinJobsOrEnd = new()
         {
             defaultCompleteMode = ToilCompleteMode.Instant,
             initAction = delegate
             {
+                List<RulePackDef> resultList = new();
                 if (!DidTargetAccept)
                 {
                     FleckMaker.ThrowMetaIcon(TargetPawn.Position, TargetPawn.Map, FleckDefOf.IncapIcon);
+                    resultList.Add(LovinRulePackDefOf.PP_HookupFailed);
+                    Find.PlayLog.Add(new PlayLogEntry_Interaction(LovinRulePackDefOf.PP_TriedHookup, pawn, TargetPawn, resultList));
                     RomanceComp comp = pawn.GetComp<RomanceComp>();
                     comp.RomanceTracker.RejectionList.Add(new RejectionItem(TargetPawn));
                     Actor.needs.mood.thoughts.memories.TryGainMemory(LovinThoughtDefOf.PP_TurnedMeDownForHookup, TargetPawn);
@@ -81,6 +89,8 @@ public class JobDriver_InitiateCasualLovin : JobDriver
                 else
                 {
                     FleckMaker.ThrowMetaIcon(TargetPawn.Position, TargetPawn.Map, FleckDefOf.Heart);
+                    resultList.Add(LovinRulePackDefOf.PP_HookupSucceeded);
+                    Find.PlayLog.Add(new PlayLogEntry_Interaction(LovinRulePackDefOf.PP_TriedHookup, pawn, TargetPawn, resultList));
                     Actor.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.DoCasualLovin, TargetPawn, Bed, Bed.GetSleepingSlotPos(0)), JobTag.SatisfyingNeeds);
                     TargetPawn.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.DoCasualLovin, Actor, Bed, Bed.GetSleepingSlotPos(1)), JobTag.SatisfyingNeeds);
                     TargetPawn.jobs.EndCurrentJob(JobCondition.InterruptOptional);
