@@ -31,9 +31,9 @@ public class JobDriver_DoIntimateLovin : JobDriver
         yield return Toils_Reserve.Reserve(BedInd, 2, 0);
         yield return Toils_Goto.Goto(SlotInd, PathEndMode.OnCell);
         // wait for both pawns to be near the bed
-        yield return new Toil
+        Toil wait = new()
         {
-            initAction = delegate { ticksLeftThisToil = 300; },
+            initAction = delegate { ticksLeftThisToil = 500; },
             tickAction = delegate
             {
                 if (LovinHelper.IsInOrByBed(Bed, Partner))
@@ -43,6 +43,8 @@ public class JobDriver_DoIntimateLovin : JobDriver
             },
             defaultCompleteMode = ToilCompleteMode.Delay
         };
+
+        yield return wait;
         // get in the bed
         Toil layDown = new();
         layDown.initAction = delegate

@@ -30,9 +30,9 @@ public class JobDriver_DoSeducedLovin : JobDriver
 
         yield return Toils_Reserve.Reserve(slotInd, Bed.SleepingSlotsCount, 0);
         yield return Toils_Goto.Goto(slotInd, PathEndMode.OnCell);
-        yield return new Toil
+        Toil wait = new()
         {
-            initAction = delegate { ticksLeftThisToil = 300; },
+            initAction = delegate { ticksLeftThisToil = 500; },
             tickAction = delegate
             {
                 if (LovinHelper.IsInOrByBed(Bed, Partner))
@@ -42,6 +42,7 @@ public class JobDriver_DoSeducedLovin : JobDriver
             },
             defaultCompleteMode = ToilCompleteMode.Delay
         };
+
         // get in the bed
         Toil layDown = new();
         layDown.initAction = delegate
