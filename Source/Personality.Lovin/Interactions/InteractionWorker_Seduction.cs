@@ -9,8 +9,7 @@ public class InteractionWorker_Seduction : InteractionWorker
 {
     private float SuccessChance(Pawn actor, Pawn target)
     {
-        // TODO MATH, probably based on personality factors if PP_Main is active. otherwise, just
-        // make the chance to resist a roll based on the pawn seed.
+        // TODO MATH, probably based on personality factors.
 
         // for now let's just make it 100% for testing.
         return 1f;
@@ -30,8 +29,8 @@ public class InteractionWorker_Seduction : InteractionWorker
                 Log.Warning("Unable to find a bed for seduction");
                 return;
             }
-            initiator.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.PP_DoSeducedLovin, recipient, bed, bed.GetSleepingSlotPos(0)));
-            recipient.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.PP_DoSeducedLovin, initiator, bed, bed.GetSleepingSlotPos(1)));
+            initiator.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinJobDefOf.PP_DoSeducedLovinLead, recipient, bed, bed.GetSleepingSlotPos(0)));
+            recipient.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinJobDefOf.PP_DoSeducedLovin, initiator, bed, bed.GetSleepingSlotPos(1)));
             initiator.jobs.EndCurrentJob(JobCondition.InterruptForced);
             recipient.jobs.EndCurrentJob(JobCondition.InterruptForced);
         }

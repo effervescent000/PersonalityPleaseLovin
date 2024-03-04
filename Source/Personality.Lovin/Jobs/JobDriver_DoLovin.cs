@@ -14,7 +14,7 @@ public class JobDriver_DoLovin : JobDriver
     protected int TicksBetweenHeartMotes = 100;
     protected int ticksBase;
     protected int ticksForEnhancer;
-    protected bool isInitiator;
+    protected bool isInitiator = false;
     protected LovinContext context;
 
     protected Building_Bed Bed => (Building_Bed)job.GetTarget(BedInd);
@@ -27,6 +27,11 @@ public class JobDriver_DoLovin : JobDriver
         return pawn.Reserve(Partner, job, 1, -1, null, errorOnFailed) && pawn.Reserve(Bed, job, Bed.SleepingSlotsCount, 0, null, errorOnFailed);
     }
 
+    protected virtual void SetInitiator()
+    {
+        isInitiator = false;
+    }
+
     protected virtual void JobSpecificSetup()
     {
         throw new NotImplementedException();
@@ -34,6 +39,7 @@ public class JobDriver_DoLovin : JobDriver
 
     protected override IEnumerable<Toil> MakeNewToils()
     {
+        SetInitiator();
         JobSpecificSetup();
 
         this.FailOnDespawnedOrNull(BedInd);
@@ -87,6 +93,6 @@ public class JobDriver_DoLovin : JobDriver
             defaultCompleteMode = ToilCompleteMode.Delay
         };
 
-        yield return LovinHelper.FinishLovin(new LovinProps(context, Actor, Partner));
+        yield return LovinHelper.FinishLovin(new LovinProps(context, Actor, Partner, isInitiator));
     }
 }

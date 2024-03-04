@@ -91,8 +91,8 @@ public class JobDriver_InitiateCasualLovin : JobDriver
                     FleckMaker.ThrowMetaIcon(TargetPawn.Position, TargetPawn.Map, FleckDefOf.Heart);
                     resultList.Add(LovinRulePackDefOf.PP_HookupSucceeded);
                     Find.PlayLog.Add(new PlayLogEntry_Interaction(LovinRulePackDefOf.PP_TriedHookup, pawn, TargetPawn, resultList));
-                    Actor.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.DoCasualLovin, TargetPawn, Bed, Bed.GetSleepingSlotPos(0)), JobTag.SatisfyingNeeds);
-                    TargetPawn.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinDefOf.DoCasualLovin, Actor, Bed, Bed.GetSleepingSlotPos(1)), JobTag.SatisfyingNeeds);
+                    Actor.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinJobDefOf.PP_DoCasualLovinLead, TargetPawn, Bed, Bed.GetSleepingSlotPos(0)), JobTag.SatisfyingNeeds);
+                    TargetPawn.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinJobDefOf.DoCasualLovin, Actor, Bed, Bed.GetSleepingSlotPos(1)), JobTag.SatisfyingNeeds);
                     TargetPawn.jobs.EndCurrentJob(JobCondition.InterruptOptional);
                     Actor.jobs.EndCurrentJob(JobCondition.InterruptOptional);
                 }

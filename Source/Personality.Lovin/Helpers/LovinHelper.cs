@@ -81,7 +81,7 @@ public static class LovinHelper
             return null;
         }
         ResetLovinCooldown(pawn);
-        return JobMaker.MakeJob(LovinDefOf.DoSelfLovin, bed, bed.GetSleepingSlotPos(0));
+        return JobMaker.MakeJob(LovinJobDefOf.DoSelfLovin, bed, bed.GetSleepingSlotPos(0));
     }
 
     public static void IncreaseLovinNeed(this Pawn pawn, float amount)
@@ -197,7 +197,7 @@ public static class LovinHelper
                 );
             return;
         }
-        if (job == LovinDefOf.LeadHookup)
+        if (job == LovinJobDefOf.LeadHookup)
         {
             Messages.Message(
                 "PP.HookupNotification".Translate(actor.Named("PAWN"), partner.Named("PARTNER")),
