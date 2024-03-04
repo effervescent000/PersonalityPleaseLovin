@@ -63,7 +63,7 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
 
         MindComp mind = pawn.GetComp<MindComp>();
 
-        JobDef job = LovinDefOf.PP_InitiateIntimateLovin;
+        JobDef job = LovinJobDefOf.PP_InitiateIntimateLovin;
         Pawn partner = LovinHelper.FindPartnerForIntimacy(pawn, mind);
 
         bool isCheating = false;
@@ -74,7 +74,7 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
         if (partner == null)
         {
             partner = LovinHelper.FindPartnerForHookup(pawn, mind);
-            job = LovinDefOf.LeadHookup;
+            job = LovinJobDefOf.LeadHookup;
         }
         else
         {
@@ -99,7 +99,7 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
             if (Rand.Value < hookupThreshold)
             {
                 partner = LovinHelper.FindPartnerForHookup(pawn, mind);
-                job = LovinDefOf.LeadHookup;
+                job = LovinJobDefOf.LeadHookup;
                 if (existingPartners.Count > 0 && !existingPartners.Contains(partner)) isCheating = true;
             }
         }

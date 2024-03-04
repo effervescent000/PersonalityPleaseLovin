@@ -67,6 +67,7 @@
     <Compile Include="Comps\RomanceComp\RomanceTracker.cs" />
     <Compile Include="DamageWorkers\DamageWorker_Disorient.cs" />
     <Compile Include="DefOfs\LovinAbilityDefOf.cs" />
+    <Compile Include="DefOfs\LovinJobDefOf.cs" />
     <Compile Include="DefOfs\LovinQuirkDefOf.cs" />
     <Compile Include="DefOfs\LovinRulePackDefOf.cs" />
     <Compile Include="DefOfs\LovinThoughtDefOf.cs" />
@@ -81,7 +82,10 @@
     <Compile Include="Helpers\SexualityHelper.cs" />
     <Compile Include="Helpers\SexualityValues.cs" />
     <Compile Include="Jobs\JobDriver_DoLovinCasual.cs" />
+    <Compile Include="Jobs\JobDriver_DoLovinCasualLead.cs" />
     <Compile Include="Jobs\JobDriver_DoLovinIntimate.cs" />
+    <Compile Include="Jobs\JobDriver_DoLovinIntimateLead.cs" />
+    <Compile Include="Jobs\JobDriver_DoLovinSeducedLead.cs" />
     <Compile Include="Jobs\JobDriver_InitiateCasualLovin.cs" />
     <Compile Include="Jobs\JobDriver_InitiateIntimateLovin.cs" />
     <Compile Include="Jobs\JobDriver_DoLovin.cs" />

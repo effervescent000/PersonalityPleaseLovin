@@ -10,16 +10,18 @@ public enum LovinContext
     Seduced,
 }
 
-public class LovinProps
+public struct LovinProps
 {
     public Pawn Actor;
     public Pawn Partner;
     public LovinContext Context;
+    public bool IsInitiator;
 
-    public LovinProps(LovinContext context, Pawn actor, Pawn partner = null)
+    public LovinProps(LovinContext context, Pawn actor, Pawn partner = null, bool isInitiator = false)
     {
         Actor = actor;
         Partner = partner;
         Context = context;
+        IsInitiator = isInitiator;
     }
 }

@@ -11,7 +11,16 @@
   </JobDef>
   <JobDef>
     <defName>DoCasualLovin</defName>
-    <driverClass>Personality.Lovin.JobDriver_DoCasualLovin</driverClass>
+    <driverClass>Personality.Lovin.JobDriver_DoLovinCasual</driverClass>
+    <reportString>lovin'.</reportString>
+    <joyKind>PP_LovinJoy</joyKind>
+    <joyXpPerTick>0.004</joyXpPerTick>
+    <joyGainRate>3</joyGainRate>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
+    <defName>PP_DoCasualLovinLead</defName>
+    <driverClass>Personality.Lovin.JobDriver_DoLovinCasualLead</driverClass>
     <reportString>lovin'.</reportString>
     <joyKind>PP_LovinJoy</joyKind>
     <joyXpPerTick>0.004</joyXpPerTick>
@@ -30,7 +39,16 @@
   </JobDef>
   <JobDef>
     <defName>PP_DoIntimateLovin</defName>
-    <driverClass>Personality.Lovin.JobDriver_DoIntimateLovin</driverClass>
+    <driverClass>Personality.Lovin.JobDriver_DoLovinIntimate</driverClass>
+    <reportString>lovin'.</reportString>
+    <joyKind>PP_LovinJoy</joyKind>
+    <joyXpPerTick>0.004</joyXpPerTick>
+    <joyGainRate>3</joyGainRate>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
+    <defName>PP_DoIntimateLovinLead</defName>
+    <driverClass>Personality.Lovin.JobDriver_DoLovinIntimateLead</driverClass>
     <reportString>lovin'.</reportString>
     <joyKind>PP_LovinJoy</joyKind>
     <joyXpPerTick>0.004</joyXpPerTick>
@@ -53,7 +71,19 @@
   <!-- seduced lovin' -->
   <JobDef>
     <defName>PP_DoSeducedLovin</defName>
-    <driverClass>Personality.Lovin.JobDriver_DoSeducedLovin</driverClass>
+    <driverClass>Personality.Lovin.JobDriver_DoLovinSeduced</driverClass>
+    <reportString>lovin'.</reportString>
+    <joyKind>PP_LovinJoy</joyKind>
+    <!-- i *think* the xp gain rate is the boredom rate, 
+      so I'm setting it to 0 as I don't think seduced lovin' 
+      should be something pawns can get bored of -->
+    <joyXpPerTick>0</joyXpPerTick>
+    <joyGainRate>5</joyGainRate>
+    <casualInterruptible>false</casualInterruptible>
+  </JobDef>
+  <JobDef>
+    <defName>PP_DoSeducedLovinLead</defName>
+    <driverClass>Personality.Lovin.JobDriver_DoLovinSeducedLead</driverClass>
     <reportString>lovin'.</reportString>
     <joyKind>PP_LovinJoy</joyKind>
     <!-- i *think* the xp gain rate is the boredom rate, 
