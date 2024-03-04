@@ -1,31 +1,41 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace Personality.Lovin;
 
-public class JobDriver_DoCasualLovin : JobDriver
+public class JobDriver_DoLovin : JobDriver
 {
-    private readonly TargetIndex PartnerInd = TargetIndex.A;
-    private readonly TargetIndex BedInd = TargetIndex.B;
-    private readonly TargetIndex SlotInd = TargetIndex.C;
-    private const int TicksBetweenHeartMotes = 100;
-    private readonly int ticksBase = GeneralHelper.GetHourBasedDuration(0.5f);
-    private readonly int ticksForEnhancer = GeneralHelper.GetHourBasedDuration(1.5f);
+    protected readonly TargetIndex PartnerInd = TargetIndex.A;
+    protected readonly TargetIndex BedInd = TargetIndex.B;
+    protected readonly TargetIndex SlotInd = TargetIndex.C;
+    protected int TicksBetweenHeartMotes = 100;
+    protected int ticksBase;
+    protected int ticksForEnhancer;
+    protected bool isInitiator;
+    protected LovinContext context;
 
-    private Building_Bed Bed => (Building_Bed)job.GetTarget(BedInd);
+    protected Building_Bed Bed => (Building_Bed)job.GetTarget(BedInd);
 
-    private Pawn Partner => (Pawn)(Thing)job.GetTarget(PartnerInd);
-    private Pawn Actor => GetActor();
+    protected Pawn Partner => (Pawn)(Thing)job.GetTarget(PartnerInd);
+    protected Pawn Actor => GetActor();
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
     {
         return pawn.Reserve(Partner, job, 1, -1, null, errorOnFailed) && pawn.Reserve(Bed, job, Bed.SleepingSlotsCount, 0, null, errorOnFailed);
     }
 
+    protected virtual void JobSpecificSetup()
+    {
+        throw new NotImplementedException();
+    }
+
     protected override IEnumerable<Toil> MakeNewToils()
     {
+        JobSpecificSetup();
+
         this.FailOnDespawnedOrNull(BedInd);
         this.FailOnDespawnedOrNull(PartnerInd);
 
@@ -77,6 +87,6 @@ public class JobDriver_DoCasualLovin : JobDriver
             defaultCompleteMode = ToilCompleteMode.Delay
         };
 
-        yield return LovinHelper.FinishLovin(new LovinProps(LovinContext.Casual, Actor, Partner));
+        yield return LovinHelper.FinishLovin(new LovinProps(context, Actor, Partner));
     }
 }

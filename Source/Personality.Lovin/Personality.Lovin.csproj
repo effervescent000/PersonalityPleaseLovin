@@ -80,10 +80,11 @@
     <Compile Include="Helpers\RelationshipHelper.cs" />
     <Compile Include="Helpers\SexualityHelper.cs" />
     <Compile Include="Helpers\SexualityValues.cs" />
-    <Compile Include="Jobs\JobDriver_DoCasualLovin.cs" />
-    <Compile Include="Jobs\JobDriver_DoIntimateLovin.cs" />
+    <Compile Include="Jobs\JobDriver_DoLovinCasual.cs" />
+    <Compile Include="Jobs\JobDriver_DoLovinIntimate.cs" />
     <Compile Include="Jobs\JobDriver_InitiateCasualLovin.cs" />
     <Compile Include="Jobs\JobDriver_InitiateIntimateLovin.cs" />
+    <Compile Include="Jobs\JobDriver_DoLovin.cs" />
     <Compile Include="Jobs\JobGiver_SeekLovin.cs" />
     <Compile Include="Needs\Need_Lovin.cs" />
     <Compile Include="DefOfs\LovinDefOf.cs" />
@@ -94,7 +95,7 @@
     <Compile Include="Helpers\LovinHelper.cs" />
     <Compile Include="Helpers\SuccubiHelper.cs" />
     <Compile Include="Interactions\InteractionWorker_Seduction.cs" />
-    <Compile Include="Jobs\JobDriver_DoSeducedLovin.cs" />
+    <Compile Include="Jobs\JobDriver_DoLovinSeduced.cs" />
     <Compile Include="LovinMod.cs" />
     <Compile Include="Jobs\JobDriver_DoSelfLovin.cs" />
     <Compile Include="OnStartup.cs" />
@@ -110,8 +111,6 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Joy\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
