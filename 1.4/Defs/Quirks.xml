@@ -13,40 +13,86 @@
     <minAge>20</minAge>
   </Personality.QuirkCategoryDef>
 
+  <Personality.QuirkCategoryDef>
+    <defName>PP_Fidelity</defName>
+    <label>fidelity</label>
+    <minAge>16</minAge>
+    <required>true</required>
+  </Personality.QuirkCategoryDef>
+
+  <!-- <Personality.QuirkCategoryDef>
+    <defName></defName>
+  </Personality.QuirkCategoryDef> -->
+
 
   <!-- =========================== -->
   <!-- QUIRKS -->
   <!-- =========================== -->
 
   <Personality.QuirkDef>
-    <defName>PP_Fidelity</defName>
-    <label>fidelity</label>
-    <highLabel>faithful</highLabel>
-    <lowLabel>unfaithful</lowLabel>
+    <defName>PP_Faithful</defName>
+    <label>faithful</label>
+    <description>{PAWN_nameDef} is less likely to cheat on {PAWN_possessive} partner(s).</description>
+    <statFactors>
+      <PP_CheatingLikelihood>0.67</PP_CheatingLikelihood>
+    </statFactors>
+    <category>PP_Fidelity</category>
   </Personality.QuirkDef>
   <Personality.QuirkDef>
+    <defName>PP_Unwavering</defName>
+    <label>unwaveringly faithful</label>
+    <description>{PAWN_nameDef} is very unlikely to cheat on {PAWN_possessive} partner(s).</description>
+    <statFactors>
+      <PP_CheatingLikelihood>0.33</PP_CheatingLikelihood>
+    </statFactors>
+    <category>PP_Fidelity</category>
+  </Personality.QuirkDef>
+  <Personality.QuirkDef>
+    <defName>PP_Unfaithful</defName>
+    <label>unfaithful</label>
+    <description>{PAWN_nameDef} has trouble staying loyal to {PAWN_possessive} partner(s).</description>
+    <statFactors>
+      <PP_CheatingLikelihood>1.5</PP_CheatingLikelihood>
+    </statFactors>
+    <category>PP_Fidelity</category>
+  </Personality.QuirkDef>
+  <Personality.QuirkDef>
+    <defName>PP_Cheater</defName>
+    <label>cheater</label>
+    <description>{PAWN_nameDef} isn't interested in loyal to {PAWN_possessive} partner(s).</description>
+    <statFactors>
+      <PP_CheatingLikelihood>2</PP_CheatingLikelihood>
+    </statFactors>
+    <category>PP_Fidelity</category>
+  </Personality.QuirkDef>
+  <Personality.QuirkDef>
+    <defName>PP_FidelityMiddleGround</defName>
+    <label>fidelity middle quirk</label>
+    <description>You shouldn't be seeing this, pls report to effervescent.</description>
+    <hidden>true</hidden>
+    <category>PP_Fidelity</category>
+    <statFactors>
+      <PP_CheatingLikelihood>1</PP_CheatingLikelihood>
+    </statFactors>
+  </Personality.QuirkDef>
+
+  <!-- <Personality.QuirkDef>
     <defName>PP_RomanceSeeking</defName>
     <label>romance desire</label>
     <highLabel>romantic</highLabel>
     <lowLabel>commitment avoidant</lowLabel>
     <description>Someone with high Romance Desire will be less likely to engage in casual hookups. They get into relationships faster and will be happier while they have a partner. Someone with low romance desire can be a bit of a commitmentphobe.</description>
-  </Personality.QuirkDef>
+  </Personality.QuirkDef> -->
 
   <Personality.QuirkDef>
     <defName>PP_Monogamous</defName>
     <label>monogamous</label>
-    <binary>true</binary>
-    <categories>
-      <li>PP_RelationshipTypePreference</li>
-    </categories>
+    <category>PP_RelationshipTypePreference</category>
   </Personality.QuirkDef>
   <Personality.QuirkDef>
     <defName>PP_Polyamorous</defName>
     <label>polyamorous</label>
-    <binary>true</binary>
-    <categories>
-      <li>PP_RelationshipTypePreference</li>
-    </categories>
+    <category>PP_RelationshipTypePreference</category>
   </Personality.QuirkDef>
 
 </Defs>

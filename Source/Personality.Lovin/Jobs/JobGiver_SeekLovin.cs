@@ -84,17 +84,16 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
             if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out var partners))
             {
                 hookupThreshold -= 0.2f;
-                Quirk fidelity = mind.GetOrGainQuirkSingular(LovinQuirkDefOf.PP_Fidelity);
-                hookupThreshold *= LovinHelper.chanceToCheatByFidelity.Evaluate(fidelity.Value);
+                hookupThreshold *= pawn.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
 
                 // lastly add cheating multiplier from settings
                 hookupThreshold *= LovinMod.Settings.CheatingModifier.Value / 100f;
             }
 
-            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out Quirk romanceDesire))
-            {
-                hookupThreshold *= LovinHelper.chanceToHookupByRomanceDesire.Evaluate(romanceDesire.Value);
-            }
+            //if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out Quirk romanceDesire))
+            //{
+            //    hookupThreshold *= LovinHelper.chanceToHookupByRomanceDesire.Evaluate(romanceDesire.Value);
+            //}
 
             if (Rand.Value < hookupThreshold)
             {

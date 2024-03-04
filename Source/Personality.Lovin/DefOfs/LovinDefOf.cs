@@ -19,6 +19,7 @@ public static class LovinDefOf
 
     public static StatDef LovinQuality;
     public static StatDef PP_LovinNeedFallFactor;
+    public static StatDef PP_CheatingLikelihood;
 
     public static TraitDef Straight;
     public static TraitDef AroAce;
