@@ -63,6 +63,9 @@
     <defName>PP_TranscendentLovin</defName>
     <label>transcendent lovin'</label>
     <description>Carriers will leave their lovin' partners especially satisfied.</description>
+    <statFactors>
+      <LovinQuality>2.25</LovinQuality>
+    </statFactors>
     <biostatMet>-1</biostatMet>
     <biostatCpx>1</biostatCpx>
   </GeneDef>
