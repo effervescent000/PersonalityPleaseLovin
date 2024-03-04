@@ -100,7 +100,7 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
             {
                 partner = LovinHelper.FindPartnerForHookup(pawn, mind);
                 job = LovinJobDefOf.LeadHookup;
-                if (existingPartners.Count > 0 && !existingPartners.Contains(partner)) isCheating = true;
+                isCheating = RelationshipHelper.WouldBeCheating(pawn, partner);
             }
         }
 

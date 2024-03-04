@@ -24,7 +24,7 @@ public static class RelationshipHelper
         partners = new();
         foreach (DirectPawnRelation rel in pawn.relations.DirectRelations)
         {
-            if (romanticRelationDefs.Contains(rel.def))
+            if (romanticRelationDefs.Any(def => def.defName == rel.def.defName))
             {
                 partners.Add(rel.otherPawn);
             };
@@ -69,12 +69,12 @@ public static class RelationshipHelper
     public static bool WouldBeCheating(Pawn primary, Pawn maybePartner)
     {
         MindComp primaryMind = primary.GetComp<MindComp>();
-        Quirk relType = primaryMind?.GetQuirksByCategory(LovinQuirkDefOf.PP_RelationshipTypePreference).First();
-        if (relType == null && relType.Def != LovinQuirkDefOf.PP_Monogamous) return false;
+        Quirk relType = primaryMind?.GetQuirksByCategory(LovinQuirkDefOf.PP_RelationshipTypePreference)?.First();
+        if (relType == null || relType.Def.defName != LovinQuirkDefOf.PP_Monogamous.defName) return false;
 
         if (primary.IsPartnered(out List<Pawn> existingPartners))
         {
-            if (!existingPartners.Contains(maybePartner))
+            if (!existingPartners.Any(partner => partner.Equals(maybePartner)))
             {
                 return true;
             }
