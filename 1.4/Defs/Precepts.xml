@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <!-- succubi related -->
+  <IssueDef>
+    <defName>PP_SuccubiIssue</defName>
+    <label>succubi</label>
+    <iconPath>UI/Issues/PhysicalLove</iconPath>
+  </IssueDef>
+
+  <PreceptDef>
+    <defName>PP_SuccubiRevered</defName>
+    <issue>PP_SuccubiIssue</issue>
+    <label>revered</label>
+    <impact>Medium</impact>
+    <description>Succubi are sacred, and the pleasures they bring are divine.</description>
+  </PreceptDef>
+  <PreceptDef>
+    <defName>PP_SuccubiLiked</defName>
+    <issue>PP_SuccubiIssue</issue>
+    <label>honored</label>
+    <impact>Medium</impact>
+    <description>Succubi are good to have around. The benefits and pleasures they bring are worth the costs they extract.</description>
+  </PreceptDef>
+  <PreceptDef>
+    <defName>PP_SuccubiDisliked</defName>
+    <issue>PP_SuccubiIssue</issue>
+    <label>undesirable</label>
+    <description>Succubi are ultimately not worth the trouble they bring with them.</description>
+  </PreceptDef>
+  <PreceptDef>
+    <defName>PP_SuccubiAbhorrent</defName>
+    <issue>PP_SuccubiIssue</issue>
+    <label>abhorrent</label>
+    <description>Succubi are monstrous, and must not be permitted in our communities.</description>
+  </PreceptDef>
+
+
+</Defs>

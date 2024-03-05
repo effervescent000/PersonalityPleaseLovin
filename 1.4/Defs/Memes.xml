@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+  <MemeDef>
+    <defName>PP_Lovefeeding</defName>
+    <label>lovefeeding</label>
+    <description>To love a succubus is a divine pleasure.</description>
+    <iconPath>UI/Memes/Bloodfeeding</iconPath>
+    <groupDef MayRequire="Ludeon.RimWorld.Ideology">Misc</groupDef>
+    <impact>2</impact>
+    <renderOrder>1003</renderOrder>
+    <requireOne>
+      <li>
+        <li>PP_SuccubiRevered</li>
+        <li>PP_SuccubiLiked</li>
+      </li>
+      <li>
+        <!-- block the "loving is actually bad" precepts -->
+        <li>Lovin_SpouseOnly_Strict</li>
+        <li>Lovin_SpouseOnly_Moderate</li>
+        <li>Lovin_SpouseOnly_Mild</li>
+        <li>Lovin_Free</li>
+        <li>Lovin_FreeApproved</li>
+      </li>
+    </requireOne>
+    <generalRules>
+      <rulesStrings>
+        <li>memeAdjective->seductive</li>
+        <li>memeAdjective->lustful</li>
+        <li>memeAdjective->vital</li>
+        <li>memeCreed->boudoir</li>
+        <li>memeCreed->den</li>
+        <li>memeCreed->harem</li>
+        <li>memeHyphenPrefix->lust</li>
+        <li>memeConcept->desire</li>
+        <li>memeConcept->passion</li>
+        <li>memeConcept->pleasure</li>
+        <li>memeLeaderNoun->mistress</li>
+        <li>memeMoralist->conduit</li>
+      </rulesStrings>
+    </generalRules>
+  </MemeDef>
+
+</Defs>
