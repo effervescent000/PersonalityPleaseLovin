@@ -117,15 +117,18 @@ public static class LovinHelper
             }
         }
 
-        // we only want to run this once, as it will (I think) run once for each pawn at the end of
-        // their respective jobs
-        MakeSatisfaction(props.Actor, props.Partner, props.Context);
+        // wrap this in a check for isInitiator so that we can get the quality for both partners in
+        // the same place and only create a single lovin' journal entry
+        if (props.IsInitiator)
+        {
+            float actorQuality = MakeSatisfaction(props.Actor, props.Partner, props.Context);
+            float partnerQuality = MakeSatisfaction(props.Partner, props.Actor, props.Context);
+        }
     }
 
-    private static void MakeSatisfaction(Pawn primary, Pawn partner, LovinContext context)
+    private static float MakeSatisfaction(Pawn primary, Pawn partner, LovinContext context)
     {
         float quality = GetLovinQuality(primary, partner, context);
-        Log.Message($"Loving quality for {primary.LabelShort} of {quality}");
         primary.IncreaseLovinNeed(quality);
         primary.needs.joy.CurLevel += quality * 0.5f;
 
@@ -134,8 +137,7 @@ public static class LovinHelper
         {
             primary.needs.mood.thoughts.memories.TryGainMemory(thoughtDef, partner);
         }
-
-        // add to lovin' journal
+        return quality;
     }
 
     public static ThoughtDef GetLovinThought(float quality)

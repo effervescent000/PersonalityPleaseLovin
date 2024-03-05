@@ -15,6 +15,7 @@ public class JobDriver_DoLovin : JobDriver
     protected int TicksBetweenHeartMotes = 100;
     protected int ticksBase;
     protected int ticksForEnhancer;
+    protected int duration;
     protected bool isInitiator = false;
     protected LovinContext context;
 
@@ -82,7 +83,7 @@ public class JobDriver_DoLovin : JobDriver
         {
             initAction = delegate
             {
-                ticksLeftThisToil = ticksBase;
+                ticksLeftThisToil = duration;
             },
             tickAction = delegate
             {
@@ -98,7 +99,7 @@ public class JobDriver_DoLovin : JobDriver
         {
             initAction = delegate
             {
-                var props = new LovinProps(context, Actor, Partner, isInitiator);
+                var props = new LovinProps(context, Actor, Partner, isInitiator, duration);
                 LovinHelper.EvaluateLovin(props);
                 LovinHelper.TryPregnancy(props);
             },
