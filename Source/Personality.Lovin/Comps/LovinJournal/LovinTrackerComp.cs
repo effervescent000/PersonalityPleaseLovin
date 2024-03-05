@@ -17,6 +17,7 @@ public class LovinTrackerComp : GameComponent
 
     public override void FinalizeInit()
     {
+        lovinEvents ??= new();
     }
 
     public void AddEvent(LovinProps props, float initQuality, float partnerQuality)

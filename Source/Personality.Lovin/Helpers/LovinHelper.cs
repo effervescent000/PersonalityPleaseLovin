@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -123,6 +124,9 @@ public static class LovinHelper
         {
             float actorQuality = MakeSatisfaction(props.Actor, props.Partner, props.Context);
             float partnerQuality = MakeSatisfaction(props.Partner, props.Actor, props.Context);
+
+            LovinTrackerComp journal = Current.Game.GetComponent<LovinTrackerComp>();
+            journal.AddEvent(props, actorQuality, partnerQuality);
         }
     }
 
