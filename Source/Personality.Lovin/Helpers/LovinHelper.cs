@@ -47,12 +47,6 @@ public static class LovinHelper
         new CurvePoint(1f, 0.5f),
     };
 
-    public static readonly SimpleCurve chanceToCheatByFidelity = new()
-    {
-        new CurvePoint(-1f, 1.5f),
-        new CurvePoint(1f, 0.01f)
-    };
-
     private static readonly SimpleCurve acceptanceRollOffsetByLovinNeed = new()
     {
         new CurvePoint(0.75f, 0f),
@@ -371,9 +365,7 @@ public static class LovinHelper
 
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
-            // this ought to include something using the fidelity quirk but since I'm probably going
-            // to refactor that soon I don't wanna deal with it
-            roll *= 0.5f;
+            roll *= actor.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
         }
 
         if (roll >= (1 - acceptanceRate))
@@ -403,7 +395,7 @@ public static class LovinHelper
 
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
-            roll *= 0.5f;
+            roll *= actor.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
         }
 
         if (roll >= acceptanceRate)
@@ -411,18 +403,6 @@ public static class LovinHelper
             return true;
         }
         return false;
-    }
-
-    public static Toil FinishLovin(LovinProps props)
-    {
-        return new Toil
-        {
-            initAction = delegate
-            {
-                EvaluateLovin(props);
-            },
-            defaultCompleteMode = ToilCompleteMode.Instant
-        };
     }
 
     public static Building_Bed FindBed(Pawn actor, Pawn partner = null)

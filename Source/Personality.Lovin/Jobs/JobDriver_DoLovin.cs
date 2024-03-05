@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
+using static HarmonyLib.Code;
 
 namespace Personality.Lovin;
 
@@ -93,6 +94,13 @@ public class JobDriver_DoLovin : JobDriver
             defaultCompleteMode = ToilCompleteMode.Delay
         };
 
-        yield return LovinHelper.FinishLovin(new LovinProps(context, Actor, Partner, isInitiator));
+        yield return new Toil
+        {
+            initAction = delegate
+            {
+                LovinHelper.EvaluateLovin(new LovinProps(context, Actor, Partner, isInitiator));
+            },
+            defaultCompleteMode = ToilCompleteMode.Instant
+        };
     }
 }
