@@ -466,4 +466,29 @@ public static class LovinHelper
         }
         return false;
     }
+
+    public static bool CheckForPregnancy(Pawn pawn, Pawn partner, float basePregChance)
+    {
+        // leaving these separated out in case I decided to add some more modifiers later
+        float updatedChance = basePregChance * pawn.GetStatValue(StatDefOf.Fertility) * partner.GetStatValue(StatDefOf.Fertility);
+        return Rand.Value < updatedChance;
+    }
+
+    public static void TryPregnancy(LovinProps props)
+    {
+        if (props.Actor.gender == Gender.Female && props.Partner.gender == Gender.Male)
+        {
+            bool gotPregnant = CheckForPregnancy(props.Actor, props.Partner, .05f);
+            if (gotPregnant)
+            {
+                GeneSet geneSet = PregnancyUtility.GetInheritedGeneSet(props.Partner, props.Actor, out bool ableToGenerateBaby);
+                if (ableToGenerateBaby)
+                {
+                    Hediff_Pregnant pregnancy = (Hediff_Pregnant)HediffMaker.MakeHediff(HediffDefOf.PregnantHuman, props.Actor);
+                    pregnancy.SetParents(null, props.Partner, geneSet);
+                    props.Actor.health.AddHediff(pregnancy);
+                }
+            }
+        }
+    }
 }

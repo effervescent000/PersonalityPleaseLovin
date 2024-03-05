@@ -98,7 +98,9 @@ public class JobDriver_DoLovin : JobDriver
         {
             initAction = delegate
             {
-                LovinHelper.EvaluateLovin(new LovinProps(context, Actor, Partner, isInitiator));
+                var props = new LovinProps(context, Actor, Partner, isInitiator);
+                LovinHelper.EvaluateLovin(props);
+                LovinHelper.TryPregnancy(props);
             },
             defaultCompleteMode = ToilCompleteMode.Instant
         };
