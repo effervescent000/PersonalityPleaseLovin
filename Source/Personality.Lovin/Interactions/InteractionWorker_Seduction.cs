@@ -32,11 +32,11 @@ public class InteractionWorker_Seduction : InteractionWorker
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
             // cheating multiplier should be present but have a reduced effect here
-            var cheatingMod = (target.GetStatValue(LovinDefOf.PP_CheatingLikelihood) - .5f) * 0.25f + 0.5f;
+            float cheatingMod = (target.GetStatValue(LovinDefOf.PP_CheatingLikelihood) - .5f) * 0.25f + 0.5f;
             roll *= cheatingMod;
         }
 
-        var purity = mind.GetNode(PersonalityDefOf.PP_Purity);
+        PersonalityNode purity = mind.GetNode(PersonalityDefOf.PP_Purity);
         roll *= resistSeductionByPurity.Evaluate(purity.FinalRating.Value);
 
         return roll;
