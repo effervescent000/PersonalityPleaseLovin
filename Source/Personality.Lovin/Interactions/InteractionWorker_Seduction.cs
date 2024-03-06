@@ -7,18 +7,48 @@ namespace Personality.Lovin;
 
 public class InteractionWorker_Seduction : InteractionWorker
 {
+    private readonly SimpleCurve resistSeductionByPurity = new()
+    {
+        new CurvePoint(-1f, 0.75f),
+        new CurvePoint(1f, 1.25f),
+    };
+
     private float SuccessChance(Pawn actor, Pawn target)
     {
-        // TODO MATH, probably based on personality factors.
+        // first, we should determine if the target actually wants to resist.
+        if (RelationshipHelper.IsLoverOf(actor, target))
+        {
+            if (LovinHelper.DoesTargetAcceptIntimacy(actor, target)) return 1f;
+        }
+        else
+        {
+            if (LovinHelper.DoesTargetAcceptHookup(actor, target)) return 1f;
+        }
 
-        // for now let's just make it 100% for testing.
-        return 1f;
+        float roll = Rand.Value;
+
+        MindComp mind = target.GetComp<MindComp>();
+
+        if (RelationshipHelper.WouldBeCheating(target, actor))
+        {
+            // cheating multiplier should be present but have a reduced effect here
+            float cheatingMod = (target.GetStatValue(LovinDefOf.PP_CheatingLikelihood) - .5f) * 0.25f + 0.5f;
+            roll *= cheatingMod;
+        }
+
+        PersonalityNode purity = mind.GetNode(PersonalityDefOf.PP_Purity);
+        roll *= resistSeductionByPurity.Evaluate(purity.FinalRating.Value);
+
+        return roll;
     }
 
     public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef, out LookTargets lookTargets)
     {
         // this just sets the letter stuff to all null so we're leaving it in
         base.Interacted(initiator, recipient, extraSentencePacks, out letterText, out letterLabel, out letterDef, out lookTargets);
+
+        // add seduction pheromones regardless of whether the interaction succeeds
+        recipient.health.AddHediff(HediffMaker.MakeHediff(LovinDefOf.PP_SeductionPheromones, recipient));
 
         // this should be a pretty high chance to succeed
         if (SuccessChance(initiator, recipient) > 0.25f)

@@ -1,5 +1,4 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,8 +9,6 @@ namespace Personality.Lovin;
 
 public static class LovinHelper
 {
-    private static readonly List<string> romanticRelationDefs = new() { PawnRelationDefOf.Lover.defName, PawnRelationDefOf.Fiance.defName, PawnRelationDefOf.Spouse.defName };
-
     private static readonly List<Pair<float, ThoughtDef>> qualityToThoughtMapping = new()
     {
         new(5f, LovinThoughtDefOf.PP_ThoughtSocial_TranscendentLovin),
@@ -65,7 +62,15 @@ public static class LovinHelper
     public static void ResetLovinCooldown(Pawn pawn)
     {
         RomanceComp comp = pawn.GetComp<RomanceComp>();
-        comp.LovinCooldownTicksRemaining = GenDate.TicksPerHour * 2;
+        if (pawn.health.hediffSet.HasHediff(LovinDefOf.PP_SeductionPheromones))
+        {
+            // set the cd much lower if the pawn is seduced
+            comp.LovinCooldownTicksRemaining = Mathf.FloorToInt(GenDate.TicksPerHour * 0.25f);
+        }
+        else
+        {
+            comp.LovinCooldownTicksRemaining = GenDate.TicksPerHour * 2;
+        }
     }
 
     public static Job TryDoSelfLovin(Pawn pawn)
@@ -95,6 +100,7 @@ public static class LovinHelper
         {
             props.Actor.IncreaseLovinNeed(0.4f);
             props.Actor.needs.joy.CurLevel += 0.2f;
+            ClearSeducedHediff(props.Actor);
             return;
         }
 
@@ -127,6 +133,24 @@ public static class LovinHelper
 
             LovinTrackerComp journal = Current.Game.GetComponent<LovinTrackerComp>();
             journal.AddEvent(props, actorQuality, partnerQuality);
+        }
+
+        ClearSeducedHediff(props.Actor, props.Partner);
+    }
+
+    private static void ClearSeducedHediff(Pawn actor, Pawn partner = null)
+    {
+        Hediff actorHediff = actor.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_SeductionPheromones);
+        if (actorHediff != null)
+        {
+            actor.health.RemoveHediff(actorHediff);
+        }
+
+        if (partner == null) return;
+        Hediff partnerHediff = partner.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_SeductionPheromones);
+        if (partnerHediff != null)
+        {
+            partner.health.RemoveHediff(partnerHediff);
         }
     }
 
@@ -176,10 +200,10 @@ public static class LovinHelper
                 break;
 
             case LovinContext.Seduced:
-                // TODO seducee gets a decent bump to their lovin' received quality. who is the
-                // seducee will probably be determined by a "seduced" hediff that does not yet exist
-                // (needs to be this since one succubus could potentially seduce another so just
-                // looking at "is one person a succubus?" is not good enough)
+                if (primary.health.hediffSet.HasHediff(LovinDefOf.PP_SeductionPheromones))
+                {
+                    quality *= 1.5f;
+                }
                 break;
         }
 
@@ -360,7 +384,7 @@ public static class LovinHelper
         {
             // use clamped attraction if sexuality matches
             RomanceComp targetComp = target.GetComp<RomanceComp>();
-            var eval = targetComp?.AttractionTracker?.GetEvalFor(actor);
+            AttractionEvaluation eval = targetComp?.AttractionTracker?.GetEvalFor(actor);
             if (eval != null)
             {
                 roll += Mathf.Clamp(eval.PhysicalScore * 0.5f, -0.5f, 0.5f);
@@ -372,7 +396,7 @@ public static class LovinHelper
 
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
-            roll *= actor.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
+            roll *= target.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
         }
 
         if (roll >= (1 - acceptanceRate))
@@ -402,7 +426,7 @@ public static class LovinHelper
 
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
-            roll *= actor.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
+            roll *= target.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
         }
 
         if (roll >= acceptanceRate)

@@ -36,4 +36,28 @@
       </li>
     </stages>
   </HediffDef>
+
+  <HediffDef>
+    <defName>PP_SeductionPheromones</defName>
+    <label>succubus pheromones</label>
+    <description>This person has inhaled a burst of succubus pheromones. For the next several hours, or until they complete lovin', they'll be highly aroused and primarily focused on getting lovin'.</description>
+    <descriptionShort>This person has inhaled a burst of succubus pheromones.</descriptionShort>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <maxSeverity>1</maxSeverity>
+    <minSeverity>0</minSeverity>
+    <initialSeverity>1</initialSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-2</severityPerDay>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <PP_LovinNeedFallFactor>4</PP_LovinNeedFallFactor>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
 </Defs>
