@@ -134,7 +134,7 @@ public static class LovinHelper
     {
         float quality = GetLovinQuality(primary, partner, context);
         primary.IncreaseLovinNeed(quality);
-        primary.needs.joy.CurLevel += quality * 0.5f;
+        primary.needs.joy.CurLevel += Mathf.Clamp(quality * 0.25f, 0, 0.5f);
 
         ThoughtDef thoughtDef = GetLovinThought(quality);
         if (thoughtDef != null)
@@ -311,6 +311,8 @@ public static class LovinHelper
 
             if (actor.IsBloodRelatedTo(pawn)) continue;
 
+            if (pawn.guest?.GuestStatus == GuestStatus.Prisoner || pawn.guest?.GuestStatus == GuestStatus.Slave) continue;
+
             potentialPartners.Add(pawn);
         }
         if (potentialPartners.Count > 0)
@@ -322,7 +324,6 @@ public static class LovinHelper
                 partnersByAttraction.Add(new(partner, comp.AttractionTracker.GetEvalFor(partner)));
             }
             List<Pair<Pawn, AttractionEvaluation>> sorted = partnersByAttraction.OrderByDescending(pair => pair.Second.PhysicalScore).ToList();
-            Log.Message($"returning partner {sorted[0].First.LabelShort} with an attraction of {sorted[0].Second.PhysicalScore}");
 
             // TODO make personality a non-zero factor in hookups, altho i'm not sure how important
             // to make it
