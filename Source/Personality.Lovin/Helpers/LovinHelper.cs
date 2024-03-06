@@ -391,7 +391,7 @@ public static class LovinHelper
 
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
-            roll *= actor.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
+            roll *= target.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
         }
 
         if (roll >= (1 - acceptanceRate))
@@ -421,7 +421,7 @@ public static class LovinHelper
 
         if (RelationshipHelper.WouldBeCheating(target, actor))
         {
-            roll *= actor.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
+            roll *= target.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
         }
 
         if (roll >= acceptanceRate)
