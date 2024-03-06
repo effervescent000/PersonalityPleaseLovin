@@ -20,6 +20,9 @@ public class InteractionWorker_Seduction : InteractionWorker
         // this just sets the letter stuff to all null so we're leaving it in
         base.Interacted(initiator, recipient, extraSentencePacks, out letterText, out letterLabel, out letterDef, out lookTargets);
 
+        // add seduction pheromones regardless of whether the interaction succeeds
+        recipient.health.AddHediff(HediffMaker.MakeHediff(LovinDefOf.PP_SeductionPheromones, recipient));
+
         // this should be a pretty high chance to succeed
         if (SuccessChance(initiator, recipient) > 0.25f)
         {

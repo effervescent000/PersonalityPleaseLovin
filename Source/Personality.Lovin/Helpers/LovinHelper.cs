@@ -95,6 +95,7 @@ public static class LovinHelper
         {
             props.Actor.IncreaseLovinNeed(0.4f);
             props.Actor.needs.joy.CurLevel += 0.2f;
+            ClearSeducedHediff(props.Actor);
             return;
         }
 
@@ -127,6 +128,24 @@ public static class LovinHelper
 
             LovinTrackerComp journal = Current.Game.GetComponent<LovinTrackerComp>();
             journal.AddEvent(props, actorQuality, partnerQuality);
+        }
+
+        ClearSeducedHediff(props.Actor, props.Partner);
+    }
+
+    private static void ClearSeducedHediff(Pawn actor, Pawn partner = null)
+    {
+        var actorHediff = actor.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_SeductionPheromones);
+        if (actorHediff != null)
+        {
+            actor.health.RemoveHediff(actorHediff);
+        }
+
+        if (partner == null) return;
+        var partnerHediff = partner.health.hediffSet.GetFirstHediffOfDef(LovinDefOf.PP_SeductionPheromones);
+        if (partnerHediff != null)
+        {
+            partner.health.RemoveHediff(partnerHediff);
         }
     }
 
