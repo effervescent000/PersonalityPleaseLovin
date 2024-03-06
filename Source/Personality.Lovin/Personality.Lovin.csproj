@@ -61,7 +61,8 @@
     <Compile Include="Comps\CompAbilityEffect_VitalityCost.cs" />
     <Compile Include="Comps\HediffCompProperties_RapidAging.cs" />
     <Compile Include="Comps\HediffComp_RapidAging.cs" />
-    <Compile Include="Comps\LovinTrackerComp.cs" />
+    <Compile Include="Comps\LovinJournal\LovinEvent.cs" />
+    <Compile Include="Comps\LovinJournal\LovinTrackerComp.cs" />
     <Compile Include="Comps\RomanceComp\RejectionItem.cs" />
     <Compile Include="Comps\RomanceComp\RomanceComp.cs" />
     <Compile Include="Comps\RomanceComp\RomanceCompProperties.cs" />

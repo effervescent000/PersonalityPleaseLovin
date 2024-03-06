@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -117,25 +118,30 @@ public static class LovinHelper
             }
         }
 
-        // we only want to run this once, as it will (I think) run once for each pawn at the end of
-        // their respective jobs
-        MakeSatisfaction(props.Actor, props.Partner, props.Context);
+        // wrap this in a check for isInitiator so that we can get the quality for both partners in
+        // the same place and only create a single lovin' journal entry
+        if (props.IsInitiator)
+        {
+            float actorQuality = MakeSatisfaction(props.Actor, props.Partner, props.Context);
+            float partnerQuality = MakeSatisfaction(props.Partner, props.Actor, props.Context);
+
+            LovinTrackerComp journal = Current.Game.GetComponent<LovinTrackerComp>();
+            journal.AddEvent(props, actorQuality, partnerQuality);
+        }
     }
 
-    private static void MakeSatisfaction(Pawn primary, Pawn partner, LovinContext context)
+    private static float MakeSatisfaction(Pawn primary, Pawn partner, LovinContext context)
     {
         float quality = GetLovinQuality(primary, partner, context);
-        Log.Message($"Loving quality for {primary.LabelShort} of {quality}");
         primary.IncreaseLovinNeed(quality);
-        primary.needs.joy.CurLevel += quality * 0.5f;
+        primary.needs.joy.CurLevel += Mathf.Clamp(quality * 0.25f, 0, 0.5f);
 
         ThoughtDef thoughtDef = GetLovinThought(quality);
         if (thoughtDef != null)
         {
             primary.needs.mood.thoughts.memories.TryGainMemory(thoughtDef, partner);
         }
-
-        // add to lovin' journal
+        return quality;
     }
 
     public static ThoughtDef GetLovinThought(float quality)
@@ -305,6 +311,8 @@ public static class LovinHelper
 
             if (actor.IsBloodRelatedTo(pawn)) continue;
 
+            if (pawn.guest?.GuestStatus == GuestStatus.Prisoner || pawn.guest?.GuestStatus == GuestStatus.Slave) continue;
+
             potentialPartners.Add(pawn);
         }
         if (potentialPartners.Count > 0)
@@ -316,7 +324,6 @@ public static class LovinHelper
                 partnersByAttraction.Add(new(partner, comp.AttractionTracker.GetEvalFor(partner)));
             }
             List<Pair<Pawn, AttractionEvaluation>> sorted = partnersByAttraction.OrderByDescending(pair => pair.Second.PhysicalScore).ToList();
-            Log.Message($"returning partner {sorted[0].First.LabelShort} with an attraction of {sorted[0].Second.PhysicalScore}");
 
             // TODO make personality a non-zero factor in hookups, altho i'm not sure how important
             // to make it
