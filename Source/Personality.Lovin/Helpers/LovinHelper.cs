@@ -17,7 +17,7 @@ public static class LovinHelper
         new(1.3f, LovinThoughtDefOf.PP_ThoughtSocial_GoodLovin),
         new(0.7f, LovinThoughtDefOf.PP_ThoughtSocial_OkayLovin),
         new(0.25f, LovinThoughtDefOf.PP_ThoughtSocial_BadLovin),
-        new(0f, LovinThoughtDefOf.PP_ThoughtSocial_TerribleLovin),
+        new(-1000f, LovinThoughtDefOf.PP_ThoughtSocial_TerribleLovin),
     };
 
     public static readonly SimpleCurve LovinNeedFallByPurityCurve = new()
@@ -158,7 +158,10 @@ public static class LovinHelper
     {
         float quality = GetLovinQuality(primary, partner, context);
         primary.IncreaseLovinNeed(quality);
-        primary.needs.joy.CurLevel += Mathf.Clamp(quality * 0.25f, 0, 0.5f);
+        if (primary.needs.joy != null)
+        {
+            primary.needs.joy.CurLevel += Mathf.Clamp(quality * 0.25f, 0, 0.5f);
+        }
 
         ThoughtDef thoughtDef = GetLovinThought(quality);
         if (thoughtDef != null)

@@ -81,7 +81,7 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
             float hookupThreshold = 0.5f;
 
             //if a pawn is monogamous and partnered, calculate effect of fidelity
-            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out var partners))
+            if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_Monogamous, out Quirk _) && pawn.IsPartnered(out existingPartners))
             {
                 hookupThreshold -= 0.2f;
                 hookupThreshold *= pawn.GetStatValue(LovinDefOf.PP_CheatingLikelihood);
