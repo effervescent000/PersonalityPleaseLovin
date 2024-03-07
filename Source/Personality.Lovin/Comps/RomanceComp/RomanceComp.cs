@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using System.Collections.Generic;
+using Verse;
 
 namespace Personality.Lovin;
 
@@ -7,6 +8,7 @@ public class RomanceComp : ThingComp
     public RomanceTracker RomanceTracker;
     public AttractionTracker AttractionTracker;
     public int LovinCooldownTicksRemaining;
+    public List<LovinEvent> LovinJournal;
 
     public RomanceComp()
     {
@@ -17,6 +19,7 @@ public class RomanceComp : ThingComp
         base.Initialize(props);
         RomanceTracker ??= new();
         AttractionTracker ??= new(this);
+        LovinJournal ??= new();
     }
 
     public override void PostExposeData()
@@ -36,6 +39,22 @@ public class RomanceComp : ThingComp
         {
             AttractionTracker.MakePreferences();
         }
+
+        UpdateLovinJournal();
+    }
+
+    public void UpdateLovinJournal()
+    {
+        LovinTrackerComp lovinTrackerComp = Current.Game.GetComponent<LovinTrackerComp>();
+        if (lovinTrackerComp != null && lovinTrackerComp.Ready)
+        {
+            LovinJournal = lovinTrackerComp.GetEventsFor((Pawn)parent);
+        }
+    }
+
+    public void Notify_LovinTrackerReady(LovinTrackerComp comp)
+    {
+        LovinJournal = comp.GetEventsFor((Pawn)parent);
     }
 
     public override void CompTick()

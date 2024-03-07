@@ -90,11 +90,6 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
                 hookupThreshold *= LovinMod.Settings.CheatingModifier.Value / 100f;
             }
 
-            //if (mind.GetQuirkByDef(LovinQuirkDefOf.PP_RomanceSeeking, out Quirk romanceDesire))
-            //{
-            //    hookupThreshold *= LovinHelper.chanceToHookupByRomanceDesire.Evaluate(romanceDesire.Value);
-            //}
-
             if (Rand.Value < hookupThreshold)
             {
                 partner = LovinHelper.FindPartnerForHookup(pawn, mind);

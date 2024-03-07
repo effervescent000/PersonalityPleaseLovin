@@ -136,6 +136,9 @@ public static class LovinHelper
         }
 
         ClearSeducedHediff(props.Actor, props.Partner);
+
+        RomanceComp romanceComp = props.Actor.GetComp<RomanceComp>();
+        romanceComp?.UpdateLovinJournal();
     }
 
     private static void ClearSeducedHediff(Pawn actor, Pawn partner = null)
