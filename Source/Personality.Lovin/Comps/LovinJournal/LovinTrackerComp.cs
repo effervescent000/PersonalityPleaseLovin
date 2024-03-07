@@ -55,7 +55,7 @@ public class LovinTrackerComp : GameComponent
     public List<LovinEvent> GetEventsFor(Pawn pawn)
     {
         List<LovinEvent> query = (from e in lovinEvents
-                                  where e.initiator.Equals(pawn) || e.partner.Equals(pawn)
+                                  where e.initiator.ThingID == pawn.ThingID || e.partner.ThingID == pawn.ThingID
                                   orderby e.tickCompleted descending
                                   select e).ToList();
 

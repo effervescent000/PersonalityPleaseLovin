@@ -74,7 +74,7 @@ public static class RelationshipHelper
 
         if (primary.IsPartnered(out List<Pawn> existingPartners))
         {
-            if (!existingPartners.Any(partner => partner.Equals(maybePartner)))
+            if (!existingPartners.Any(partner => partner.ThingID == maybePartner.ThingID))
             {
                 return true;
             }

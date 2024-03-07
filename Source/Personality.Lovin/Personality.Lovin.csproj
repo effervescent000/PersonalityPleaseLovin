@@ -69,6 +69,7 @@
     <Compile Include="Comps\RomanceComp\RomanceTracker.cs" />
     <Compile Include="DamageWorkers\DamageWorker_Disorient.cs" />
     <Compile Include="DefOfs\LovinAbilityDefOf.cs" />
+    <Compile Include="DefOfs\LovinEventDefOf.cs" />
     <Compile Include="DefOfs\LovinJobDefOf.cs" />
     <Compile Include="DefOfs\LovinQuirkDefOf.cs" />
     <Compile Include="DefOfs\LovinRulePackDefOf.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="OnStartup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Thoughts\ThoughtWorker_Precept_Succubus_Social.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
