@@ -60,11 +60,11 @@ public static class LovinHelper
         new CurvePoint(-100f, 1.5f)
     };
 
-    private static List<Pair<ThoughtDef, Func<QuirkDef, float>>> cheatingThoughtPairs = new()
+    private static readonly List<Pair<ThoughtDef, Func<QuirkDef, float>>> cheatingThoughtPairs = new()
     {
-        new(LovinThoughtDefOf.PP_CheatedGuilty, (QuirkDef quirk) => 2f - quirk.statFactors[0].value),
+        new(LovinThoughtDefOf.PP_CheatedGuilty, (QuirkDef quirk) => Mathf.Clamp(2f - quirk.statFactors[0].value, 0, 2f)),
         new(LovinThoughtDefOf.PP_CheatedDontCare, (QuirkDef _) => 1f),
-        new(LovinThoughtDefOf.PP_CheatedHappy, (QuirkDef quirk) => quirk.statFactors[0].value - 1f)
+        new(LovinThoughtDefOf.PP_CheatedHappy, (QuirkDef quirk) => Mathf.Clamp(quirk.statFactors[0].value - 1f, 0, 2f))
     };
 
     public static void ResetLovinCooldown(Pawn pawn)
