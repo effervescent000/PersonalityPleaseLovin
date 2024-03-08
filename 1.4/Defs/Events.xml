@@ -29,4 +29,9 @@
     <label>resisted succubus</label>
   </HistoryEventDef>
 
+  <HistoryEventDef>
+    <defName>PP_CheatedOnPartner</defName>
+    <label>cheated on partner</label>
+  </HistoryEventDef>
+
 </Defs>

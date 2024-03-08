@@ -59,13 +59,6 @@ public static class RelationshipHelper
         return GetRelationsBetween(primary, otherPawn).OrderByDescending((rel) => rel.def.importance).ToList();
     }
 
-    /// <summary>
-    /// should be used in pawn decision-making about who to sleep with, NOT for the purpose of
-    /// assigning thoughts or whatever (at least for now)
-    /// </summary>
-    /// <param name="primary"></param>
-    /// <param name="maybePartner"></param>
-    /// <returns></returns>
     public static bool WouldBeCheating(Pawn primary, Pawn maybePartner)
     {
         MindComp primaryMind = primary.GetComp<MindComp>();

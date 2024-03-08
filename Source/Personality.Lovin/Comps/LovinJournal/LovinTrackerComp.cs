@@ -47,9 +47,9 @@ public class LovinTrackerComp : GameComponent
         }
     }
 
-    public void AddEvent(LovinProps props, float initQuality, float partnerQuality)
+    public void AddEvent(LovinProps props, float initQuality, float partnerQuality, bool isCheating)
     {
-        lovinEvents.Add(new(props, initQuality, partnerQuality));
+        lovinEvents.Add(new(props, initQuality, partnerQuality, isCheating));
     }
 
     public List<LovinEvent> GetEventsFor(Pawn pawn)

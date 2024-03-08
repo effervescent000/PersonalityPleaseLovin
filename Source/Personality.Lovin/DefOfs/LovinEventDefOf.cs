@@ -11,6 +11,8 @@ public static class LovinEventDefOf
     public static HistoryEventDef PP_SeductionResistFailed;
     public static HistoryEventDef PP_SeductionResisted;
 
+    public static HistoryEventDef PP_CheatedOnPartner;
+
     static LovinEventDefOf()
     {
         DefOfHelper.EnsureInitializedInCtor(typeof(LovinEventDefOf));
