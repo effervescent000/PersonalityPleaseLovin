@@ -116,6 +116,9 @@
     <defName>PP_Insatiable</defName>
     <label>insatiable</label>
     <description>Carriers of this gene have very high desire for lovin'.</description>
+    <statFactors>
+      <PP_LovinNeedFallFactor>2</PP_LovinNeedFallFactor>
+    </statFactors>
   </GeneDef>
 
 </Defs>
