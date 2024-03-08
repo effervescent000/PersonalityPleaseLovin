@@ -1,14 +1,8 @@
-﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verse;
+﻿using Verse;
 
 namespace Personality.Lovin;
 
-public struct LovinEvent : IExposable
+public class LovinEvent : IExposable
 {
     public Pawn initiator;
     public Pawn partner;
@@ -35,10 +29,14 @@ public struct LovinEvent : IExposable
         married = false;
     }
 
+    public LovinEvent()
+    {
+    }
+
     public void ExposeData()
     {
-        Scribe_References.Look(ref initiator, "initiator");
-        Scribe_References.Look(ref partner, "partner");
+        Scribe_References.Look(ref initiator, "initiator", true);
+        Scribe_References.Look(ref partner, "partner", true);
         Scribe_Values.Look(ref context, "context");
         Scribe_Values.Look(ref tickCompleted, "tickCompleted");
         Scribe_Values.Look(ref durationTicks, "duration");

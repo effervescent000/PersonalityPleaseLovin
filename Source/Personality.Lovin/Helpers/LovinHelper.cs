@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -59,6 +60,13 @@ public static class LovinHelper
         new CurvePoint(-100f, 1.5f)
     };
 
+    private static List<Pair<ThoughtDef, Func<QuirkDef, float>>> cheatingThoughtPairs = new()
+    {
+        new(LovinThoughtDefOf.PP_CheatedGuilty, (QuirkDef quirk) => 2f - quirk.statFactors[0].value),
+        new(LovinThoughtDefOf.PP_CheatedDontCare, (QuirkDef _) => 1f),
+        new(LovinThoughtDefOf.PP_CheatedHappy, (QuirkDef quirk) => quirk.statFactors[0].value - 1f)
+    };
+
     public static void ResetLovinCooldown(Pawn pawn)
     {
         RomanceComp comp = pawn.GetComp<RomanceComp>();
@@ -106,12 +114,20 @@ public static class LovinHelper
 
         if (props.Partner == null) return;
 
+        MindComp actorMind = props.Actor.GetComp<MindComp>();
+
         Find.HistoryEventsManager.RecordEvent(new HistoryEvent(HistoryEventDefOf.GotLovin, props.Actor.Named(HistoryEventArgsNames.Doer)));
 
         bool actorIsCheating = RelationshipHelper.WouldBeCheating(props.Actor, props.Partner);
         if (actorIsCheating)
         {
             Find.HistoryEventsManager.RecordEvent(new HistoryEvent(LovinEventDefOf.PP_CheatedOnPartner, props.Actor.Named(HistoryEventArgsNames.Doer)));
+
+            Quirk cheatingQuirk = actorMind.GetFirstQuirkInCategory(LovinQuirkDefOf.PP_Fidelity);
+            ThoughtDef thoughtDef = cheatingThoughtPairs.RandomElementByWeight((el) => el.Second(cheatingQuirk.Def)).First;
+
+            Thought_Memory thought = (Thought_Memory)ThoughtMaker.MakeThought(thoughtDef);
+            props.Actor.TryGiveThought(thought);
         }
 
         if (props.Actor.IsLoveFeeder())
