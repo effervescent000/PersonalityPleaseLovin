@@ -21,6 +21,10 @@ public static class LovinThoughtDefOf
     public static ThoughtDef PP_ThoughtSocial_ExquisiteLovin;
     public static ThoughtDef PP_ThoughtSocial_TranscendentLovin;
 
+    public static ThoughtDef PP_CheatedGuilty;
+    public static ThoughtDef PP_CheatedDontCare;
+    public static ThoughtDef PP_CheatedHappy;
+
     static LovinThoughtDefOf()
     {
         DefOfHelper.EnsureInitializedInCtor(typeof(LovinThoughtDefOf));
