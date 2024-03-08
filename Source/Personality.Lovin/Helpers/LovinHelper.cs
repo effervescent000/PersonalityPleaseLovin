@@ -106,12 +106,22 @@ public static class LovinHelper
 
         if (props.Partner == null) return;
 
+        Find.HistoryEventsManager.RecordEvent(new HistoryEvent(HistoryEventDefOf.GotLovin, props.Actor.Named(HistoryEventArgsNames.Doer)));
+
+        bool actorIsCheating = RelationshipHelper.WouldBeCheating(props.Actor, props.Partner);
+        if (actorIsCheating)
+        {
+            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(LovinEventDefOf.PP_CheatedOnPartner, props.Actor.Named(HistoryEventArgsNames.Doer)));
+        }
+
         if (props.Actor.IsLoveFeeder())
         {
             SuccubiHelper.OffsetVitality(props.Actor, 0.25f);
         }
         if (props.Partner.IsLoveFeeder())
         {
+            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(LovinEventDefOf.PP_GotLovinSuccubus, props.Actor.Named(HistoryEventArgsNames.Doer)));
+
             bool hasHediff = props.Actor.health.hediffSet.HasHediff(LovinDefOf.PP_VitalityLost);
             if (hasHediff)
             {
@@ -131,11 +141,16 @@ public static class LovinHelper
             float actorQuality = MakeSatisfaction(props.Actor, props.Partner, props.Context);
             float partnerQuality = MakeSatisfaction(props.Partner, props.Actor, props.Context);
 
+            bool isCheating = actorIsCheating || RelationshipHelper.WouldBeCheating(props.Partner, props.Actor);
+
             LovinTrackerComp journal = Current.Game.GetComponent<LovinTrackerComp>();
-            journal.AddEvent(props, actorQuality, partnerQuality);
+            journal.AddEvent(props, actorQuality, partnerQuality, isCheating);
         }
 
         ClearSeducedHediff(props.Actor, props.Partner);
+
+        RomanceComp romanceComp = props.Actor.GetComp<RomanceComp>();
+        romanceComp?.UpdateLovinJournal();
     }
 
     private static void ClearSeducedHediff(Pawn actor, Pawn partner = null)

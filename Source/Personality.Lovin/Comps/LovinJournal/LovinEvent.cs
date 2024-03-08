@@ -20,7 +20,7 @@ public struct LovinEvent : IExposable
     public bool cheating;
     public bool married;
 
-    public LovinEvent(LovinProps props, float initiatorQuality, float partnerQuality)
+    public LovinEvent(LovinProps props, float initiatorQuality, float partnerQuality, bool isCheating)
     {
         initiator = props.Actor;
         partner = props.Partner;
@@ -29,9 +29,9 @@ public struct LovinEvent : IExposable
         tickCompleted = Find.TickManager.TicksGame;
         this.initiatorQuality = initiatorQuality;
         this.partnerQuality = partnerQuality;
+        cheating = isCheating;
 
-        // for now, these last two are always false
-        cheating = false;
+        // default for now
         married = false;
     }
 

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <!-- ============================== -->
+  <!-- succubi root opinion mods -->
+  <!-- ============================== -->
+
+  <ThoughtDef>
+    <defName>PP_SuccubiRevered_Opinion</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Personality.Lovin.ThoughtWorker_Precept_Succubus_Social</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>succubus</label>
+        <baseOpinionOffset>20</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_Opinion</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Personality.Lovin.ThoughtWorker_Precept_Succubus_Social</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>succubus</label>
+        <baseOpinionOffset>-20</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+  <!-- ============================== -->
+  <!-- thoughts on events -->
+  <!-- ============================== -->
+
+  <ThoughtDef>
+    <defName>PP_SuccubiRevered_SuccubusLovin</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stackLimit>5</stackLimit>
+    <durationDays>1</durationDays>
+    <stackedEffectMultiplier>0.6</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>got lovin' from succubus</label>
+        <description>I got some lovin' from a succubus. It was divine.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_SuccubusLovin</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stackLimit>5</stackLimit>
+    <durationDays>3</durationDays>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>got lovin' from succubus</label>
+        <description>I got some lovin' from a succubus. I feel disgusting.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- seduction - succubi revered -->
+
+  <ThoughtDef>
+    <defName>PP_SuccubiRevered_Social_SeduceAccepted</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>5</stackLimitForSameOtherPawn>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>happily seduced</label>
+        <baseOpinionOffset>10</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiRevered_Social_SeduceResistFailed</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>5</stackLimitForSameOtherPawn>
+    <stackedEffectMultiplier>1.25</stackedEffectMultiplier>
+    <thoughtToMake>PP_SuccubiRevered_SeduceResistFailed</thoughtToMake>
+    <stages>
+      <li>
+        <label>unwanted seduction</label>
+        <baseOpinionOffset>-20</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiRevered_Social_SeduceResisted</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>5</stackLimitForSameOtherPawn>
+    <thoughtToMake>PP_SuccubiRevered_SeduceResisted</thoughtToMake>
+    <stages>
+      <li>
+        <label>tried to seduce me</label>
+        <baseOpinionOffset>-10</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_SuccubiRevered_SeduceResistFailed</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>unwanted seduction</label>
+        <description>I tried to resist, but couldn't. I feel violated.</description>
+        <baseMoodEffect>-20</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiRevered_SeduceResisted</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>resisted seduction</label>
+        <description>My will was stronger.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- seduction - succubi despised -->
+
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_Social_SeduceAccepted</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>5</stackLimitForSameOtherPawn>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <thoughtToMake>PP_SuccubiDespised_SeduceAccepted</thoughtToMake>
+    <stages>
+      <li>
+        <label>willingly seduced</label>
+        <baseOpinionOffset>-5</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_Social_SeduceResistFailed</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>5</stackLimitForSameOtherPawn>
+    <stackedEffectMultiplier>1.25</stackedEffectMultiplier>
+    <thoughtToMake>PP_SuccubiDespised_SeduceResistFailed</thoughtToMake>
+    <stages>
+      <li>
+        <label>unwanted seduction</label>
+        <baseOpinionOffset>-40</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_Social_SeduceResisted</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>5</stackLimitForSameOtherPawn>
+    <thoughtToMake>PP_SuccubiDespised_SeduceResisted</thoughtToMake>
+    <stages>
+      <li>
+        <label>tried to seduce me</label>
+        <baseOpinionOffset>-20</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_SeduceAccepted</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>willingly seduced</label>
+        <description>I fell into a succubus's arms. What have I done?</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_SeduceResistFailed</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>unwanted seduction</label>
+        <description>I tried to resist, but couldn't. I feel violated.</description>
+        <baseMoodEffect>-30</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>PP_SuccubiDespised_SeduceResisted</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>5</stackLimit>
+    <stages>
+      <li>
+        <label>resisted seduction</label>
+        <description>My will was stronger.</description>
+        <baseMoodEffect>20</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

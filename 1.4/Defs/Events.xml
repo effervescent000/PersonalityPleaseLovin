@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+  <!-- =========================== -->
+  <!-- lovin' stuff -->
+  <!-- =========================== -->
+
+  <HistoryEventDef>
+    <defName>PP_GotLovinSuccubus</defName>
+    <label>got lovin' from succubus</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>PP_GotLovinSeduced</defName>
+    <label>was seduced by succubus</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>PP_SeductionWilling</defName>
+    <label>was willingly seduced by succubus</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>PP_SeductionResistFailed</defName>
+    <label>was unable to resist succubus</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>PP_SeductionResisted</defName>
+    <label>resisted succubus</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef>
+    <defName>PP_CheatedOnPartner</defName>
+    <label>cheated on partner</label>
+  </HistoryEventDef>
+
+</Defs>

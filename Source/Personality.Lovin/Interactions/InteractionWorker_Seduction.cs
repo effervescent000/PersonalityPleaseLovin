@@ -13,16 +13,29 @@ public class InteractionWorker_Seduction : InteractionWorker
         new CurvePoint(1f, 1.25f),
     };
 
-    private float SuccessChance(Pawn actor, Pawn target)
+    private float SuccessChance(Pawn actor, Pawn target, out HistoryEventDef def)
     {
+        def = null;
         // first, we should determine if the target actually wants to resist.
         if (RelationshipHelper.IsLoverOf(actor, target))
         {
-            if (LovinHelper.DoesTargetAcceptIntimacy(actor, target)) return 1f;
+            if (LovinHelper.DoesTargetAcceptIntimacy(actor, target))
+            {
+                //Find.HistoryEventsManager.RecordEvent(new HistoryEvent(LovinEventDefOf.PP_SeductionWilling, target.Named(HistoryEventArgsNames.Doer), actor.Named(HistoryEventArgsNames.Subject)));
+
+                def = LovinEventDefOf.PP_SeductionWilling;
+
+                return 1f;
+            }
         }
         else
         {
-            if (LovinHelper.DoesTargetAcceptHookup(actor, target)) return 1f;
+            if (LovinHelper.DoesTargetAcceptHookup(actor, target))
+            {
+                //Find.HistoryEventsManager.RecordEvent(new HistoryEvent(LovinEventDefOf.PP_SeductionWilling, target.Named(HistoryEventArgsNames.Doer), actor.Named(HistoryEventArgsNames.Subject)));
+                def = LovinEventDefOf.PP_SeductionWilling;
+                return 1f;
+            }
         }
 
         float roll = Rand.Value;
@@ -51,7 +64,7 @@ public class InteractionWorker_Seduction : InteractionWorker
         recipient.health.AddHediff(HediffMaker.MakeHediff(LovinDefOf.PP_SeductionPheromones, recipient));
 
         // this should be a pretty high chance to succeed
-        if (SuccessChance(initiator, recipient) > 0.25f)
+        if (SuccessChance(initiator, recipient, out HistoryEventDef eventDef) > 0.25f)
         {
             Building_Bed bed = LovinHelper.FindBed(initiator, recipient);
             if (bed == null)
@@ -59,11 +72,17 @@ public class InteractionWorker_Seduction : InteractionWorker
                 Log.Warning("Unable to find a bed for seduction");
                 return;
             }
+            eventDef ??= LovinEventDefOf.PP_SeductionResistFailed;
             initiator.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinJobDefOf.PP_DoSeducedLovinLead, recipient, bed, bed.GetSleepingSlotPos(0)));
             recipient.jobs.jobQueue.EnqueueFirst(JobMaker.MakeJob(LovinJobDefOf.PP_DoSeducedLovin, initiator, bed, bed.GetSleepingSlotPos(1)));
             initiator.jobs.EndCurrentJob(JobCondition.InterruptForced);
             recipient.jobs.EndCurrentJob(JobCondition.InterruptForced);
         }
+        else
+        {
+            eventDef ??= LovinEventDefOf.PP_SeductionResisted;
+        }
+        Find.HistoryEventsManager.RecordEvent(new HistoryEvent(eventDef, recipient.Named(HistoryEventArgsNames.Doer), initiator.Named(HistoryEventArgsNames.Subject)));
     }
 
     public override float RandomSelectionWeight(Pawn initiator, Pawn recipient) => 0f;

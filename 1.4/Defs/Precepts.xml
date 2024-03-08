@@ -13,6 +13,28 @@
     <label>revered</label>
     <impact>Medium</impact>
     <description>Succubi are sacred, and the pleasures they bring are divine.</description>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>PP_SuccubiRevered_Opinion</thought>
+        <description>Succubus</description>
+      </li>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>PP_GotLovinSuccubus</eventDef>
+        <thought>PP_SuccubiRevered_SuccubusLovin</thought>
+      </li>
+      <li Class="Personality.PreceptComp_SelfTookMemoryThoughtWithSubject">
+        <eventDef>PP_SeductionWilling</eventDef>
+        <thought>PP_SuccubiRevered_Social_SeduceAccepted</thought>
+      </li>
+      <li Class="Personality.PreceptComp_SelfTookMemoryThoughtWithSubject">
+        <eventDef>PP_SeductionResistFailed</eventDef>
+        <thought>PP_SuccubiRevered_Social_SeduceResistFailed</thought>
+      </li>
+      <li Class="Personality.PreceptComp_SelfTookMemoryThoughtWithSubject">
+        <eventDef>PP_SeductionResisted</eventDef>
+        <thought>PP_SuccubiRevered_Social_SeduceResisted</thought>
+      </li>
+    </comps>
   </PreceptDef>
   <PreceptDef>
     <defName>PP_SuccubiLiked</defName>
@@ -28,10 +50,20 @@
     <description>Succubi are ultimately not worth the trouble they bring with them.</description>
   </PreceptDef>
   <PreceptDef>
-    <defName>PP_SuccubiAbhorrent</defName>
+    <defName>PP_SuccubiDespised</defName>
     <issue>PP_SuccubiIssue</issue>
-    <label>abhorrent</label>
+    <label>despised</label>
     <description>Succubi are monstrous, and must not be permitted in our communities.</description>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>PP_SuccubiDespised_Opinion</thought>
+        <description>Succubus</description>
+      </li>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>PP_GotLovinSuccubus</eventDef>
+        <thought>PP_SuccubiDespised_SuccubusLovin</thought>
+      </li>
+    </comps>
   </PreceptDef>
 
 

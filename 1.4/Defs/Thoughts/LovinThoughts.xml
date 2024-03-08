@@ -232,7 +232,7 @@
     <stages>
       <li>
         <label>great lovin'</label>
-        <description>I can barely walk straight.</description>
+        <description>I can barely walk.</description>
         <baseMoodEffect>10</baseMoodEffect>
       </li>
     </stages>
