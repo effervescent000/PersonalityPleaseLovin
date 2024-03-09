@@ -79,6 +79,13 @@
       <li>PP_DisorientAbility</li>
     </abilities>
   </GeneDef>
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_Impregnater</defName>
+    <label>impregnater</label>
+    <description>Carriers are able to impregnate others. This does not affect their ability to become pregnant.</description>
+    <biostatMet>-1</biostatMet>
+    <biostatCpx>2</biostatCpx>
+  </GeneDef>
 
 
   <!-- ===================================== -->
@@ -93,6 +100,7 @@
     <statOffsets>
       <PawnBeauty>3</PawnBeauty>
     </statOffsets>
+    <biostatMet>-3</biostatMet>
   </GeneDef>
   <GeneDef ParentName="GeneSkinColorOverride">
     <defName>PP_Skin_Pink</defName>
@@ -119,6 +127,15 @@
     <statFactors>
       <PP_LovinNeedFallFactor>2</PP_LovinNeedFallFactor>
     </statFactors>
+  </GeneDef>
+  <GeneDef ParentName="FertilityBase">
+    <defName>PP_Infertile</defName>
+    <label>infertile</label>
+    <description>Carriers are less likely to become pregnant or impregnate others.</description>
+    <statFactors>
+      <Fertility>0.5</Fertility>
+    </statFactors>
+    <biostatMet>1</biostatMet>
   </GeneDef>
 
 </Defs>

@@ -16,16 +16,18 @@
       <li>PP_VitalityDrain</li>
       <li>PP_SeduceGene</li>
       <li>PP_TranscendentLovin</li>
+      <li>PP_Impregnater</li>
       <li>PP_Disorient</li>
       <!-- OTHER FUNCTIONAL GENES -->
       <li>AptitudeStrong_Social</li>
       <li>AptitudePoor_Shooting</li>
-      <li>AptitudePoor_Melee</li>
+      <li>AptitudeTerrible_Melee</li>
       <li>AptitudeRemarkable_LovinSkill</li>
       <li>XenogermReimplanter</li>
       <li>PP_BeautyExquisite</li>
       <li>PP_Female</li>
       <li>PP_Insatiable</li>
+      <li>PP_Infertile</li>
       <!-- COSMETIC -->
       <li>Body_Standard</li>
       <li>Skin_Blue</li>
