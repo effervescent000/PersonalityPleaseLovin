@@ -218,7 +218,7 @@ public static class LovinHelper
         float partnerSkill = partner.GetStatValue(LovinDefOf.LovinQuality);
         float ownSkill = primary.GetStatValue(LovinDefOf.LovinQuality);
 
-        quality += partnerSkill + ownSkill * 0.25f;
+        quality += partnerSkill + ownSkill * 0.1f;
 
         RomanceComp romanceComp = primary.GetComp<RomanceComp>();
         AttractionEvaluation attraction = romanceComp.AttractionTracker.GetEvalFor(partner);
