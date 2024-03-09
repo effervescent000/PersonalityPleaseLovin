@@ -66,7 +66,6 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
         JobDef job = LovinJobDefOf.PP_InitiateIntimateLovin;
         Pawn partner = LovinHelper.FindPartnerForIntimacy(pawn, mind);
 
-        bool isCheating = false;
         List<Pawn> existingPartners = new();
 
         // if partner is null, then obviously we're looking for a hookup. otherwise, calculate the
@@ -94,7 +93,6 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
             {
                 partner = LovinHelper.FindPartnerForHookup(pawn, mind);
                 job = LovinJobDefOf.LeadHookup;
-                isCheating = RelationshipHelper.WouldBeCheating(pawn, partner);
             }
         }
 
@@ -111,6 +109,8 @@ public class JobGiver_SeekLovin : ThinkNode_JobGiver
                 return LovinHelper.TryDoSelfLovin(pawn);
             }
         }
+
+        bool isCheating = RelationshipHelper.WouldBeCheating(pawn, partner);
 
         Building_Bed bed = LovinHelper.FindBed(pawn, partner);
         if (bed == null)
