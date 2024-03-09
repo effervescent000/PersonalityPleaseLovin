@@ -24,7 +24,7 @@
       </li>
       <li>
         <label>fraying</label>
-        <minSeverity>0.20</minSeverity>
+        <minSeverity>0.2</minSeverity>
       </li>
       <li>
         <label>damaged</label>
@@ -32,7 +32,20 @@
       </li>
       <li>
         <label>devastated</label>
-        <minSeverity>0.8</minSeverity>
+        <minSeverity>0.75</minSeverity>
+      </li>
+      <li>
+        <label>catastrophic</label>
+        <minSeverity>0.9</minSeverity>
+        <hediffGivers>
+          <li Class="HediffGiver_Random">
+            <hediff>HeartAttack</hediff>
+            <partsToAffect>
+              <li>Heart</li>
+            </partsToAffect>
+            <mtbDays>3</mtbDays>
+          </li>
+        </hediffGivers>
       </li>
     </stages>
   </HediffDef>
