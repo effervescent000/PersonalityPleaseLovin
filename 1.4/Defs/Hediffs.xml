@@ -12,7 +12,7 @@
     <initialSeverity>0.25</initialSeverity>
     <comps>
       <li Class="Personality.Lovin.HediffCompProperties_RapidAging">
-        <multiplierAtMax>24</multiplierAtMax>
+        <multiplierAtMax>72</multiplierAtMax>
       </li>
       <li Class="HediffCompProperties_SeverityPerDay">
         <severityPerDay>-0.15</severityPerDay>

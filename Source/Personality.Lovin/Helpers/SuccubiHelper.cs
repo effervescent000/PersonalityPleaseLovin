@@ -12,9 +12,9 @@ public static class SuccubiHelper
 {
     public static SimpleCurve SuccubiAgingCurve = new()
     {
-        new CurvePoint(1f, -1f),
+        new CurvePoint(1f, -2f),
         new CurvePoint(0.5f, 0f),
-        new CurvePoint(0f, 10f),
+        new CurvePoint(0f, 12f),
     };
 
     public static void OffsetVitality(Pawn pawn, float amount)
@@ -34,10 +34,13 @@ public static class SuccubiHelper
         }
 
         var comp = hediff.TryGetComp<HediffComp_RapidAging>();
+        var maxMultiplier = comp.Props.multiplierAtMax;
         SimpleCurve agingCurve = new()
         {
             new CurvePoint(0f, 1f),
-            new CurvePoint(1f, comp.Props.multiplierAtMax)
+            new CurvePoint(0.6f, maxMultiplier * 0.1f),
+            new CurvePoint(0.9f, maxMultiplier * 0.25f),
+            new CurvePoint(1f, maxMultiplier)
         };
         return agingCurve.Evaluate(hediff.Severity);
     }
