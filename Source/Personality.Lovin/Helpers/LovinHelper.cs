@@ -275,6 +275,18 @@ public static class LovinHelper
         return;
     }
 
+    private static bool PassesCommonChecks(Pawn actor, Pawn maybePartner)
+    {
+        if (maybePartner.ThingID == actor.ThingID) return false;
+        if (!maybePartner.Spawned || maybePartner.Map.uniqueID != actor.Map.uniqueID) return false;
+        if (!maybePartner.IsOk()) return false;
+        if (actor.IsBloodRelatedTo(maybePartner)) return false;
+        if (!SexualityHelper.DoesOrientationMatch(actor, maybePartner, true)) return false;
+        if (!GeneralHelper.IsTargetInRange(actor, maybePartner)) return false;
+
+        return true;
+    }
+
     public static Pawn FindPartnerForIntimacy(Pawn actor, MindComp mind)
     {
         List<DirectPawnRelation> relations = actor.relations.DirectRelations;
@@ -287,12 +299,14 @@ public static class LovinHelper
 
         foreach (DirectPawnRelation rel in relations)
         {
-            Pawn target = rel.otherPawn;
-            if (!target.Spawned || target.Map.uniqueID != actor.Map.uniqueID) continue;
+            Pawn maybePartner = rel.otherPawn;
+
+            if (!PassesCommonChecks(actor, maybePartner)) continue;
+
             if (!RelationshipHelper.romanticRelationDefs.Contains(rel.def)) continue;
 
             RomanceComp romanceComp = actor.GetComp<RomanceComp>();
-            if (romanceComp.RomanceTracker.IsInRejectionList(target))
+            if (romanceComp.RomanceTracker.IsInRejectionList(maybePartner))
             {
                 float chance = 0f;
                 if (actorCompassion != null)
@@ -307,9 +321,7 @@ public static class LovinHelper
                 if (Rand.Value >= chance) continue;
             }
 
-            if (!target.IsOk()) continue;
-
-            potentialPartners.Add(target);
+            potentialPartners.Add(maybePartner);
         }
 
         if (potentialPartners.Count > 0)
@@ -345,14 +357,12 @@ public static class LovinHelper
         float? actorCompassion = mind.GetNode(PersonalityHelper.COMPASSION)?.FinalRating.Value;
         float? actorLawfulness = mind.GetNode(PersonalityHelper.LAWFULNESS)?.FinalRating.Value;
 
-        foreach (Pawn pawn in availablePawns)
+        foreach (Pawn maybePartner in availablePawns)
         {
-            if (pawn.ThingID == actor.ThingID || !pawn.IsOk()) continue;
-            if (!SexualityHelper.DoesOrientationMatch(actor, pawn, true)) continue;
-            if (!GeneralHelper.IsTargetInRange(actor, pawn)) continue;
+            if (!PassesCommonChecks(actor, maybePartner)) continue;
 
             RomanceComp comp = actor.GetComp<RomanceComp>();
-            if (comp.RomanceTracker.IsInRejectionList(pawn))
+            if (comp.RomanceTracker.IsInRejectionList(maybePartner))
             {
                 float chance = 0f;
                 if (actorCompassion != null)
@@ -367,11 +377,9 @@ public static class LovinHelper
                 if (Rand.Value >= chance) continue;
             }
 
-            if (actor.IsBloodRelatedTo(pawn)) continue;
+            if (maybePartner.guest?.GuestStatus == GuestStatus.Prisoner || maybePartner.guest?.GuestStatus == GuestStatus.Slave) continue;
 
-            if (pawn.guest?.GuestStatus == GuestStatus.Prisoner || pawn.guest?.GuestStatus == GuestStatus.Slave) continue;
-
-            potentialPartners.Add(pawn);
+            potentialPartners.Add(maybePartner);
         }
         if (potentialPartners.Count > 0)
         {
