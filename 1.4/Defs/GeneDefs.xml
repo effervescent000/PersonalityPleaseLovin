@@ -43,8 +43,25 @@
     <description>Carriers lose an additional 8 vitality per day from biological entropy.</description>
     <prerequisite>PP_VitalityRoot</prerequisite>
     <resourceLossPerDay>0.08</resourceLossPerDay>
+    <exclusionTags>
+      <li>VitalityDrain</li>
+    </exclusionTags>
     <biostatCpx>1</biostatCpx>
     <biostatMet>6</biostatMet>
+  </GeneDef>
+  <GeneDef ParentName="VitalityBase">
+    <defName>PP_VitalityDrainExtreme</defName>
+    <label>extreme vitality drain</label>
+    <resourceLabel>vitality</resourceLabel>
+    <geneClass>Personality.Lovin.Gene_VitalityDrain</geneClass>
+    <description>Carriers lose an additional 12 vitality per day from biological entropy.</description>
+    <prerequisite>PP_VitalityRoot</prerequisite>
+    <resourceLossPerDay>0.12</resourceLossPerDay>
+    <exclusionTags>
+      <li>VitalityDrain</li>
+    </exclusionTags>
+    <biostatCpx>1</biostatCpx>
+    <biostatMet>9</biostatMet>
   </GeneDef>
   <GeneDef ParentName="VitalityBase">
     <defName>PP_SeduceGene</defName>
