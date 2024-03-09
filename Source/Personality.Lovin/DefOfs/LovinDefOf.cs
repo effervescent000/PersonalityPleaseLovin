@@ -10,6 +10,7 @@ public static class LovinDefOf
 
     public static GeneDef PP_LoveFeeder;
     public static GeneDef PP_VitalityRoot;
+    public static GeneDef PP_Impregnater;
 
     public static HediffDef PP_VitalityLost;
     public static HediffDef PP_SeductionPheromones;

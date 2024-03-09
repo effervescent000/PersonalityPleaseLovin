@@ -549,7 +549,7 @@ public static class LovinHelper
 
     public static void TryPregnancy(LovinProps props)
     {
-        if (props.Actor.gender == Gender.Female && props.Partner.gender == Gender.Male)
+        if (props.Actor.gender == Gender.Female && (props.Partner.gender == Gender.Male) || props.Partner.genes.HasGene(LovinDefOf.PP_Impregnater))
         {
             bool gotPregnant = CheckForPregnancy(props.Actor, props.Partner, .05f);
             if (gotPregnant)
