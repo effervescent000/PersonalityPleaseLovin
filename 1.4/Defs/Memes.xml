@@ -9,10 +9,12 @@
     <groupDef MayRequire="Ludeon.RimWorld.Ideology">Misc</groupDef>
     <impact>2</impact>
     <renderOrder>1003</renderOrder>
+    <exclusionTags>
+      <li>Succubi</li>
+    </exclusionTags>
     <requireOne>
       <li>
         <li>PP_SuccubiRevered</li>
-        <li>PP_SuccubiLiked</li>
       </li>
       <li>
         <!-- block the "loving is actually bad" precepts -->
@@ -28,6 +30,7 @@
         <li>memeAdjective->seductive</li>
         <li>memeAdjective->lustful</li>
         <li>memeAdjective->vital</li>
+        <li>memeAdjective->decadent</li>
         <li>memeCreed->boudoir</li>
         <li>memeCreed->den</li>
         <li>memeCreed->harem</li>
@@ -36,7 +39,7 @@
         <li>memeConcept->passion</li>
         <li>memeConcept->pleasure</li>
         <li>memeLeaderNoun->mistress</li>
-        <li>memeMoralist->conduit</li>
+        <li>memeLeaderNoun->madam</li>
       </rulesStrings>
     </generalRules>
   </MemeDef>
