@@ -37,19 +37,6 @@
     </comps>
   </PreceptDef>
   <PreceptDef>
-    <defName>PP_SuccubiLiked</defName>
-    <issue>PP_SuccubiIssue</issue>
-    <label>honored</label>
-    <impact>Medium</impact>
-    <description>Succubi are good to have around. The benefits and pleasures they bring are worth the costs they extract.</description>
-  </PreceptDef>
-  <PreceptDef>
-    <defName>PP_SuccubiDisliked</defName>
-    <issue>PP_SuccubiIssue</issue>
-    <label>undesirable</label>
-    <description>Succubi are ultimately not worth the trouble they bring with them.</description>
-  </PreceptDef>
-  <PreceptDef>
     <defName>PP_SuccubiDespised</defName>
     <issue>PP_SuccubiIssue</issue>
     <label>despised</label>
